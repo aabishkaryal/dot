@@ -1,0 +1,110 @@
+# Plugins:
+
+- [packer](wbthomason/packer.nvim)
+- [onedarkpro](olimorris/onedarkpro.nvim)
+- [nvim-lspconfig](neovim/nvim-lspconfig)
+- [mason](williamboman/mason.nvim)
+- [mason-lspconfig](williamboman/mason-lspconfig.nvim)
+- [fidget](j-hui/fidget.nvim)
+- [neodev](folke/neodev.nvim)
+- [nvim-cmp](hrsh7th/nvim-cmp)
+- [cmp-nvim-lsp](hrsh7th/cmp-nvim-lsp)
+- [LuaSnip](L3MON4D3/LuaSnip)
+- [cmp_luasnip](saadparwaiz1/cmp_luasnip)
+- [nvim-treesitter](nvim-treesitter/nvim-treesitter)
+- [nvim-treesitter-textobjects](nvim-treesitter/nvim-treesitter-textobjects)
+- [null-ls](jose-elias-alvarez/null-ls.nvim)
+- [nvim-tree](nvim-tree/nvim-tree.lua)
+- [lualine](hoob3rt/lualine.nvim)
+- [lazygit](kdheepak/lazygit.nvim)
+- [nvim-web-devicons](nvim-tree/nvim-web-devicons)
+- [indent-blankline](lukas-reineke/indent-blankline.nvim)
+- [Comment](numToStr/Comment.nvim)
+- [vim-sleuth](tpope/vim-sleuth)
+- [telescope](nvim-telescope/telescope.nvim)
+- [plenary](nvim-lua/plenary.nvim)
+- [telescope-fzf-native](nvim-telescope/telescope-fzf-native.nvim)
+- [telescope-file-browser](nvim-telescope/telescope-file-browser.nvim)
+- [bufferline](akinsho/bufferline.nvim)
+
+# Keymaps:
+
+## Basics:
+
+- `<leader>vs` - Vertical split
+- `<leader>vh` - Travel to left split
+- `<leader>vl` - Travel to right split
+
+- `<leader>tc` - Create new tab
+- `<leader>tn` - Travel to next tab
+- `<leader>tp` - Travel to previous tab
+- `<leader>tq` - Quit all tabs except current
+
+- `<leader>md` - Move cursor half screen down
+- `<leader>mu` - Move cursor half screen up
+
+- `<leader>wh` - Travel to left window
+- `<leader>wl` - Travel to right window
+
+- `<leader>tt` - Open terminal in a new tab
+- `<leader>hh` - Open the help README file
+
+## Comments:
+
+- `gcc` - Toggle Comment line
+- `gbc` - Toggle Comment block
+
+## Nvim-Tree:
+
+- `<leader>nt` - Toggle NvimTree
+- `<leader>nf` - Focus on NvimTree
+
+## Telescope:
+
+- `<C-p>` - Toggle file preview
+- `<leader>?` - Find in recent files
+- `<leader><Space>` - Find in open buffers
+- `<leader>/` - Fuzzy find in current buffer
+- `<leader>sf` - Fuzzy find in current directory
+- `<leader>sh` - Fuzzy find in help tags
+- `<leader>sw` - Fuzzy find current word
+- `<leader>sg` - Fuzzy find with grep
+- `<leader>sd` - Fuzzy find in diagnostics
+- `<leader>ss` - Fuzzy find in current directory with git
+- `<leader>sc` - Fuzzy find in current directory
+- `<leader>ss` - Fuzzy find in current git source
+
+## Diagnostic:
+
+- `[d` - Goto Previous Diagnostic
+- `]d` - Goto Next Diagnostic
+
+## LSP:
+
+- `<leader>ff` - Format current buffer
+- `<leader>rn` - Rename identifier
+- `<leader>ca` - List Code Action
+- `<leader>gd` - Goto Definition
+- `<leader>gr` - Goto References
+- `<leader>gi` - Goto Implementation
+- `<leader>gtd` - Goto Type Definition
+- `<leader>ds` - Show Document Symbols
+- `K` - Hover Documentation
+- `<leader>k` - Signature Documentation
+- `<leader>gD` - Goto Declaration
+- `<leader>wa` - Add folder to lsp workspace
+- `<leader>wr` - Remove folder from lsp workspace
+- `<leader>wf` - List all workspace folders
+
+## Completion:
+
+- `<C-d>` - Scroll docs down
+- `<C-f>` - Scroll docs up
+- `<C-Space>` - Confirm current completion
+- `<Tab>` - Next completion
+- `<S-Tab>` - Previous completion
+
+## Tests:
+
+- `<leader>tl` - Test function under current line
+- `<leader>tf` - Test current file
