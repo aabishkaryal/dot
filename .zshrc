@@ -123,14 +123,6 @@ alias oldvim="\vim";
 alias oldvi="\vi";
 alias lg="lazygit";
 alias perf="sudo asitop";
-# Mac setup for pomo
-alias work="timer 60m && terminal-notifier -title 'Pomodoro'\
-        -message 'Work Timer is up! Take a Break 😊'\
-        -sound Crystal"
-        
-alias rest="timer 10m && terminal-notifier -title 'Pomodoro'\
-        -message 'Break is over! Get back to work 😬'\
-        -sound Crystal"
 
 function pomo() {
   if [ -n "$1" ]
