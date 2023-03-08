@@ -198,7 +198,6 @@ vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
     pattern = '*.jrnl'
 })
 
-
 -- Set <space> as the leader key
 -- See `:help mapleader`
 -- Must happen before plugins are required (otherwise wrong leader will be used)
@@ -453,6 +452,7 @@ local function tab_win_closed(winnr)
     local api = require "nvim-tree.api"
     local tabnr = vim.api.nvim_win_get_tabpage(winnr)
     local bufnr = vim.api.nvim_win_get_buf(winnr)
+    ---@diagnostic disable-next-line: param-type-mismatch
     local buf_info = vim.fn.getbufinfo(bufnr)[1]
     local tab_wins = vim.tbl_filter(function(w) return w ~= winnr end, vim.api.nvim_tabpage_list_wins(tabnr))
     local tab_bufs = vim.tbl_map(vim.api.nvim_win_get_buf, tab_wins)
