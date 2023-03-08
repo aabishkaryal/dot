@@ -190,6 +190,15 @@ vim.api.nvim_create_autocmd('BufWritePost', {
     pattern = vim.fn.expand '$MYVIMRC'
 })
 
+-- Set jrnl filetype auto detection
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+    callback = function()
+        vim.cmd("setfiletype jrnl")
+    end,
+    pattern = '*.jrnl'
+})
+
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 -- Must happen before plugins are required (otherwise wrong leader will be used)
