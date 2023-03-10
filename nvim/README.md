@@ -1,32 +1,3 @@
-# Plugins:
-
-- [packer](wbthomason/packer.nvim)
-- [onedarkpro](olimorris/onedarkpro.nvim)
-- [nvim-lspconfig](neovim/nvim-lspconfig)
-- [mason](williamboman/mason.nvim)
-- [mason-lspconfig](williamboman/mason-lspconfig.nvim)
-- [fidget](j-hui/fidget.nvim)
-- [neodev](folke/neodev.nvim)
-- [nvim-cmp](hrsh7th/nvim-cmp)
-- [cmp-nvim-lsp](hrsh7th/cmp-nvim-lsp)
-- [LuaSnip](L3MON4D3/LuaSnip)
-- [cmp_luasnip](saadparwaiz1/cmp_luasnip)
-- [nvim-treesitter](nvim-treesitter/nvim-treesitter)
-- [nvim-treesitter-textobjects](nvim-treesitter/nvim-treesitter-textobjects)
-- [null-ls](jose-elias-alvarez/null-ls.nvim)
-- [nvim-tree](nvim-tree/nvim-tree.lua)
-- [lualine](hoob3rt/lualine.nvim)
-- [lazygit](kdheepak/lazygit.nvim)
-- [nvim-web-devicons](nvim-tree/nvim-web-devicons)
-- [indent-blankline](lukas-reineke/indent-blankline.nvim)
-- [Comment](numToStr/Comment.nvim)
-- [vim-sleuth](tpope/vim-sleuth)
-- [telescope](nvim-telescope/telescope.nvim)
-- [plenary](nvim-lua/plenary.nvim)
-- [telescope-fzf-native](nvim-telescope/telescope-fzf-native.nvim)
-- [telescope-file-browser](nvim-telescope/telescope-file-browser.nvim)
-- [bufferline](akinsho/bufferline.nvim)
-
 # Keymaps:
 
 ## Basics:
@@ -72,7 +43,6 @@
 - `<leader>sd` - Fuzzy find in diagnostics
 - `<leader>ss` - Fuzzy find in current directory with git
 - `<leader>sc` - Fuzzy find in current directory
-- `<leader>ss` - Fuzzy find in current git source
 
 ## Diagnostic:
 

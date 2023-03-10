@@ -190,11 +190,15 @@ vim.api.nvim_create_autocmd('BufWritePost', {
     pattern = vim.fn.expand '$MYVIMRC'
 })
 
+local file_detection_group = vim.api.nvim_create_augroup('Filetype detection', {
+    clear = true
+})
 -- Set jrnl filetype auto detection
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
     callback = function()
         vim.cmd("setfiletype jrnl")
     end,
+    group = file_detection_group,
     pattern = '*.jrnl'
 })
 
@@ -275,22 +279,22 @@ keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', {
 -- })
 
 -- vertical split mappings
-keymap.set('n', '<leader>vs', '<cmd>vsp<CR>') -- open vertical split
-keymap.set('n', '<leader>vh', '<cmd>wincmd h<CR>') -- travel to left vertical screen
-keymap.set('n', '<leader>vl', '<cmd>wincmd l<CR>') -- travel to right vertical screen
+keymap.set('n', '<leader>vs', '<cmd>vsp<CR>')                   -- open vertical split
+keymap.set('n', '<leader>vh', '<cmd>wincmd h<CR>')              -- travel to left vertical screen
+keymap.set('n', '<leader>vl', '<cmd>wincmd l<CR>')              -- travel to right vertical screen
 -- tab mappings
 keymap.set('n', '<leader>tc', '<cmd>tabnew | NvimTreeOpen<CR>') -- create new tab
-keymap.set('n', '<leader>tq', '<cmd>tabonly<CR>') -- quit all other tabs
-keymap.set('n', '<leader>tn', '<cmd>+tabnext<CR>') -- go to next tab
-keymap.set('n', '<leader>tp', '<cmd>-tabnext<CR>') -- go to previous tab
+keymap.set('n', '<leader>tq', '<cmd>tabonly<CR>')               -- quit all other tabs
+keymap.set('n', '<leader>tn', '<cmd>+tabnext<CR>')              -- go to next tab
+keymap.set('n', '<leader>tp', '<cmd>-tabnext<CR>')              -- go to previous tab
 -- window movements
-keymap.set('n', '<leader>wh', '<cmd>wincmd h<CR>') -- travel to left window
-keymap.set('n', '<leader>wl', '<cmd>wincmd l<CR>') -- travel to the right window
+keymap.set('n', '<leader>wh', '<cmd>wincmd h<CR>')              -- travel to left window
+keymap.set('n', '<leader>wl', '<cmd>wincmd l<CR>')              -- travel to the right window
 -- file movements
-keymap.set('n', '<leader>md', '<C-d>zz') -- move the cursor half a screen down and center the cursor on the screen
-keymap.set('n', '<leader>mu', '<C-u>zz') -- move the cursor half a screen up and center the cursor on the screen
-keymap.set('n', 'n', 'nzzzv') -- move the cursor to next occurrence of the search pattern and center the cursor on the screen
-keymap.set('n', 'N', 'Nzzzv') -- move the cursor to previous occurrence of the search pattern and center the cursor on the screen
+keymap.set('n', '<leader>md', '<C-d>zz')                        -- move the cursor half a screen down and center the cursor on the screen
+keymap.set('n', '<leader>mu', '<C-u>zz')                        -- move the cursor half a screen up and center the cursor on the screen
+keymap.set('n', 'n', 'nzzzv')                                   -- move the cursor to next occurrence of the search pattern and center the cursor on the screen
+keymap.set('n', 'N', 'Nzzzv')                                   -- move the cursor to previous occurrence of the search pattern and center the cursor on the screen
 
 -- Disable arrow keys to promote vi muscle memory
 keymap.set('n', '<up>', '<cmd>echoerr "Umm, use k instead"<CR>')
@@ -343,7 +347,7 @@ require('lualine').setup {
             {
                 'filename',
                 file_status = true, -- displays file status (readonly status, modified status)
-                path = 0 -- 0 = just filename, 1 = relative path, 2 = absolute path
+                path = 0            -- 0 = just filename, 1 = relative path, 2 = absolute path
             }
         },
         lualine_x = {
@@ -362,13 +366,13 @@ require('lualine').setup {
                 diagnostics_color = {
                     -- Same values as the general color option can be used here.
                     error = 'DiagnosticError', -- Changes diagnostics' error color.
-                    warn = 'DiagnosticWarn', -- Changes diagnostics' warn color.
-                    info = 'DiagnosticInfo', -- Changes diagnostics' info color.
-                    hint = 'DiagnosticHint' -- Changes diagnostics' hint color.
+                    warn = 'DiagnosticWarn',   -- Changes diagnostics' warn color.
+                    info = 'DiagnosticInfo',   -- Changes diagnostics' info color.
+                    hint = 'DiagnosticHint'    -- Changes diagnostics' hint color.
                 },
-                colored = true, -- Displays diagnostics status in color if set to true.
-                update_in_insert = false, -- Update diagnostics in insert mode.
-                always_visible = false -- Show diagnostics even if there are none.
+                colored = true,                -- Displays diagnostics status in color if set to true.
+                update_in_insert = false,      -- Update diagnostics in insert mode.
+                always_visible = false         -- Show diagnostics even if there are none.
             },
             'encoding',
             'filetype'
@@ -387,7 +391,7 @@ require('lualine').setup {
             {
                 'filename',
                 file_status = true, -- displays file status (readonly status, modified status)
-                path = 1 -- 0 = just filename, 1 = relative path, 2 = absolute path
+                path = 1            -- 0 = just filename, 1 = relative path, 2 = absolute path
             }
         },
         lualine_x = {
@@ -411,8 +415,6 @@ require('indent_blankline').setup {
 }
 
 require('nvim-tree').setup {
-    disable_netrw = true,
-    hijack_netrw = true,
     view = {
         width = 40,
         number = true,
@@ -447,72 +449,15 @@ keymap.set('n', '<leader>nf', '<cmd>NvimTreeFocus<CR>', {
     desc = '[F]ocus [N]vimTree'
 })
 
--- Autoclose nvim-tree if it's the last window
-local function tab_win_closed(winnr)
-    local api = require "nvim-tree.api"
-    local tabnr = vim.api.nvim_win_get_tabpage(winnr)
-    local bufnr = vim.api.nvim_win_get_buf(winnr)
-    ---@diagnostic disable-next-line: param-type-mismatch
-    local buf_info = vim.fn.getbufinfo(bufnr)[1]
-    local tab_wins = vim.tbl_filter(function(w) return w ~= winnr end, vim.api.nvim_tabpage_list_wins(tabnr))
-    local tab_bufs = vim.tbl_map(vim.api.nvim_win_get_buf, tab_wins)
-    if buf_info.name:match(".*NvimTree_%d*$") then -- close buffer was nvim tree
-        -- Close all nvim tree on :q
-        if not vim.tbl_isempty(tab_bufs) then -- and was not the last window (not closed automatically by code below)
-            api.tree.close()
-        end
-    else -- else closed buffer was normal buffer
-        if #tab_bufs == 1 then -- if there is only 1 buffer left in the tab
-            local last_buf_info = vim.fn.getbufinfo(tab_bufs[1])[1]
-            if last_buf_info.name:match(".*NvimTree_%d*$") then -- and that buffer is nvim tree
-                vim.schedule(function()
-                    if #vim.api.nvim_list_wins() == 1 then -- if its the last buffer in vim
-                        vim.cmd "quit" -- then close all of vim
-                    else -- else there are more tabs open
-                        vim.api.nvim_win_close(tab_wins[1], true) -- then close only the tab
-                    end
-                end)
-            end
-        end
-    end
-end
-
-vim.api.nvim_create_autocmd("WinClosed", {
-    callback = function()
-        local winnr = tonumber(vim.fn.expand("<amatch>"))
-        vim.schedule_wrap(tab_win_closed(winnr))
-    end,
-    nested = true
-})
-
-vim.api.nvim_create_autocmd({ "VimEnter" }, {
-    callback = function(data)
-        -- buffer is a directory
-        local directory = vim.fn.isdirectory(data.file) == 1
-
-        if not directory then
-            return
-        end
-
-        -- change to the directory
-        vim.cmd.cd(data.file)
-
-        -- open the tree
-        require("nvim-tree.api").tree.toggle({
-            path = nil,
-            current_window = false,
-            find_file = false,
-            update_root = false,
-            focus = true,
-        })
-    end
-})
-
 -- Lazy Git
+local lazygit_group = vim.api.nvim_create_augroup('LazyGit', {
+    clear = true
+})
 vim.api.nvim_create_autocmd({ 'BufEnter' }, {
     callback = function(_)
         require('lazygit.utils').project_root_dir()
-    end
+    end,
+    group = lazygit_group,
 })
 
 keymap.set('n', '<Leader>lg', '<cmd>LazyGit<CR>', {
@@ -528,14 +473,14 @@ require('telescope').setup {
     defaults = {
         mappings = {
             n = {
-                ['<esc>'] = actions.close,
-                ['<C-p>'] = action_layout.toggle_preview
+                    ['<esc>'] = actions.close,
+                    ['<C-p>'] = action_layout.toggle_preview
             },
             i = {
-                ['<C-k>'] = false,
-                ['<C-p>'] = action_layout.toggle_preview,
-                ['<C-u>'] = false,
-                ['<C-d>'] = false
+                    ['<C-k>'] = false,
+                    ['<C-p>'] = action_layout.toggle_preview,
+                    ['<C-u>'] = false,
+                    ['<C-d>'] = false
             }
         }
     },
@@ -543,7 +488,7 @@ require('telescope').setup {
         file_browser = {
             theme = 'dropdown',
             -- disables netrw and use telescope-file-browser in its place
-            hijack_netrw = false,
+            hijack_netrw = true,
             initial_mode = 'normal'
         }
     }
@@ -673,41 +618,41 @@ require('nvim-treesitter.configs').setup {
             lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
             keymaps = {
                 -- You can use the capture groups defined in textobjects.scm
-                ['aa'] = '@parameter.outer',
-                ['ia'] = '@parameter.inner',
-                ['af'] = '@function.outer',
-                ['if'] = '@function.inner',
-                ['ac'] = '@class.outer',
-                ['ic'] = '@class.inner'
+                    ['aa'] = '@parameter.outer',
+                    ['ia'] = '@parameter.inner',
+                    ['af'] = '@function.outer',
+                    ['if'] = '@function.inner',
+                    ['ac'] = '@class.outer',
+                    ['ic'] = '@class.inner'
             }
         },
         move = {
             enable = true,
             set_jumps = true, -- whether to set jumps in the jumplist
             goto_next_start = {
-                [']m'] = '@function.outer',
-                [']]'] = '@class.outer'
+                    [']m'] = '@function.outer',
+                    [']]'] = '@class.outer'
             },
             goto_next_end = {
-                [']M'] = '@function.outer',
-                [']['] = '@class.outer'
+                    [']M'] = '@function.outer',
+                    [']['] = '@class.outer'
             },
             goto_previous_start = {
-                ['[m'] = '@function.outer',
-                ['[['] = '@class.outer'
+                    ['[m'] = '@function.outer',
+                    ['[['] = '@class.outer'
             },
             goto_previous_end = {
-                ['[M'] = '@function.outer',
-                ['[]'] = '@class.outer'
+                    ['[M'] = '@function.outer',
+                    ['[]'] = '@class.outer'
             }
         },
         swap = {
             enable = true,
             swap_next = {
-                ['<leader>a'] = '@parameter.inner'
+                    ['<leader>a'] = '@parameter.inner'
             },
             swap_previous = {
-                ['<leader>A'] = '@parameter.inner'
+                    ['<leader>A'] = '@parameter.inner'
             }
         }
     }
@@ -893,14 +838,14 @@ cmp.setup {
         end
     },
     mapping = cmp.mapping.preset.insert {
-        ['<C-d>'] = cmp.mapping.scroll_docs( -4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+            ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+            ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ---@diagnostic disable-next-line: missing-parameter
-        ['<C-Space>'] = cmp.mapping.confirm {
+            ['<C-Space>'] = cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Replace,
             select = true
         },
-        ['<Tab>'] = cmp.mapping(function(fallback)
+            ['<Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
             elseif luasnip.expand_or_jumpable() then
@@ -912,11 +857,11 @@ cmp.setup {
             'i',
             's'
         }),
-        ['<S-Tab>'] = cmp.mapping(function(fallback)
+            ['<S-Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
-            elseif luasnip.jumpable( -1) then
-                luasnip.jump( -1)
+            elseif luasnip.jumpable(-1) then
+                luasnip.jump(-1)
             else
                 fallback()
             end
@@ -952,7 +897,7 @@ null_ls.setup {
         null_ls.builtins.diagnostics.shellcheck,
         null_ls.builtins.diagnostics.todo_comments,
         null_ls.builtins.diagnostics.yamllint,
-
+        null_ls.builtins.diagnostics.zsh,
         -- Formatting
         null_ls.builtins.formatting.clang_format,
         null_ls.builtins.formatting.eslint_d,
