@@ -267,7 +267,7 @@ vim.opt.list = true
 
 -- [[ Basic Keymaps ]]
 -- Keymaps for better default experience
--- See `:help vim.keymap.set()`
+-- See `:help im.keymap.set()`
 keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', {
     silent = true
 })
@@ -753,40 +753,22 @@ vim.api.nvim_create_autocmd({ 'BufWinEnter', 'BufEnter' }, {
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
-    actionlint = {},
-    eslint_d = {},
-    codespell = {},
-    cpplint = {},
-    hadolint = {},
-    jsonlint = {},
-    shellcheck = {},
-    yamllint = {},
-    gofumpt = {},
-    gopls = {},
-    goimports = {},
-    prettierd = {},
-    gomodifytags = {},
-    sumneko_lua = {
-        Lua = {
-            workspace = {
-                checkThirdParty = false
-            },
-            telemetry = {
-                enable = false
+    lua_ls = {
+        settings = {
+            Lua = {
+                runtime = {
+                    version = 'LuaJIT',
+                },
+                workspace = {
+                    checkThirdParty = false
+                },
+                telemetry = {
+                    enable = false
+                }
             }
         }
     }
 }
-
-servers['sql-formatter'] = {}
-servers['svelte-language-server'] = {}
-servers['gotests'] = {}
-servers['tailwindcss-language-server'] = {}
-servers['typescript-language-server'] = {}
-
--- {"actionlint", "eslint_d", "codespell", "cpplint", "gospel", "hadolint", "jsonlint",
--- "shellcheck", "yamllint", "gofumpt", "goimports", "prettierd", "gomodifytags", "sumneko_lua",
--- "sql-formatter", "gotests", "tailwindcss-language-server", "typescript-language-server", "gopls"}
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -810,11 +792,15 @@ local mason_lspconfig = require 'mason-lspconfig'
 
 mason_lspconfig.setup_handlers {
     function(server_name)
-        require('lspconfig')[server_name].setup {
+        local setup_config = {
             capabilities = capabilities,
             on_attach = on_attach,
-            settings = servers[server_name]
         }
+        if servers[server_name] ~= nil then
+            setup_config["settings"] = servers[server_name]["settings"]
+            setup_config["filetypes"] = servers[server_name]["filetypes"]
+        end
+        require('lspconfig')[server_name].setup(setup_config)
     end
 }
 
@@ -889,7 +875,6 @@ null_ls.setup {
         null_ls.builtins.completion.luasnip,
 
         -- Diagnostic
-        null_ls.builtins.diagnostics.checkmake,
         null_ls.builtins.diagnostics.codespell,
         null_ls.builtins.diagnostics.cppcheck,
         null_ls.builtins.diagnostics.cpplint,
