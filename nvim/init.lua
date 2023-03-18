@@ -190,17 +190,21 @@ vim.api.nvim_create_autocmd('BufWritePost', {
     pattern = vim.fn.expand '$MYVIMRC'
 })
 
+local filetypes = {
+    jrnl = { "*.jrnl" },
+    dockerignore = { "*.dockerignore" },
+    env = { "*.env" },
+}
 local file_detection_group = vim.api.nvim_create_augroup('Filetype detection', {
     clear = true
 })
--- Set jrnl filetype auto detection
-vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
-    callback = function()
-        vim.cmd("setfiletype jrnl")
-    end,
-    group = file_detection_group,
-    pattern = '*.jrnl'
-})
+for filetype, patterns in pairs(filetypes) do
+    vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+        group = file_detection_group,
+        command = "setfiletype " .. filetype,
+        pattern = patterns
+    })
+end
 
 -- Set <space> as the leader key
 -- See `:help mapleader`
