@@ -3,22 +3,22 @@
 ## Basics:
 
 - `<leader>vs` - Vertical split
-- `<leader>vh` - Travel to left split
-- `<leader>vl` - Travel to right split
 
 - `<leader>tc` - Create new tab
 - `<leader>tn` - Travel to next tab
 - `<leader>tp` - Travel to previous tab
 - `<leader>tq` - Quit all tabs except current
 
-- `<leader>md` - Move cursor half screen down
-- `<leader>mu` - Move cursor half screen up
+- `<leader>d` - Move cursor half screen down
+- `<leader>u` - Move cursor half screen up
 
-- `<leader>wh` - Travel to left window
-- `<leader>wl` - Travel to right window
+- `<leader>h` - Travel to left window
+- `<leader>l` - Travel to right window
+- `<leader>j` - Travel to top window
+- `<leader>k` - Travel to bottom window
 
 - `<leader>tt` - Open terminal in a new tab
-- `<leader>hh` - Open the help README file
+- `<leader>H` - Open the help README file
 
 ## Comments:
 

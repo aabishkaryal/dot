@@ -272,31 +272,19 @@ keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', {
     silent = true
 })
 
--- Remap for dealing with word wrap
--- keymap.set('n', 'k', 'v:count == 0 ? \'gk\' : \'k\'', {
---     expr = true,
---     silent = true
--- })
--- keymap.set('n', 'j', 'v:count == 0 ? \'gj\' : \'j\'', {
---     expr = true,
---     silent = true
--- })
-
--- vertical split mappings
-keymap.set('n', '<leader>vs', '<cmd>vsp<CR>')                   -- open vertical split
-keymap.set('n', '<leader>vh', '<cmd>wincmd h<CR>')              -- travel to left vertical screen
-keymap.set('n', '<leader>vl', '<cmd>wincmd l<CR>')              -- travel to right vertical screen
 -- tab mappings
 keymap.set('n', '<leader>tc', '<cmd>tabnew | NvimTreeOpen<CR>') -- create new tab
 keymap.set('n', '<leader>tq', '<cmd>tabonly<CR>')               -- quit all other tabs
 keymap.set('n', '<leader>tn', '<cmd>+tabnext<CR>')              -- go to next tab
 keymap.set('n', '<leader>tp', '<cmd>-tabnext<CR>')              -- go to previous tab
 -- window movements
-keymap.set('n', '<leader>wh', '<cmd>wincmd h<CR>')              -- travel to left window
-keymap.set('n', '<leader>wl', '<cmd>wincmd l<CR>')              -- travel to the right window
+keymap.set('n', '<leader>h', '<cmd>wincmd h<CR>')              -- travel to left window
+keymap.set('n', '<leader>l', '<cmd>wincmd l<CR>')              -- travel to the right window
+keymap.set('n', '<leader>j', '<cmd>wincmd j<CR>')              -- travel to the right window
+keymap.set('n', '<leader>k', '<cmd>wincmd k<CR>')              -- travel to the right window
 -- file movements
-keymap.set('n', '<leader>md', '<C-d>zz')                        -- move the cursor half a screen down and center the cursor on the screen
-keymap.set('n', '<leader>mu', '<C-u>zz')                        -- move the cursor half a screen up and center the cursor on the screen
+keymap.set('n', '<leader>d', '<C-d>zz')                        -- move the cursor half a screen down and center the cursor on the screen
+keymap.set('n', '<leader>u', '<C-u>zz')                        -- move the cursor half a screen up and center the cursor on the screen
 keymap.set('n', 'n', 'nzzzv')                                   -- move the cursor to next occurrence of the search pattern and center the cursor on the screen
 keymap.set('n', 'N', 'Nzzzv')                                   -- move the cursor to previous occurrence of the search pattern and center the cursor on the screen
 
@@ -307,9 +295,12 @@ keymap.set('n', '<left>', '<cmd>echoerr "Umm, use h instead"<CR>')
 keymap.set('n', '<right>', '<cmd>echoerr "Umm, use l instead"<CR>')
 
 -- Terminal
-keymap.set('n', '<leader>tt', '<cmd>tabnew | terminal<CR>')
+keymap.set('n', '<leader>tt', '<cmd>tabnew | edit term://zsh <CR>')
+-- keymap.set('t', '<Esc>', '<C-\\><C-n>')
+-- [[ t ]]noremap <Esc> <C-\><C-n>
+
 -- Help with keymaps
-keymap.set('n', '<leader>hh', '<cmd>vsp | wincmd l | e /Users/aabi/.config/nvim/README.md<CR>')
+keymap.set('n', '<leader>H', '<cmd>vsp | wincmd l | e /Users/aabi/.config/nvim/README.md<CR>')
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -464,7 +455,7 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
     group = lazygit_group,
 })
 
-keymap.set('n', '<Leader>lg', '<cmd>LazyGit<CR>', {
+keymap.set('n', 'git', '<cmd>LazyGit<CR>', {
     desc = '[L]azy [G]it'
 })
 
@@ -666,7 +657,6 @@ require('nvim-treesitter.configs').setup {
 keymap.set('n', '[d', vim.diagnostic.goto_prev)
 keymap.set('n', ']d', vim.diagnostic.goto_next)
 keymap.set('n', '<leader>e', vim.diagnostic.open_float)
--- keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
@@ -695,12 +685,10 @@ local on_attach = function(_, bufnr)
     nmap('<leader>gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
     nmap('<leader>gi', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
     nmap('<leader>gtd', vim.lsp.buf.type_definition, '[G]oto [T]ype [D]efinition')
-    nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-    -- nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
     -- See `:help K` for why this keymap
     nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-    nmap('<leader>k', vim.lsp.buf.signature_help, 'Signature Documentation')
+    nmap('<leader>K', vim.lsp.buf.signature_help, 'Signature Documentation')
 
     -- Lesser used LSP functionality
     nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
