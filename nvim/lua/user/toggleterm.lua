@@ -18,6 +18,7 @@ toggleterm.setup {
     float_opts = { border = "curved" },
 }
 
+---@diagnostic disable-next-line: duplicate-set-field
 function _G.set_terminal_keymaps()
     local opts = { noremap = true }
     vim.api.nvim_buf_set_keymap(0, "t", "<esc>", [[<C-\><C-n>]], opts)

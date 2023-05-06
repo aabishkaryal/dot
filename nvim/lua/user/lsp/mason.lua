@@ -24,7 +24,7 @@ local servers = {
     "json-lsp",
     "jsonlint",
     "lua-language-server",
-    "prettierd",
+    "prettier",
     "protolint",
     "pyright",
     "rust-analyzer",

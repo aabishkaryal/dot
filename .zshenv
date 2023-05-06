@@ -12,6 +12,7 @@ HOMEBREW_NO_AUTO_UPDATE=1
 # prevent annoying go folder in home directory, this way it's hidden
 export GOPATH=~/.go
 
+export GIT_EDITOR=nvim
 
 # jdk 11
 # export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home

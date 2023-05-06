@@ -39,6 +39,7 @@ configs.setup {
         "html",
         "javascript",
         "gitattributes",
+        "gitignore",
         "gitcommit",
         "json",
         "regex",

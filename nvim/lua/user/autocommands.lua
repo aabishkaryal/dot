@@ -1,3 +1,6 @@
+local custom_autocmd_grp = vim.api.nvim_create_augroup("custom_autocmd",
+    { clear = true })
+
 vim.api.nvim_create_autocmd({ "FileType" }, {
     pattern = { "qf", "help", "man", "lspinfo", "spectre_panel" },
     callback = function()
@@ -6,6 +9,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
       set nobuflisted
     ]]
     end,
+    group = custom_autocmd_grp,
 })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
@@ -14,20 +18,24 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
         vim.opt_local.wrap = true
         vim.opt_local.spell = true
     end,
+    group = custom_autocmd_grp,
 })
 
 vim.api.nvim_create_autocmd({ "VimResized" }, {
-    callback = function() vim.cmd "tabdo wincmd =" end,
+    command = "tabdo wincmd =",
+    group = custom_autocmd_grp,
 })
 
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
     callback = function()
         vim.highlight.on_yank { higroup = "Visual", timeout = 200 }
     end,
+    group = custom_autocmd_grp,
 })
 
 vim.api.nvim_create_autocmd({ "VimEnter" }, {
-    callback = function() vim.cmd "hi link illuminatedWord LspReferenceText" end,
+    command = "hi link illuminatedWord LspReferenceText",
+    group = custom_autocmd_grp,
 })
 
 vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
@@ -37,4 +45,19 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
             vim.cmd "IlluminatePauseBuf"
         end
     end,
+    group = custom_autocmd_grp,
 })
+
+vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+    command = "lua vim.diagnostic.open_float(nil, {focus=false})",
+    group = custom_autocmd_grp,
+})
+
+local filetypes = { jrnl = { "*.jrnl" }, gitignore = { "*.dockerignore" } }
+for filetype, patterns in pairs(filetypes) do
+    vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+        group = custom_autocmd_grp,
+        command = "setfiletype " .. filetype,
+        pattern = patterns,
+    })
+end
