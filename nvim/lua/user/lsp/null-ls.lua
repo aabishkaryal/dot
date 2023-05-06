@@ -12,7 +12,7 @@ null_ls.setup {
 	debug = false,
 	on_attach = require("user.lsp.handlers").on_attach,
 	sources = {
-		code_actions.eslint_d,
+		code_actions.eslint,
 		code_actions.gomodifytags,
 		code_actions.shellcheck,
 		code_actions.statix,
@@ -32,7 +32,7 @@ null_ls.setup {
 			},
 		},
 
-		diagnostics.eslint_d,
+		diagnostics.eslint,
 		diagnostics.shellcheck,
 		diagnostics.statix,
 		diagnostics.buf,
