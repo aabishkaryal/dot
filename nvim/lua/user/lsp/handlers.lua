@@ -5,6 +5,11 @@ if not status_cmp_ok then
 	return
 end
 
+local status_navic_ok, navic = pcall(require, "nvim-navic")
+if not status_navic_ok then
+	return
+end
+
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities.textDocument.completion.completionItem.snippetSupport = true
 M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
@@ -79,8 +84,12 @@ local function lsp_keymaps(bufnr)
 end
 
 M.on_attach = function(client, bufnr)
-	if client.name == "tsserver" then
+	if client.name == "tsserver" or client.name == "tailwindcss" then
 		client.server_capabilities.documentFormattingProvider = false
+		client.server_capabilities.documentRangeFormattingProvider = false
+	end
+	if client.server_capabilities["documentSymbolProvider"] then
+		navic.attach(client, bufnr)
 	end
 	lsp_keymaps(bufnr)
 	local status_ok, illuminate = pcall(require, "illuminate")

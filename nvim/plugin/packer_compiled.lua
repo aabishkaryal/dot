@@ -79,11 +79,6 @@ _G.packer_plugins = {
     path = "/Users/aabi/.local/share/nvim/site/pack/packer/start/Comment.nvim",
     url = "https://github.com/numToStr/Comment.nvim"
   },
-  ["DAPInstall.nvim"] = {
-    loaded = true,
-    path = "/Users/aabi/.local/share/nvim/site/pack/packer/start/DAPInstall.nvim",
-    url = "https://github.com/ravenxrz/DAPInstall.nvim"
-  },
   LuaSnip = {
     loaded = true,
     path = "/Users/aabi/.local/share/nvim/site/pack/packer/start/LuaSnip",
@@ -93,6 +88,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/aabi/.local/share/nvim/site/pack/packer/start/alpha-nvim",
     url = "https://github.com/goolord/alpha-nvim"
+  },
+  ["barbecue.nvim"] = {
+    loaded = true,
+    path = "/Users/aabi/.local/share/nvim/site/pack/packer/start/barbecue.nvim",
+    url = "https://github.com/utilyre/barbecue.nvim"
   },
   ["bufferline.nvim"] = {
     loaded = true,
@@ -164,6 +164,11 @@ _G.packer_plugins = {
     path = "/Users/aabi/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
   },
+  ["neodev.nvim"] = {
+    loaded = true,
+    path = "/Users/aabi/.local/share/nvim/site/pack/packer/start/neodev.nvim",
+    url = "https://github.com/folke/neodev.nvim"
+  },
   ["null-ls.nvim"] = {
     loaded = true,
     path = "/Users/aabi/.local/share/nvim/site/pack/packer/start/null-ls.nvim",
@@ -184,6 +189,12 @@ _G.packer_plugins = {
     path = "/Users/aabi/.local/share/nvim/site/pack/packer/start/nvim-dap",
     url = "https://github.com/mfussenegger/nvim-dap"
   },
+  ["nvim-dap-go"] = {
+    config = { "\27LJ\2\n8\0\2\5\0\3\0\a6\2\0\0'\4\1\0B\2\2\0029\2\2\2\18\4\1\0B\2\2\1K\0\1\0\nsetup\vdap-go\frequire\0" },
+    loaded = true,
+    path = "/Users/aabi/.local/share/nvim/site/pack/packer/start/nvim-dap-go",
+    url = "https://github.com/leoluz/nvim-dap-go"
+  },
   ["nvim-dap-ui"] = {
     loaded = true,
     path = "/Users/aabi/.local/share/nvim/site/pack/packer/start/nvim-dap-ui",
@@ -193,6 +204,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/aabi/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
+  },
+  ["nvim-navic"] = {
+    loaded = true,
+    path = "/Users/aabi/.local/share/nvim/site/pack/packer/start/nvim-navic",
+    url = "https://github.com/SmiteshP/nvim-navic"
   },
   ["nvim-tree.lua"] = {
     loaded = true,
@@ -270,6 +286,10 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: nvim-dap-go
+time([[Config for nvim-dap-go]], true)
+try_loadstring("\27LJ\2\n8\0\2\5\0\3\0\a6\2\0\0'\4\1\0B\2\2\0029\2\2\2\18\4\1\0B\2\2\1K\0\1\0\nsetup\vdap-go\frequire\0", "config", "nvim-dap-go")
+time([[Config for nvim-dap-go]], false)
 -- Conditional loads
 time([[Conditional loading of telescope-fzf-native.nvim]], true)
   require("packer.load")({"telescope-fzf-native.nvim"}, {}, _G.packer_plugins)

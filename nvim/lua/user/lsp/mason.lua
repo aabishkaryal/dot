@@ -38,6 +38,11 @@ local servers = {
 	"yamllint",
 }
 
+local status_neodev_ok, neodev = pcall(require, "neodev")
+if status_neodev_ok then
+	neodev.setup({ library = { plugins = { "nvim-dap-ui" }, types = true } })
+end
+
 local settings = {
 	ui = {
 		border = "none",
