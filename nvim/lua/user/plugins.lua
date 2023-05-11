@@ -107,7 +107,12 @@ return packer.startup(function(use)
 	-- DAP
 	use { "mfussenegger/nvim-dap" }
 	use { "rcarriga/nvim-dap-ui" }
-	use { "ravenxrz/DAPInstall.nvim" }
+	use {
+		"dreamsofcode-io/nvim-dap-go",
+		requires = { { "mfussenegger/nvim-dap" } },
+		config = function(_, opts) require("dap-go").setup(opts) end,
+	}
+	-- neodev
 	use { "folke/neodev.nvim" }
 	-- barbecue
 	use({

@@ -3,6 +3,9 @@ local keymap = vim.keymap.set
 -- Silent keymap option
 local opts = { silent = true }
 
+local custom_keymaps_grp = vim.api.nvim_create_augroup("custom_keymaps",
+	{ clear = true })
+
 -- Remap space as leader key
 keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
@@ -63,9 +66,9 @@ keymap("n", "<leader>o", ":NvimTreeFocus<CR>", opts)
 -- Telescope
 local status_ok = pcall(require, "telescope")
 if status_ok then
-    local builtin = require("telescope.builtin")
-    keymap("n", "<leader>sd", builtin.diagnostics, opts)
-    keymap("n", "<leader>sk", builtin.keymaps, opts)
+	local builtin = require("telescope.builtin")
+	keymap("n", "<leader>sd", builtin.diagnostics, opts)
+	keymap("n", "<leader>sk", builtin.keymaps, opts)
 end
 keymap("n", "<leader>ff", ":Telescope find_files hidden=true<CR>", opts)
 keymap("n", "<leader>ft", ":Telescope live_grep<CR>", opts)
@@ -77,10 +80,10 @@ keymap("n", "<leader>gg", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", opts)
 
 -- Comment
 keymap("n", "<leader>/",
-    "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>", opts)
+	"<cmd>lua require('Comment.api').toggle.linewise.current()<CR>", opts)
 keymap("x", "<leader>/",
-    "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
-    opts)
+	"<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
+	opts)
 
 -- DAP
 keymap("n", "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", opts)
@@ -93,6 +96,20 @@ keymap("n", "<leader>dl", "<cmd>lua require'dap'.run_last()<cr>", opts)
 keymap("n", "<leader>du", "<cmd>lua require'dapui'.toggle()<cr>", opts)
 keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>", opts)
 
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	pattern = { "go" },
+	group = custom_keymaps_grp,
+	callback = function(args)
+		keymap("n", "<leader>dgt",
+			"<cmd>lua require('dap-go').debug_test() <CR>",
+			{ buffer = args.buf })
+		keymap("n", "<leader>dgl",
+			"<cmd>lua require('dap-go').debug_last_test()<CR>",
+			{ buffer = args.buf })
+	end,
+	desc = "set custom keymaps for go files",
+})
+
 -- Lsp
 keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>",
-    opts)
+	opts)

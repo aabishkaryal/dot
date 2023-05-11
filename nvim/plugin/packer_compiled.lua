@@ -193,7 +193,7 @@ _G.packer_plugins = {
     config = { "\27LJ\2\n8\0\2\5\0\3\0\a6\2\0\0'\4\1\0B\2\2\0029\2\2\2\18\4\1\0B\2\2\1K\0\1\0\nsetup\vdap-go\frequire\0" },
     loaded = true,
     path = "/Users/aabi/.local/share/nvim/site/pack/packer/start/nvim-dap-go",
-    url = "https://github.com/leoluz/nvim-dap-go"
+    url = "https://github.com/dreamsofcode-io/nvim-dap-go"
   },
   ["nvim-dap-ui"] = {
     loaded = true,
