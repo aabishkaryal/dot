@@ -44,6 +44,7 @@
         "/Users/aabi/.local/share/nvim/site/pack/packer/start/tokyonight.nvim/lua",
         "/Users/aabi/.local/share/nvim/site/pack/packer/start/vim-illuminate/lua",
         "/Users/aabi/repos/dot/nvim/lua",
+        "${3rd}/luv/library",
         "${3rd}/luv/library"
     ]
 }
