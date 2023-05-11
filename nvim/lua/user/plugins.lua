@@ -122,7 +122,17 @@ return packer.startup(function(use)
 			"SmiteshP/nvim-navic",
 			"nvim-tree/nvim-web-devicons", -- optional dependency
 		},
-	})                                     -- Barbecue
+	})
+
+	-- go utilities
+	use {
+		"olexsmir/gopher.nvim",
+		requires = { -- dependencies
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+		},
+	}
+
 	use { "SmiteshP/nvim-navic", requires = "neovim/nvim-lspconfig" }
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
