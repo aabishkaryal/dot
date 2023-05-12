@@ -102,7 +102,7 @@ cmp.setup {
 		end,
 	},
 	sources = {
-		{ name = "nvim_lsp", trigger_characters = { "-" } },
+		{ name = "nvim_lsp" },
 		{ name = "nvim_lua" },
 		{ name = "luasnip" },
 		{ name = "buffer" },
@@ -113,5 +113,5 @@ cmp.setup {
 		completion = cmp.config.window.bordered(),
 		documentation = cmp.config.window.bordered(),
 	},
-	experimental = { ghost_text = true },
+	-- experimental = { ghost_text = true },
 }
