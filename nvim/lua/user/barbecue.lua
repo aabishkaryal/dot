@@ -6,6 +6,8 @@ barbecue.setup({
 	create_autocmd = false, -- prevent barbecue from updating itself automatically
 	attach_navic = false,
 	exclude_filetypes = { "netrw", "toggleterm", "NvimTree" },
+	show_dirname = false,
+	show_basename = false,
 })
 
 vim.api.nvim_create_autocmd({
