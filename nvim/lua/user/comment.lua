@@ -22,14 +22,12 @@ comment.setup {
 				location =
 					require("ts_context_commentstring.utils").get_visual_start_location()
 			end
-
-			local internal = require("ts_context_commentstring.internal")
-
-			return internal.calculate_commentstring {
-				key = type,
-				location = location,
-			}
+			return
+				require("ts_context_commentstring.internal").calculate_commentstring {
+					key = type,
+					location = location,
+				}
+			---@diagnostic disable-next-line: missing-return
 		end
-		return ""
 	end,
 }
