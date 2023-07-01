@@ -53,7 +53,11 @@ vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 	group = custom_autocmd_grp,
 })
 
-local filetypes = { jrnl = { "*.jrnl" }, gitignore = { "*.dockerignore" } }
+local filetypes = {
+	jrnl = { "*.jrnl" },
+	gitignore = { "*.dockerignore" },
+	env = { ".env.*", ".env" },
+}
 for filetype, patterns in pairs(filetypes) do
 	vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 		group = custom_autocmd_grp,

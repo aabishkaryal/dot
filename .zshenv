@@ -34,7 +34,7 @@ export PATH=$PATH:~/.flutter/bin
 export PATH=$PATH:~/.scripts
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.cargo/env:$PATH"
-export PATH="$PATH:~/Library/Application Support/JetBrains/Toolbox/scripts"
+export PATH="$PATH:/Users/aabi/.dotnet/tools"
 
 export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
