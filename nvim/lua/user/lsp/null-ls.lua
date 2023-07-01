@@ -23,7 +23,7 @@ null_ls.setup {
 		formatting.goimports,
 		formatting.goimports_reviser,
 		formatting.golines,
-		formatting.prettier.with { extra_filetypes = { "svelte" } },
+		formatting.prettier,
 		formatting.rustfmt,
 		formatting.sql_formatter,
 		formatting.lua_format.with {

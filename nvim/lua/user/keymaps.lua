@@ -20,8 +20,8 @@ vim.g.mapleader = " "
 
 -- Normal --
 -- Better screen navigatio
-keymap("n", "<leaderd", "<C-d>zz", opts)
-keymap("n", "<leader>u", "<C-u>zz", opts)
+keymap("n", "<leader>md", "<C-d>zz", opts)
+keymap("n", "<leader>mu", "<C-u>zz", opts)
 
 -- Better window navigation
 keymap("n", "<C-h>", "<C-w>h", opts)
