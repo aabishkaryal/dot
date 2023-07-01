@@ -12,6 +12,7 @@ HOMEBREW_NO_AUTO_UPDATE=1
 # prevent annoying go folder in home directory, this way it's hidden
 export GOPATH=~/.go
 
+export GIT_EDITOR=nvim
 
 # jdk 11
 # export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
@@ -33,7 +34,7 @@ export PATH=$PATH:~/.flutter/bin
 export PATH=$PATH:~/.scripts
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.cargo/env:$PATH"
-export PATH="$PATH:~/Library/Application Support/JetBrains/Toolbox/scripts"
+export PATH="$PATH:/Users/aabi/.dotnet/tools"
 
 export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
