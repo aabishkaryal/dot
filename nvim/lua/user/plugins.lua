@@ -134,6 +134,13 @@ return packer.startup(function(use)
 	}
 
 	use { "SmiteshP/nvim-navic", requires = "neovim/nvim-lspconfig" }
+	-- surround
+	use({
+		"kylechui/nvim-surround",
+		tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+		after = "nvim-treesitter",
+		requires = "nvim-treesitter/nvim-treesitter",
+	})
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
 	if PACKER_BOOTSTRAP then
