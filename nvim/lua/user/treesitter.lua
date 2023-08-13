@@ -36,7 +36,6 @@ configs.setup {
 		"yaml",
 		"comment",
 		"diff",
-		"help",
 		"html",
 		"javascript",
 		"gitattributes",
