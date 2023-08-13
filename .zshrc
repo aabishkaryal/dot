@@ -101,25 +101,16 @@ source $ZSH/oh-my-zsh.sh
 
 export PLATFORM="mac"
 
-# React native for android
-export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
-export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
-
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-
 
 zstyle ':completion:*:*:docker:*' option-stacking yes
 zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
 alias x86="arch -x86_64";
 alias disablesleep="sudo pmset -a disablesleep";
-alias activate="conda activate";
-alias deactivate="conda deactivate";
 alias reload="exec zsh";
 alias rm="trash";
-alias gpa="gitPushAll";
 alias vim="nvim";
 alias vi="nvim";
 alias oldvim="\vim";
@@ -143,7 +134,7 @@ function archive() {
 }
 
 function hide() {
-    mv $1 "/Users/aabi/Library/Mobile Documents/com~apple~CloudDocs/Photos/.secret/"
+    mv $1 "/Users/aabishkar/Library/Mobile Documents/com~apple~CloudDocs/Photos/.secret/"
 }
 
 function configure-git() {
@@ -159,8 +150,7 @@ function configure-git() {
     echo "Invalid argument. Usage: configure-git work|personal"
   fi
 }
-
-#  nvm
+export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
