@@ -81,7 +81,7 @@ HIST_STAMPS="mm/dd/yyyy"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(gitignore safe-paste alias-finder brew)
+plugins=(gitignore safe-paste alias-finder brew z gh macos yarn zsh-autosuggestions tmux)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -91,15 +91,6 @@ source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='nvim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-export PLATFORM="mac"
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
