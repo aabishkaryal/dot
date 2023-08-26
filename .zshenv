@@ -1,3 +1,5 @@
+export EDITOR='nvim'
+export PLATFORM="mac"
 
 # node only uses 4GB RAM max
 export NODE_OPTIONS="--max-old-space-size=4096"
@@ -23,14 +25,7 @@ export GIT_EDITOR=nvim
 # Opt-out of dotnet telemetry
 # export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
-# export ANDROID_HOME=$HOME/Library/Android/sdk
-
-#export PATH=$PATH:$ANDROID_HOME/emulator
-#export PATH=$PATH:$ANDROID_HOME/tools
-#export PATH=$PATH:$ANDROID_HOME/tools/bin
-#export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$GOPATH/bin
-#export PATH=$PATH:~/.flutter/bin
 export PATH=$PATH:~/.scripts
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.cargo/env:$PATH"
@@ -42,5 +37,4 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig"
 
 #export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
 
-# Flutter
-#export CHROME_EXECUTABLE="/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
+export TERM=xterm-256color
