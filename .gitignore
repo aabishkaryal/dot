@@ -1,3 +1,5 @@
 .devcontainer
 .vscode
 .DS_Store
+
+nvim.backup/*
