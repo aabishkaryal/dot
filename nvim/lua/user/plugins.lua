@@ -80,6 +80,9 @@ return packer.startup(function(use)
         'kylechui/nvim-surround',
         tag = '*' -- Use for stability; omit to use `main` branch for the latest features
     }) -- Surround text objects
+    use {
+        'lukas-reineke/indent-blankline.nvim'
+    } -- Indentation guides
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins

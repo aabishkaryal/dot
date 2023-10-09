@@ -4,6 +4,7 @@ require 'user.gitsigns'
 require 'user.illuminate'
 require 'user.surround'
 require 'user.autopairs'
+require 'user.ibl'
 
 require 'user.options'
 require 'user.colorscheme'
