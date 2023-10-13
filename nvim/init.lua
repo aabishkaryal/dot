@@ -5,6 +5,7 @@ require 'user.illuminate'
 require 'user.surround'
 require 'user.autopairs'
 require 'user.ibl'
+require 'user.neo-tree'
 
 require 'user.options'
 require 'user.colorscheme'

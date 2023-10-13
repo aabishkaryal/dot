@@ -50,9 +50,6 @@ return packer.startup(function(use)
 
     -- Colorschemes
     use {
-        'folke/tokyonight.nvim'
-    }
-    use {
         'ray-x/starry.nvim'
     }
 
@@ -65,6 +62,17 @@ return packer.startup(function(use)
         after = 'nvim-treesitter',
         requires = 'nvim-treesitter/nvim-treesitter'
     })
+
+    -- NeoTree
+    use {
+        'nvim-neo-tree/neo-tree.nvim',
+        branch = 'v3.x',
+        requires = {
+            'nvim-lua/plenary.nvim',
+            'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
+            'MunifTanjim/nui.nvim'
+        }
+    }
 
     -- QOL
     use {
