@@ -23,7 +23,10 @@ export GIT_EDITOR=nvim
 # export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
 
 # Opt-out of dotnet telemetry
-# export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+
+# Use git cli for cargo
+export CARGO_NET_GIT_FETCH_WITH_CLI=true
 
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:~/.scripts
@@ -38,3 +41,4 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig"
 #export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
 
 export TERM=xterm-256color
+. "$HOME/.cargo/env"
