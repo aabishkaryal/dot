@@ -21,6 +21,7 @@ export GIT_EDITOR=nvim
 
 # jdk 17
 # export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+export JAVA_HOME=/opt/homebrew/opt/openjdk
 
 # Opt-out of dotnet telemetry
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -32,10 +33,12 @@ export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:~/.scripts
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.cargo/env:$PATH"
+export PATH="$JAVA_HOME/bin:$PATH"
 #export PATH="$PATH:/Users/aabi/.dotnet/tools"
 
 export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
+
+export CPPFLAGS="-I/opt/homebrew/opt/libffi/include -I/opt/homebrew/opt/openjdk/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig"
 
 #export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
