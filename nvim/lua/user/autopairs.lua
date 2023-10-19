@@ -6,13 +6,7 @@ end
 
 npairs.setup {
     check_ts = true, -- treesitter integration
-    disable_filetype = { "TelescopePrompt" },
-    ts_config = {
-        lua = { "string", "source" },
-        javascript = { "string", "template_string" },
-        java = false,
-    },
-
+    disable_filetype = { "TelescopePrompt", "NvimTree", "vim", "spectre_panel" },
     fast_wrap = {
         map = "<M-e>",
         chars = { "{", "[", "(", "\"", "'" },
