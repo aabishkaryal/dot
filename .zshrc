@@ -108,6 +108,7 @@ alias oldvim="\vim";
 alias oldvi="\vi";
 alias lg="lazygit";
 alias perf="sudo asitop";
+alias tmux="TERM=screen-256color-bce tmux"
 
 function pomo() {
   if [ -n "$1" ]
