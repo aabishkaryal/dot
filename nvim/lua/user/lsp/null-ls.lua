@@ -34,6 +34,10 @@ null_ls.setup {
 				vim.fn.expand("~/.config/LuaFormatter/config.yaml"),
 			},
 		},
+		formatting.shfmt.with {
+			filetypes = { "sh", "zsh" },
+		},
+		formatting.pg_format,
 
 		-- diagnostics.eslint,
 		diagnostics.shellcheck,
