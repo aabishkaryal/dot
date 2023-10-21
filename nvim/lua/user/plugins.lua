@@ -183,6 +183,7 @@ return packer.startup(function(use)
 	}
 	use {
 		'dreamsofcode-io/nvim-dap-go',
+		ft = { "go" },
 		requires = {
 			{
 				'mfussenegger/nvim-dap'
@@ -191,6 +192,28 @@ return packer.startup(function(use)
 		config = function(_, opts)
 			require('dap-go').setup(opts)
 		end
+	}
+	use {
+		"mfussenegger/nvim-dap-python",
+		ft = { "python" },
+		requires = {
+			{
+				'mfussenegger/nvim-dap'
+			}
+		},
+		config = function(_, opts)
+			local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
+			local dap_python = require('dap-python')
+			local conda_path = os.getenv("CONDA_PREFIX")
+			if conda_path then
+				path = conda_path .. "/bin/python"
+			end
+			local venv_path = os.getenv("VIRTUAL_ENV")
+			if venv_path then
+				path = venv_path .. "/bin/python"
+			end
+			dap_python.setup(path)
+		end,
 	}
 	-- neodev
 	use {
@@ -209,6 +232,7 @@ return packer.startup(function(use)
 	-- go utilities
 	use {
 		'olexsmir/gopher.nvim',
+		ft = { 'go' },
 		requires = { -- dependencies
 			'nvim-lua/plenary.nvim',
 			'nvim-treesitter/nvim-treesitter'

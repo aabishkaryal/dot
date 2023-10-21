@@ -16,6 +16,7 @@ null_ls.setup {
 		code_actions.gomodifytags,
 		code_actions.shellcheck,
 		code_actions.statix,
+
 		completion.luasnip,
 
 		formatting.buf,
@@ -23,6 +24,7 @@ null_ls.setup {
 		formatting.goimports,
 		formatting.goimports_reviser,
 		formatting.golines,
+		formatting.black,
 		-- formatting.prettier,
 		-- formatting.rustfmt,
 		formatting.sql_formatter,
@@ -45,5 +47,7 @@ null_ls.setup {
 		diagnostics.todo_comments,
 		diagnostics.yamllint,
 		diagnostics.zsh,
+		diagnostics.mypy,
+		diagnostics.ruff,
 	},
 }

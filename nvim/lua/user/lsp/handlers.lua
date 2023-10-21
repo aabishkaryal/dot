@@ -18,9 +18,9 @@ M.setup = function()
 	local signs = {
 
 		{ name = "DiagnosticSignError", text = "" },
-		{ name = "DiagnosticSignWarn",  text = "" },
-		{ name = "DiagnosticSignHint",  text = "" },
-		{ name = "DiagnosticSignInfo",  text = "" },
+		{ name = "DiagnosticSignWarn", text = "" },
+		{ name = "DiagnosticSignHint", text = "" },
+		{ name = "DiagnosticSignInfo", text = "" },
 	}
 
 	for _, sign in ipairs(signs) do
@@ -34,7 +34,7 @@ M.setup = function()
 	local config = {
 		virtual_text = false, -- disable virtual text
 		signs = {
-			active = signs,   -- show signs
+			active = signs, -- show signs
 		},
 		update_in_insert = true,
 		underline = true,
@@ -69,7 +69,7 @@ local function lsp_keymaps(bufnr)
 	keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
 	keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 	keymap(bufnr, "n", "<leader>li", "<cmd>LspInfo<cr>", opts)
-	keymap(bufnr, "n", "<leader>lI", "<cmd>Mason<cr>", opts)
+	keymap(bufnr, "n", "<leader>lm", "<cmd>Mason<cr>", opts)
 	keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>",
 		opts)
 	keymap(bufnr, "n", "<leader>lj",
@@ -83,10 +83,26 @@ local function lsp_keymaps(bufnr)
 		"<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 end
 
+local formatting_augroup = vim.api.nvim_create_augroup("LSPFormatting", {})
+
 M.on_attach = function(client, bufnr)
 	if client.name == "tsserver" then
 		client.server_capabilities.documentFormattingProvider = false
 		client.server_capabilities.documentRangeFormattingProvider = false
+	elseif client.name == "null-ls" then
+		if client.supports_method("textDocument/formatting") then
+			vim.api.nvim_clear_autocmds({
+				group = formatting_augroup,
+				buffer = bufnr,
+			})
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				group = formatting_augroup,
+				buffer = bufnr,
+				callback = function()
+					vim.lsp.buf.format({ bufnr = bufnr })
+				end,
+			})
+		end
 	end
 	if client.server_capabilities["documentSymbolProvider"] then
 		navic.attach(client, bufnr)
