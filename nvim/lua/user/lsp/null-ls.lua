@@ -8,6 +8,12 @@ local diagnostics = null_ls.builtins.diagnostics
 local code_actions = null_ls.builtins.code_actions
 local completion = null_ls.builtins.completion
 
+local path = "/opt/homebrew/bin/python3"
+local conda_path = os.getenv("CONDA_PREFIX")
+if conda_path then
+	path = conda_path .. "/bin/python"
+end
+
 null_ls.setup {
 	debug = false,
 	on_attach = require("user.lsp.handlers").on_attach,
@@ -51,7 +57,9 @@ null_ls.setup {
 		diagnostics.todo_comments,
 		diagnostics.yamllint,
 		diagnostics.zsh,
-		diagnostics.mypy,
+		diagnostics.mypy.with {
+			extra_args = { '--python-executable', path },
+		},
 		diagnostics.ruff,
 	},
 }
