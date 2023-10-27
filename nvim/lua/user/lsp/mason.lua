@@ -24,7 +24,7 @@ local servers = {
 	'yaml-language-server',
 	'yamllint',
 	'nil',
-	'pyright',
+	'jedi-language-server',
 	'mypy',
 	'ruff',
 	'golangci-lint',
