@@ -16,12 +16,7 @@ export GOPATH=~/.go
 
 export GIT_EDITOR=nvim
 
-# jdk 11
-# export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
-
-# jdk 17
-# export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
-export JAVA_HOME=/opt/homebrew/opt/openjdk
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home
 
 # Opt-out of dotnet telemetry
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
