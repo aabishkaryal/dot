@@ -18,7 +18,7 @@ null_ls.setup {
 	debug = false,
 	on_attach = require("user.lsp.handlers").on_attach,
 	sources = {
-		-- code_actions.eslint,
+		code_actions.eslint,
 		code_actions.gomodifytags,
 		code_actions.shellcheck,
 		code_actions.statix,
@@ -31,7 +31,7 @@ null_ls.setup {
 		formatting.goimports_reviser,
 		formatting.golines,
 		formatting.black,
-		-- formatting.prettier,
+		formatting.prettier,
 		-- formatting.rustfmt,
 		formatting.sql_formatter,
 		formatting.lua_format.with {
@@ -45,7 +45,7 @@ null_ls.setup {
 		},
 		formatting.pg_format,
 
-		-- diagnostics.eslint,
+		diagnostics.eslint,
 		diagnostics.shellcheck,
 		diagnostics.statix,
 		diagnostics.buf,
