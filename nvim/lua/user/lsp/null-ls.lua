@@ -57,9 +57,6 @@ null_ls.setup {
 		diagnostics.todo_comments,
 		diagnostics.yamllint,
 		diagnostics.zsh,
-		diagnostics.mypy.with {
-			extra_args = { '--python-executable', path },
-		},
 		diagnostics.ruff,
 	},
 }

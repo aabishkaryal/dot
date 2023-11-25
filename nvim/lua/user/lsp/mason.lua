@@ -25,7 +25,6 @@ local servers = {
 	'yamllint',
 	'nil',
 	'jedi-language-server',
-	'mypy',
 	'ruff',
 	'golangci-lint',
 	'black',
