@@ -26,14 +26,6 @@ if type brew &>/dev/null; then
     autoload -Uz compinit
     compinit
 fi
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
 # Uncomment one of the following lines to change the auto-update behavior
 # zstyle ':omz:update' mode disabled  # disable automatic updates
 # zstyle ':omz:update' mode auto      # update automatically without asking
@@ -81,19 +73,14 @@ HIST_STAMPS="mm/dd/yyyy"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(gitignore safe-paste alias-finder brew z gh macos yarn zsh-autosuggestions tmux)
+plugins=(git gitignore safe-paste alias-finder brew z gh macos yarn zsh-autosuggestions tmux)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+ export ARCHFLAGS="-arch x86_64"
 
 zstyle ':completion:*:*:docker:*' option-stacking yes
 zstyle ':completion:*:*:docker-*:*' option-stacking yes
@@ -138,6 +125,10 @@ function configure-git() {
     git config user.email "45176384+aabishkaryal@users.noreply.github.com"
     git config user.name "Aabishkar Aryal"
     echo "Git configured for personal"
+  elif [[ $1 == "sosvertigo" ]]; then
+    git config user.email "aabishkar.aryal@sosvertigo.com"
+    git config user.name "Aabishkar Aryal"
+    echo "Git configured for sosvertigo"
   else
     echo "Invalid argument. Usage: configure-git work|personal"
   fi
@@ -175,13 +166,11 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
 eval $(thefuck --alias)
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
 
 # bun completions
 [ -s "/Users/aabishkar/.bun/_bun" ] && source "/Users/aabishkar/.bun/_bun"
@@ -189,3 +178,17 @@ export PATH="$PATH:$HOME/.rvm/bin"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# gcloud
+source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
+
+# Nix
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+fi
+# End Nix
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
