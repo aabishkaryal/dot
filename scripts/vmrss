@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Check if a process ID was provided
+if [ -z "$1" ]; then
+  echo "Please provide a process ID."
+  exit 1
+fi
+
+process_id=$1
+
+# Get the RSS memory of the process
+# 'ps -o rss' gets the resident set size in kilobytes
+# '-p $process_id' specifies the process ID
+memory_usage=$(ps -o rss= -p $process_id)
+
+# Check if the process ID is valid and the command was successful
+if [ $? -eq 0 ]; then
+  echo "Memory usage of process $process_id: $memory_usage KB"
+else
+  echo "Process with ID $process_id not found."
+fi
+
