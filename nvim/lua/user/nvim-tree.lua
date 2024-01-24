@@ -162,5 +162,10 @@ nvim_tree.setup {
 		icons = { hint = "", info = "", warning = "", error = "" },
 	},
 	view = { width = 30, side = "left" },
+	filters = {
+		git_ignored = false,
+		dotfiles = false,
+		custom = { "node_modules", ".cache", ".git$" },
+	},
 	on_attach = on_attach,
 }
