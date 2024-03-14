@@ -131,22 +131,33 @@ function configure-git() {
     git config user.name "Aabishkar Aryal"
     echo "Git configured for sosvertigo"
   else
-    echo "Invalid argument. Usage: configure-git work|personal"
+    echo "Invalid argument. Usage: configure-git work|personal|sosvertigo"
   fi
 }
 
-export CONDACONFIGDIR=""
+export CONDA_CONFIG_DIR=""
+export NVM_CONFIG_DIR=""
 function cd() {
 	builtin cd "$@" &&
 	if [ -f $PWD/.conda_config ]; then
-		export CONDACONFIGDIR=$PWD
+		export CONDA_CONFIG_DIR=$PWD
 		conda activate $(cat .conda_config)
-	elif [ "$CONDACONFIGDIR" ]; then
-		if [[ $PWD != *"$CONDACONFIGDIR"* ]]; then
-			export CONDACONFIGDIR=""
+	elif [ "$CONDA_CONFIG_DIR" ]; then
+		if [[ $PWD != *"$CONDA_CONFIG_DIR"* ]]; then
+			export CONDA_CONFIG_DIR=""
 			conda deactivate
 		fi
 	fi 
+
+  if [ -f $PWD/.nvmrc ]; then
+    export NVM_CONFIG_DIR=$PWD
+    nvm use
+  elif [ "$NVM_CONFIG_DIR" ]; then
+    if [[ $PWD != *"$NVM_CONFIG_DIR"* ]]; then
+      export NVM_CONFIG_DIR=""
+      nvm deactivate
+    fi
+  fi
 }
 
 export NVM_DIR="$HOME/.nvm"

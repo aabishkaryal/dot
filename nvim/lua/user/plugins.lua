@@ -46,103 +46,41 @@ packer.init {
 -- Install your plugins here
 return packer.startup(function(use)
 	-- My plugins here
-	use {
-		'wbthomason/packer.nvim'
-	} -- Have packer manage itself
-	use {
-		'nvim-lua/plenary.nvim'
-	} -- Useful lua functions used by lots of plugins
-	use {
-		'windwp/nvim-autopairs'
-	} -- Autopairs, integrates with both cmp and treesitter
-	use {
-		'numToStr/Comment.nvim'
-	}
-	use {
-		'JoosepAlviste/nvim-ts-context-commentstring'
-	}
-	use {
-		'kyazdani42/nvim-web-devicons'
-	}
-	use {
-		'kyazdani42/nvim-tree.lua'
-	}
-	use {
-		'akinsho/bufferline.nvim'
-	}
-	use {
-		'moll/vim-bbye'
-	}
-	use {
-		'nvim-lualine/lualine.nvim'
-	}
-	use {
-		'akinsho/toggleterm.nvim'
-	}
-	use {
-		'lukas-reineke/indent-blankline.nvim'
-	}
-	use {
-		'goolord/alpha-nvim'
-	}
+	use { 'wbthomason/packer.nvim' } -- Have packer manage itself
+	use { 'nvim-lua/plenary.nvim' } -- Useful lua functions used by lots of plugins
+	use { 'windwp/nvim-autopairs' } -- Autopairs, integrates with both cmp and treesitter
+	use { 'numToStr/Comment.nvim' }
+	use { 'JoosepAlviste/nvim-ts-context-commentstring' }
+	use { 'kyazdani42/nvim-web-devicons' }
+	use { 'kyazdani42/nvim-tree.lua' }
+	use { 'akinsho/bufferline.nvim' }
+	use { 'moll/vim-bbye' }
+	use { 'nvim-lualine/lualine.nvim' }
+	use { 'lukas-reineke/indent-blankline.nvim' }
 
 	-- Colorschemes
-	use {
-		'catppuccin/nvim',
-		as = 'catppuccin'
-	}
-	use {
-		'Mofiqul/dracula.nvim'
-	}
+	use { 'catppuccin/nvim', as = 'catppuccin' }
+	use { 'Mofiqul/dracula.nvim' }
 
 	-- cmp plugins
-	use {
-		'hrsh7th/nvim-cmp'
-	} -- The completion plugin
-	use {
-		'hrsh7th/cmp-buffer'
-	} -- buffer completions
-	use {
-		'hrsh7th/cmp-path'
-	} -- path completions
-	use {
-		'saadparwaiz1/cmp_luasnip'
-	} -- snippet completions
-	use {
-		'hrsh7th/cmp-nvim-lsp'
-	}
-	use {
-		'hrsh7th/cmp-nvim-lua'
-	}
+	use { 'hrsh7th/nvim-cmp' }      -- The completion plugin
+	use { 'hrsh7th/cmp-buffer' }    -- buffer completions
+	use { 'hrsh7th/cmp-path' }      -- path completions
+	use { 'saadparwaiz1/cmp_luasnip' } -- snippet completions
+	use { 'hrsh7th/cmp-nvim-lsp' }
+	use { 'hrsh7th/cmp-nvim-lua' }
 
 	-- snippets
-	use {
-		'L3MON4D3/LuaSnip'
-	}
-	use {
-		'rafamadriz/friendly-snippets'
-	} -- a bunch of snippets to use
-	use {
-		'github/copilot.vim'
-	}
+	use { 'L3MON4D3/LuaSnip' }
+	use { 'github/copilot.vim' }
 
 	-- LSP
 	-- use { "williamboman/nvim-lsp-installer", commit = "e9f13d7acaa60aff91c58b923002228668c8c9e6" } -- simple to use language server installer
-	use {
-		'neovim/nvim-lspconfig'
-	} -- enable LSP
-	use {
-		'williamboman/mason.nvim'
-	}
-	use {
-		'williamboman/mason-lspconfig.nvim'
-	}
-	use {
-		'jose-elias-alvarez/null-ls.nvim'
-	} -- for formatters and linters
-	use {
-		'RRethy/vim-illuminate'
-	}
+	use { 'neovim/nvim-lspconfig' } -- enable LSP
+	use { 'williamboman/mason.nvim' }
+	use { 'williamboman/mason-lspconfig.nvim' }
+	use { 'jose-elias-alvarez/null-ls.nvim' } -- for formatters and linters
+	use { 'RRethy/vim-illuminate' }
 
 	-- Telescope
 	use {
@@ -154,40 +92,28 @@ return packer.startup(function(use)
 				run = 'make',
 				cond = vim.fn.executable 'make' == 1
 			},
-			{
-				'nvim-telescope/telescope-file-browser.nvim'
-			}
+			{ 'nvim-telescope/telescope-file-browser.nvim' }
 		}
 	}
 
 	-- Treesitter
-	use {
-		'nvim-treesitter/nvim-treesitter'
-	}
+	use { 'nvim-treesitter/nvim-treesitter' }
 	use({
 		'nvim-treesitter/nvim-treesitter-textobjects',
 		after = 'nvim-treesitter',
 		requires = 'nvim-treesitter/nvim-treesitter'
 	})
 	-- Git
-	use {
-		'lewis6991/gitsigns.nvim'
-	}
+	use { 'lewis6991/gitsigns.nvim' }
 
 	-- DAP
-	use {
-		'mfussenegger/nvim-dap'
-	}
-	use {
-		'rcarriga/nvim-dap-ui'
-	}
+	use { 'mfussenegger/nvim-dap' }
+	use { 'rcarriga/nvim-dap-ui' }
 	use {
 		'dreamsofcode-io/nvim-dap-go',
 		ft = { "go" },
 		requires = {
-			{
-				'mfussenegger/nvim-dap'
-			}
+			{ 'mfussenegger/nvim-dap' }
 		},
 		config = function(_, opts)
 			require('dap-go').setup(opts)
@@ -197,9 +123,7 @@ return packer.startup(function(use)
 		"mfussenegger/nvim-dap-python",
 		ft = { "python" },
 		requires = {
-			{
-				'mfussenegger/nvim-dap'
-			}
+			{ 'mfussenegger/nvim-dap' }
 		},
 		config = function(_, opts)
 			local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
@@ -214,10 +138,6 @@ return packer.startup(function(use)
 			end
 			dap_python.setup(path)
 		end,
-	}
-	-- neodev
-	use {
-		'folke/neodev.nvim'
 	}
 	-- barbecue
 	use({

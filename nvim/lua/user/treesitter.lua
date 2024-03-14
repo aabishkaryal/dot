@@ -29,9 +29,6 @@ configs.setup {
 		'proto',
 		'rust',
 		'sql',
-		'svelte',
-		'tsx',
-		'typescript',
 		'yaml',
 		'comment',
 		'diff',
@@ -42,7 +39,7 @@ configs.setup {
 		'gitcommit',
 		'json',
 		'regex'
-	},                    -- put the language you want in this array
+	},                 -- put the language you want in this array
 	sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
 
 	highlight = {

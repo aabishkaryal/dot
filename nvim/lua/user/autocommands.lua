@@ -4,10 +4,7 @@ local custom_autocmd_grp = vim.api.nvim_create_augroup("custom_autocmd",
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = { "qf", "help", "man", "lspinfo", "spectre_panel" },
 	callback = function()
-		vim.cmd [[
-      nnoremap <silent> <buffer> q :close<CR>
-      set nobuflisted
-    ]]
+		vim.cmd [[ nnoremap <silent> <buffer> q :close<CR> set nobuflisted ]]
 	end,
 	group = custom_autocmd_grp,
 })
@@ -54,7 +51,6 @@ vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 })
 
 local filetypes = {
-	jrnl = { "*.jrnl" },
 	gitignore = { "*.dockerignore" },
 	env = { ".env.*", ".env" },
 }
