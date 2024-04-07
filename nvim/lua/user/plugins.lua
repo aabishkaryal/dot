@@ -1,9 +1,5 @@
 local fn = vim.fn
 
----
--- context_commentstring nvim-treesitter module is deprecated, use require('ts_context_commentstring').setup {} and set vim.g.skip_ts_context_commentstring_module = true to speed up loading instead.
--- This feature will be removed in ts_context_commentstring version in the future (see https://github.com/JoosepAlviste/nvim-ts-context-commentstring/issues/82 for more info)
----
 -- Automatically install packer
 local install_path = fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
@@ -49,132 +45,22 @@ packer.init {
 
 -- Install your plugins here
 return packer.startup(function(use)
-	-- My plugins here
 	use { 'wbthomason/packer.nvim' } -- Have packer manage itself
 	use { 'nvim-lua/plenary.nvim' } -- Useful lua functions used by lots of plugins
-	use { 'windwp/nvim-autopairs' } -- Autopairs, integrates with both cmp and treesitter
-	use { 'numToStr/Comment.nvim' }
-	use { 'JoosepAlviste/nvim-ts-context-commentstring' }
-	use { 'kyazdani42/nvim-web-devicons' }
-	use { 'kyazdani42/nvim-tree.lua' }
-	use { 'akinsho/bufferline.nvim' }
-	use { 'moll/vim-bbye' }
-	use { 'nvim-lualine/lualine.nvim' }
-	use { 'lukas-reineke/indent-blankline.nvim' }
 
-	-- Colorschemes
+  	-- Colorschemes
 	use { 'catppuccin/nvim', as = 'catppuccin' }
 	use { 'Mofiqul/dracula.nvim' }
-
-	-- cmp plugins
-	use { 'hrsh7th/nvim-cmp' }      -- The completion plugin
-	use { 'hrsh7th/cmp-buffer' }    -- buffer completions
-	use { 'hrsh7th/cmp-path' }      -- path completions
-	use { 'saadparwaiz1/cmp_luasnip' } -- snippet completions
-	use { 'hrsh7th/cmp-nvim-lsp' }
-	use { 'hrsh7th/cmp-nvim-lua' }
-
-	-- snippets
-	use { 'L3MON4D3/LuaSnip' }
-	use { 'github/copilot.vim' }
-
-	-- LSP
-	-- use { "williamboman/nvim-lsp-installer", commit = "e9f13d7acaa60aff91c58b923002228668c8c9e6" } -- simple to use language server installer
-	use { 'neovim/nvim-lspconfig' } -- enable LSP
-	use { 'williamboman/mason.nvim' }
-	use { 'williamboman/mason-lspconfig.nvim' }
-	use { 'jose-elias-alvarez/null-ls.nvim' } -- for formatters and linters
-	use { 'RRethy/vim-illuminate' }
-
-	-- Telescope
-	use {
-		'nvim-telescope/telescope.nvim',
-		requires = {
-			{
-				-- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
-				'nvim-telescope/telescope-fzf-native.nvim',
-				run = 'make',
-				cond = vim.fn.executable 'make' == 1
-			},
-			{ 'nvim-telescope/telescope-file-browser.nvim' }
-		}
-	}
-
-	-- Treesitter
+  
+  	-- Treesitter
 	use { 'nvim-treesitter/nvim-treesitter' }
 	use({
 		'nvim-treesitter/nvim-treesitter-textobjects',
 		after = 'nvim-treesitter',
 		requires = 'nvim-treesitter/nvim-treesitter'
 	})
-	-- Git
-	use { 'lewis6991/gitsigns.nvim' }
 
-	-- DAP
-	use { 'mfussenegger/nvim-dap' }
-	use { 'rcarriga/nvim-dap-ui' }
-	use {
-		'dreamsofcode-io/nvim-dap-go',
-		ft = { "go" },
-		requires = {
-			{ 'mfussenegger/nvim-dap' }
-		},
-		config = function(_, opts)
-			require('dap-go').setup(opts)
-		end
-	}
-	use {
-		"mfussenegger/nvim-dap-python",
-		ft = { "python" },
-		requires = {
-			{ 'mfussenegger/nvim-dap' }
-		},
-		config = function(_, opts)
-			local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
-			local dap_python = require('dap-python')
-			local conda_path = os.getenv("CONDA_PREFIX")
-			if conda_path then
-				path = conda_path .. "/bin/python"
-			end
-			local venv_path = os.getenv("VIRTUAL_ENV")
-			if venv_path then
-				path = venv_path .. "/bin/python"
-			end
-			dap_python.setup(path)
-		end,
-	}
-	-- barbecue
-	use({
-		'utilyre/barbecue.nvim',
-		tag = '*',
-		requires = {
-			'SmiteshP/nvim-navic',
-			'nvim-tree/nvim-web-devicons' -- optional dependency
-		}
-	})
-
-	-- go utilities
-	use {
-		'olexsmir/gopher.nvim',
-		ft = { 'go' },
-		requires = { -- dependencies
-			'nvim-lua/plenary.nvim',
-			'nvim-treesitter/nvim-treesitter'
-		}
-	}
-
-	use {
-		'SmiteshP/nvim-navic',
-		requires = 'neovim/nvim-lspconfig'
-	}
-	-- surround
-	use({
-		'kylechui/nvim-surround',
-		tag = '*', -- Use for stability; omit to use `main` branch for the latest features
-		after = 'nvim-treesitter',
-		requires = 'nvim-treesitter/nvim-treesitter'
-	})
-	-- Automatically set up your configuration after cloning packer.nvim
+  -- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
 	if PACKER_BOOTSTRAP then
 		require('packer').sync()
