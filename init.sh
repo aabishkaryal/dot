@@ -4,7 +4,6 @@ git config --global init.defaultBranch main
 git config --global push.autoSetupRemote true
 git config --global user.email "45176384+aabishkaryal@users.noreply.github.com"
 git config --global user.name "Aabishkar Aryal"
-git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"
 
 setopt AUTO_CD
 
@@ -13,6 +12,10 @@ setopt AUTO_CD
 
 # Install Tmux package manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"
 
 # Enable key repeat and hold
 defaults write -g ApplePressAndHoldEnabled -bool false;

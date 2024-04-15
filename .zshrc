@@ -73,7 +73,7 @@ HIST_STAMPS="mm/dd/yyyy"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git gitignore safe-paste alias-finder brew z gh macos yarn zsh-autosuggestions tmux)
+plugins=(git gitignore safe-paste alias-finder brew z gh macos yarn tmux)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -185,7 +185,7 @@ eval $(thefuck --alias)
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # bun completions
-[ -s "/Users/aabishkar/.bun/_bun" ] && source "/Users/aabishkar/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
