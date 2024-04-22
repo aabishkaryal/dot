@@ -10,12 +10,13 @@ setopt AUTO_CD
 # Install Homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+nvm install 18
+
 # Install Tmux package manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-
-git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"
 
 # Enable key repeat and hold
 defaults write -g ApplePressAndHoldEnabled -bool false;
@@ -24,6 +25,8 @@ defaults write -g ApplePressAndHoldEnabled -bool false;
 mkdir "$HOME/.go/"
 mkdir -p "$HOME/.config/nvim"
 mkdir -p "$HOME/.config/tmux"
+mkdir -p "$HOME/repos/aabishkaryal"
+git clone https://github.com/aabishkaryal/dot.git
 
 # Link config files
 ln -s "$(pwd)/.zshrc" "$HOME/.zshrc"
@@ -33,3 +36,5 @@ ln -s "$(pwd)/tmux" "$HOME/.config/tmux"
 ln -s "$(pwd)/.ssh/config" "$HOME/.ssh/config"
 ln -s "$(pwd)/.p10k.zsh" "$HOME/.p10k.zsh"
 ln -s "$(pwd)/scripts" "$HOME/.scripts"
+
+git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"

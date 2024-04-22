@@ -39,7 +39,7 @@ export CARGO_NET_GIT_FETCH_WITH_CLI=true
 export PATH="$PATH:$HOME/telmio"
 
 # personal scripts
-export PATH="$PATH:~/.scripts"
+export PATH="$PATH:$HOME/.scripts"
 
 # rust things (run the script)
 . "$HOME/.cargo/env"
