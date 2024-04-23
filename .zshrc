@@ -1,3 +1,4 @@
+#! /bin/zsh
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -80,23 +81,24 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
- export ARCHFLAGS="-arch x86_64"
+export ARCHFLAGS="-arch x86_64"
 
 zstyle ':completion:*:*:docker:*' option-stacking yes
 zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
-alias x86="arch -x86_64";
-alias disablesleep="sudo pmset -a disablesleep";
-alias reload="exec zsh";
-alias rm="trash";
-alias vim="nvim";
-alias vi="nvim";
-alias oldvim="\vim";
-alias oldvi="\vi";
-alias lg="lazygit";
-alias perf="sudo asitop";
+alias x86="arch -x86_64"
+alias disablesleep="sudo pmset -a disablesleep"
+alias reload="exec zsh"
+alias rm="trash"
+alias vim="nvim"
+alias vi="nvim"
+alias oldvim="\vim"
+alias oldvi="\vi"
+alias lg="lazygit"
+alias perf="sudo asitop"
 alias tmux="TERM=screen-256color-bce tmux"
 alias sed="gsed"
+alias nq="networkquality"
 
 function pomo() {
   if [ -n "$1" ]
