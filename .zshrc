@@ -64,7 +64,25 @@ DISABLE_LS_COLORS="true"
 # "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
-HIST_STAMPS="mm/dd/yyyy"
+HIST_STAMPS="%T %d.%m.%y"
+
+HISTFILE="$HOME/.zsh_history"
+# Display timestamps for each command
+
+HISTSIZE=10000000
+SAVEHIST=10000000
+
+# Ignore these commands in history
+HISTORY_IGNORE="(ls|pwd|cd)*"
+
+# Write the history file in the ':start:elapsed;command' format.
+setopt EXTENDED_HISTORY
+
+# Do not record an event starting with a space.
+setopt HIST_IGNORE_SPACE
+
+# Don't store history commands
+setopt HIST_NO_STORE
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
