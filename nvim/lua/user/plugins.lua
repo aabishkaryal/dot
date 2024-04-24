@@ -45,31 +45,39 @@ packer.init {
 
 -- Install your plugins here
 return packer.startup(function(use)
+  use { 'wbthomason/packer.nvim' }              -- Have packer manage itself
+  use { 'nvim-lua/plenary.nvim' }               -- Useful lua functions used by lots of plugins
+  use { 'kyazdani42/nvim-web-devicons' }        -- Icons for neovim
+  use { 'lukas-reineke/indent-blankline.nvim' } -- show lines for indents
   use {
-    'wbthomason/packer.nvim'
-  } -- Have packer manage itself
-  use {
-    'nvim-lua/plenary.nvim'
-  } -- Useful lua functions used by lots of plugins
+    'numToStr/Comment.nvim',
+    config = function()
+      require('Comment').setup()
+    end
+  } -- Add keybindings for comments
 
   -- Colorschemes
   use {
     'catppuccin/nvim',
     as = 'catppuccin'
   }
-  use {
-    'Mofiqul/dracula.nvim'
-  }
+  use { 'Mofiqul/dracula.nvim' }
 
   -- Treesitter
+  use { 'nvim-treesitter/nvim-treesitter' }
   use {
-    'nvim-treesitter/nvim-treesitter'
-  }
-  use({
     'nvim-treesitter/nvim-treesitter-textobjects',
     after = 'nvim-treesitter',
     requires = 'nvim-treesitter/nvim-treesitter'
-  })
+  }
+  use {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    config = function()
+      require("ts_context_commentstring").setup { enable = true }
+    end
+  } -- Add support for comments if multiple languages are in single file like react, etc.
+
+
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

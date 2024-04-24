@@ -51,14 +51,6 @@ keymap('n', '<S-q>', '<cmd>Bdelete!<CR>', opts)
 -- Better paste
 keymap('v', 'p', '"_dP', opts)
 
--- Sync to system clipboard with C-c and C-v
-keymap('', '<A-c>', '+y', opts)
-keymap('', '<A-v>', '+p', opts)
-
--- Insert --
--- P}ress jk fast to enter normal mode
-keymap('i', 'jk', '<ESC>', opts)
-
 -- Visual --
 -- Stay in indent mode
 keymap('v', '<', '<gv', opts)
