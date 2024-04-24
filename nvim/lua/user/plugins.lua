@@ -77,6 +77,9 @@ return packer.startup(function(use)
     end
   } -- Add support for comments if multiple languages are in single file like react, etc.
 
+  -- Nvim-tree
+  use { 'kyazdani42/nvim-tree.lua' }
+
   -- Telescope
   use {
     'nvim-telescope/telescope.nvim',

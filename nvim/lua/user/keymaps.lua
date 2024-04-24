@@ -58,9 +58,9 @@ keymap('v', '>', '>gv', opts)
 
 -- -- Plugins --
 
--- -- NvimTree
--- keymap('n', '<leader>e', ':NvimTreeToggle<CR>', opts)
--- keymap('n', '<leader>o', ':NvimTreeFocus<CR>', opts)
+-- NvimTree
+keymap('n', '<leader>e', ':NvimTreeToggle<CR>', opts)
+keymap('n', '<leader>o', ':NvimTreeFocus<CR>', opts)
 
 -- Telescope
 local status_ok, telescope = pcall(require, "telescope")
