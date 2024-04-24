@@ -77,7 +77,19 @@ return packer.startup(function(use)
     end
   } -- Add support for comments if multiple languages are in single file like react, etc.
 
-
+  -- Telescope
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = {
+      {
+        -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
+        'nvim-telescope/telescope-fzf-native.nvim',
+        run = 'make',
+        cond = vim.fn.executable 'make' == 1
+      },
+      { 'nvim-telescope/telescope-file-browser.nvim' }
+    }
+  }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

@@ -62,16 +62,17 @@ keymap('v', '>', '>gv', opts)
 -- keymap('n', '<leader>e', ':NvimTreeToggle<CR>', opts)
 -- keymap('n', '<leader>o', ':NvimTreeFocus<CR>', opts)
 
--- -- Telescope
--- local status_ok = pcall(require, 'telescope')
--- if status_ok then
---     local builtin = require('telescope.builtin')
---     keymap('n', '<leader>sd', builtin.diagnostics, opts)
---     keymap('n', '<leader>sk', builtin.keymaps, opts)
--- end
--- keymap('n', '<leader>ff', ':Telescope find_files hidden=true<CR>', opts)
--- keymap('n', '<leader>ft', ':Telescope live_grep<CR>', opts)
--- keymap('n', '<leader>fb', ':Telescope buffers<CR>', opts)
+-- Telescope
+local status_ok, telescope = pcall(require, "telescope")
+if status_ok then
+  local builtin = require("telescope.builtin")
+  keymap("n", "<leader>sd", builtin.diagnostics, opts)
+  keymap("n", "<leader>sk", builtin.keymaps, opts)
+
+  keymap("n", "<leader>ff", ":Telescope find_files hidden=true<CR>", opts)
+  keymap("n", "<leader>ft", ":Telescope live_grep<CR>", opts)
+  keymap("n", "<leader>fb", ":Telescope buffers<CR>", opts)
+end
 
 -- -- Git
 -- keymap('n', '<leader>gg', '<cmd>lua _LAZYGIT_TOGGLE()<CR>', opts)
