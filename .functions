@@ -1,0 +1,115 @@
+#! /bin/zsh
+function pomo() {
+  if [ -n "$1" ]
+  then
+    timer $1 && terminal-notifier -title 'Pomodoro' \
+      -message 'Pomodoro Timer is up! 😊'\
+      -sound Crystal;
+  else
+    echo "Specify the time for pomo session."
+  fi
+}
+
+function archive() {
+    mv $1 ~/repos/Archives/;
+}
+
+function hide() {
+    mv $1 "$HOME/Library/Mobile Documents/com~apple~CloudDocs/Photos/.secret/"
+}
+
+function configure-git() {
+  if [[ $1 == "work" ]]; then
+    git config user.email "aabishkar.aryal@purplease.com"
+    git config user.name "Aabishkar Aryal"
+    echo "Git configured for work"
+  elif [[ $1 == "personal" ]]; then
+    git config user.email "45176384+aabishkaryal@users.noreply.github.com"
+    git config user.name "Aabishkar Aryal"
+    echo "Git configured for personal"
+  elif [[ $1 == "sosvertigo" ]]; then
+    git config user.email "aabishkar.aryal@sosvertigo.com"
+    git config user.name "Aabishkar Aryal"
+    echo "Git configured for sosvertigo"
+  else
+    echo "Invalid argument. Usage: configure-git work|personal|sosvertigo"
+  fi
+}
+
+# Check if main exists and use instead of master
+function git_main_branch() {
+  command git rev-parse --git-dir &>/dev/null || return
+  local ref
+  for ref in refs/{heads,remotes/{origin,upstream}}/{main,trunk,mainline,default,master}; do
+    if command git show-ref -q --verify $ref; then
+      echo ${ref:t}
+      return 0
+    fi
+  done
+
+  # If no main branch was found, fall back to master but return error
+  echo master
+  return 1
+}
+
+# Check for develop and similarly named branches
+function git_develop_branch() {
+  command git rev-parse --git-dir &>/dev/null || return
+  local branch
+  for branch in dev devel develop development; do
+    if command git show-ref -q --verify refs/heads/$branch; then
+      echo $branch
+      return 0
+    fi
+  done
+
+  echo develop
+  return 1
+}
+
+function gbda() {
+  git branch --no-color --merged | command grep -vE "^([+*]|\s*($(git_main_branch)|$(git_develop_branch))\s*$)" | command xargs git branch --delete 2>/dev/null
+}
+
+function gbds() {
+  local default_branch=$(git_main_branch)
+  (( ! $? )) || default_branch=$(git_develop_branch)
+
+  git for-each-ref refs/heads/ "--format=%(refname:short)" | \
+    while read branch; do
+      local merge_base=$(git merge-base $default_branch $branch)
+      if [[ $(git cherry $default_branch $(git commit-tree $(git rev-parse $branch\^{tree}) -p $merge_base -m _)) = -* ]]; then
+        git branch -D $branch
+      fi
+    done
+}
+
+# Remove .DS_Store files recursively in a directory, default .
+function rmds() {
+  find "${@:-.}" -type f -name .DS_Store -delete
+}
+
+export CONDA_CONFIG_DIR=""
+export NVM_CONFIG_DIR=""
+function cd() {
+	builtin cd "$@" &&
+	if [ -f $PWD/.conda_config ]; then
+		export CONDA_CONFIG_DIR=$PWD
+		conda activate $(cat .conda_config)
+	elif [ "$CONDA_CONFIG_DIR" ]; then
+		if [[ $PWD != *"$CONDA_CONFIG_DIR"* ]]; then
+			export CONDA_CONFIG_DIR=""
+			conda deactivate
+		fi
+	fi 
+
+  if [ -f $PWD/.nvmrc ]; then
+    export NVM_CONFIG_DIR=$PWD
+    nvm use
+  elif [ "$NVM_CONFIG_DIR" ]; then
+    if [[ $PWD != *"$NVM_CONFIG_DIR"* ]]; then
+      export NVM_CONFIG_DIR=""
+      nvm deactivate
+    fi
+  fi
+}

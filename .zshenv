@@ -51,3 +51,7 @@ export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
 
 export CPPFLAGS="-I/opt/homebrew/opt/libffi/include -I/opt/homebrew/opt/openjdk/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig"
+
+export ZSH_TMUX_ITERM2=true
+export ZSH_TMUX_FIXTERM=true
+export ZSH_TMUX_AUTONAME_SESSION=true

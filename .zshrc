@@ -92,7 +92,7 @@ setopt HIST_NO_STORE
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git gitignore safe-paste alias-finder brew z gh macos yarn tmux)
+plugins=(safe-paste z tmux)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -100,9 +100,6 @@ source $ZSH/oh-my-zsh.sh
 
 # export MANPATH="/usr/local/man:$MANPATH"
 export ARCHFLAGS="-arch x86_64"
-
-zstyle ':completion:*:*:docker:*' option-stacking yes
-zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
 alias x86="arch -x86_64"
 alias disablesleep="sudo pmset -a disablesleep"
@@ -114,71 +111,10 @@ alias oldvim="\vim"
 alias oldvi="\vi"
 alias lg="lazygit"
 alias perf="sudo asitop"
-alias tmux="TERM=screen-256color-bce tmux"
 alias sed="gsed"
 alias nq="networkquality"
 
-function pomo() {
-  if [ -n "$1" ]
-  then
-    timer $1 && terminal-notifier -title 'Pomodoro' \
-      -message 'Pomodoro Timer is up! 😊'\
-      -sound Crystal;
-  else
-    echo "Specify the time for pomo session."
-  fi
-}
-
-function archive() {
-    mv $1 ~/repos/Archives/;
-}
-
-function hide() {
-    mv $1 "/Users/aabishkar/Library/Mobile Documents/com~apple~CloudDocs/Photos/.secret/"
-}
-
-function configure-git() {
-  if [[ $1 == "work" ]]; then
-    git config user.email "aabishkar.aryal@purplease.com"
-    git config user.name "Aabishkar Aryal"
-    echo "Git configured for work"
-  elif [[ $1 == "personal" ]]; then
-    git config user.email "45176384+aabishkaryal@users.noreply.github.com"
-    git config user.name "Aabishkar Aryal"
-    echo "Git configured for personal"
-  elif [[ $1 == "sosvertigo" ]]; then
-    git config user.email "aabishkar.aryal@sosvertigo.com"
-    git config user.name "Aabishkar Aryal"
-    echo "Git configured for sosvertigo"
-  else
-    echo "Invalid argument. Usage: configure-git work|personal|sosvertigo"
-  fi
-}
-
-export CONDA_CONFIG_DIR=""
-export NVM_CONFIG_DIR=""
-function cd() {
-	builtin cd "$@" &&
-	if [ -f $PWD/.conda_config ]; then
-		export CONDA_CONFIG_DIR=$PWD
-		conda activate $(cat .conda_config)
-	elif [ "$CONDA_CONFIG_DIR" ]; then
-		if [[ $PWD != *"$CONDA_CONFIG_DIR"* ]]; then
-			export CONDA_CONFIG_DIR=""
-			conda deactivate
-		fi
-	fi 
-
-  if [ -f $PWD/.nvmrc ]; then
-    export NVM_CONFIG_DIR=$PWD
-    nvm use
-  elif [ "$NVM_CONFIG_DIR" ]; then
-    if [[ $PWD != *"$NVM_CONFIG_DIR"* ]]; then
-      export NVM_CONFIG_DIR=""
-      nvm deactivate
-    fi
-  fi
-}
+source $HOME/.functions
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

@@ -29,6 +29,7 @@ mkdir -p "$HOME/repos/aabishkaryal"
 git clone https://github.com/aabishkaryal/dot.git
 
 # Link config files
+ln -s "$(pwd)/.functions" "$HOME/.functions"
 ln -s "$(pwd)/.zshrc" "$HOME/.zshrc"
 ln -s "$(pwd)/.zshenv" "$HOME/.zshenv"
 ln -s "$(pwd)/nvim" "$HOME/.config/nvim"
