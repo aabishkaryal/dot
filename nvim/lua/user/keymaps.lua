@@ -33,20 +33,20 @@ keymap('n', '<C-k>', '<C-w>k', opts)
 keymap('n', '<C-l>', '<C-w>l', opts)
 
 -- Resize with arrows
-keymap('n', '<S-Up>', ':resize -2<CR>', opts)
-keymap('n', '<S-Down>', ':resize +2<CR>', opts)
-keymap('n', '<S-Left>', ':vertical resize -2<CR>', opts)
-keymap('n', '<S-Right>', ':vertical resize +2<CR>', opts)
+keymap('n', '<S-Up>', '<cmd>resize -2<CR>', opts)
+keymap('n', '<S-Down>', '<cmd>resize +2<CR>', opts)
+keymap('n', '<S-Left>', '<cmd>vertical resize -2<CR>', opts)
+keymap('n', '<S-Right>', '<cmd>vertical resize +2<CR>', opts)
 
 -- Navigate buffers
-keymap('n', '<S-l>', ':bnext<CR>', opts)
-keymap('n', '<S-h>', ':bprevious<CR>', opts)
+keymap('n', '<S-l>', '<cmd>bnext<CR>', opts)
+keymap('n', '<S-h>', '<cmd>bprevious<CR>', opts)
 
 -- Clear highlights
 keymap('n', '<leader>h', '<cmd>nohlsearch<CR>', opts)
 
 -- Close buffers
-keymap('n', '<S-q>', '<cmd>Bdelete!<CR>', opts)
+keymap('n', '<S-q>', '<cmd>bdelete! | bnext<CR>', opts)
 
 -- Better paste
 keymap('v', 'p', '"_dP', opts)
@@ -56,31 +56,32 @@ keymap('v', 'p', '"_dP', opts)
 keymap('v', '<', '<gv', opts)
 keymap('v', '>', '>gv', opts)
 
--- -- Plugins --
+-- Plugins --
 
 -- NvimTree
-keymap('n', '<leader>e', ':NvimTreeToggle<CR>', opts)
-keymap('n', '<leader>o', ':NvimTreeFocus<CR>', opts)
-
--- Telescope
-local status_ok, telescope = pcall(require, "telescope")
-if status_ok then
-  local builtin = require("telescope.builtin")
-  keymap("n", "<leader>sd", builtin.diagnostics, opts)
-  keymap("n", "<leader>sk", builtin.keymaps, opts)
-
-  keymap("n", "<leader>ff", ":Telescope find_files hidden=true<CR>", opts)
-  keymap("n", "<leader>ft", ":Telescope live_grep<CR>", opts)
-  keymap("n", "<leader>fb", ":Telescope buffers<CR>", opts)
+local status_ok_nt = pcall(require, "nvim-tree")
+if status_ok_nt then
+  keymap('n', '<leader>e', '<cmd>NvimTreeToggle<CR>', opts)
+  keymap('n', '<leader>o', '<cmd>NvimTreeFocus<CR>', opts)
 end
 
--- -- Git
--- keymap('n', '<leader>gg', '<cmd>lua _LAZYGIT_TOGGLE()<CR>', opts)
+-- Telescope
+local status_ok_tel = pcall(require, "telescope")
+if status_ok_tel then
+  keymap("n", "<leader>fd", "<cmd>Telescope diagnostics initial_mode=normal<CR>", opts)
+  keymap("n", "<leader>fk", "<cmd>Telescope keymaps initial_mode=normal<CR>", opts)
 
--- -- Comment
--- keymap('n', '<leader>/', '<cmd>lua require(\'Comment.api\').toggle.linewise.current()<CR>', opts)
--- keymap('x', '<leader>/', '<esc><cmd>lua require(\'Comment.api\').toggle.linewise(vim.fn.visualmode())<CR>', opts)
+  keymap("n", "<leader>ff", "<cmd>Telescope find_files hidden=true<CR>", opts)
+  keymap("n", "<leader>ft", "<cmd>Telescope live_grep<CR>", opts)
+  keymap("n", "<leader>fb", "<cmd>Telescope buffers initial_mode=normal sort_mru=true<CR>", opts)
+end
 
+-- Comment
+local status_ok_co = pcall(require, "Comment")
+if status_ok_co then
+  keymap('n', '<leader>/', '<cmd>lua require(\'Comment.api\').toggle.linewise.current()<CR>', opts)
+  keymap('x', '<leader>/', '<esc><cmd>lua require(\'Comment.api\').toggle.linewise(vim.fn.visualmode())<CR>', opts)
+end
 -- -- DAP
 -- keymap('n', '<leader>db', '<cmd>lua require\'dap\'.toggle_breakpoint()<cr>', opts)
 -- keymap('n', '<leader>dc', '<cmd>lua require\'dap\'.continue()<cr>', opts)

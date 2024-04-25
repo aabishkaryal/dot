@@ -79,6 +79,12 @@ return packer.startup(function(use)
 
   -- Nvim-tree
   use { 'kyazdani42/nvim-tree.lua' }
+  use {
+    'akinsho/bufferline.nvim',
+    tag = "*",
+    requires = 'nvim-tree/nvim-web-devicons',
+    
+  }
 
   -- Telescope
   use {
