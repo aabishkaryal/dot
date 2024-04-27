@@ -52,9 +52,12 @@ return packer.startup(function(use)
   use {
     'numToStr/Comment.nvim',
     config = function()
-      require('Comment').setup()
+      require('Comment').setup {
+        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+      }
     end
-  } -- Add keybindings for comments
+  }                               -- Add keybindings for comments
+  use { 'RRethy/vim-illuminate' } -- highlight current word under cursor
 
   -- Colorschemes
   use {
@@ -83,7 +86,7 @@ return packer.startup(function(use)
     'akinsho/bufferline.nvim',
     tag = "*",
     requires = 'nvim-tree/nvim-web-devicons',
-    
+
   }
 
   -- Telescope

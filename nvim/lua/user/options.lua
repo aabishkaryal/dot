@@ -1,6 +1,5 @@
-vim.opt.backup = false            -- creates a backup file
-vim.opt.clipboard = "unnamedplus" -- sync os clipboard with neovim clipboard
-vim.opt.cmdheight = 1             -- more space in the neovim command line for displaying messages
+vim.opt.backup = false -- creates a backup file
+vim.opt.cmdheight = 1  -- more space in the neovim command line for displaying messages
 vim.opt.completeopt = {
   'menuone',
   'noselect'

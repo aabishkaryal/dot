@@ -7,4 +7,5 @@ require 'user.nvim-tree'
 require 'user.bufferline'
 require 'user.telescope'
 
+require 'user.autocommands'
 require 'user.keymaps'
