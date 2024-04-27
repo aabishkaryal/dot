@@ -65,14 +65,17 @@ return packer.startup(function(use)
     as = 'catppuccin'
   }
   use { 'Mofiqul/dracula.nvim' }
+  use { 'folke/tokyonight.nvim' }
+  use { "rebelot/kanagawa.nvim" }
+  use { "ellisonleao/gruvbox.nvim" }
 
   -- Treesitter
-  use { 'nvim-treesitter/nvim-treesitter' }
+  use { 'nvim-treesitter/nvim-treesitter' } -- detect tokens in file/buffer
   use {
     'nvim-treesitter/nvim-treesitter-textobjects',
     after = 'nvim-treesitter',
     requires = 'nvim-treesitter/nvim-treesitter'
-  }
+  } -- text-object detection
   use {
     'JoosepAlviste/nvim-ts-context-commentstring',
     config = function()
@@ -81,13 +84,12 @@ return packer.startup(function(use)
   } -- Add support for comments if multiple languages are in single file like react, etc.
 
   -- Nvim-tree
-  use { 'kyazdani42/nvim-tree.lua' }
+  use { 'kyazdani42/nvim-tree.lua' } -- file-explorer
   use {
     'akinsho/bufferline.nvim',
     tag = "*",
     requires = 'nvim-tree/nvim-web-devicons',
-
-  }
+  } -- the upper tabs like structure
 
   -- Telescope
   use {
@@ -101,7 +103,7 @@ return packer.startup(function(use)
       },
       { 'nvim-telescope/telescope-file-browser.nvim' }
     }
-  }
+  } -- telescope for all kinds of navigations
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
