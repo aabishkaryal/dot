@@ -7,6 +7,8 @@ require 'user.indent-line'
 require 'user.nvim-tree'
 require 'user.bufferline'
 require 'user.telescope'
+require 'user.lsp'
+require 'user.cmp'
 
 require 'user.autocommands'
 require 'user.keymaps'

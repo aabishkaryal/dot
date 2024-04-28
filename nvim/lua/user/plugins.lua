@@ -69,6 +69,23 @@ return packer.startup(function(use)
   use { "rebelot/kanagawa.nvim" }
   use { "ellisonleao/gruvbox.nvim" }
 
+  -- LSP
+  use { 'neovim/nvim-lspconfig' }             -- enable LSP
+  use { 'williamboman/mason.nvim' }           -- help install lsps
+  use { 'williamboman/mason-lspconfig.nvim' } -- bridge between mason and lsp-config
+  use { 'jose-elias-alvarez/null-ls.nvim' }   -- for formatters and linters
+  use {
+    "SmiteshP/nvim-navic",
+    requires = "neovim/nvim-lspconfig"
+  } -- uses LSP to show your current code context
+
+  -- cmp plugins
+  use { 'hrsh7th/nvim-cmp' }         -- The completion plugin
+  use { 'hrsh7th/cmp-buffer' }       -- buffer completions
+  use { 'hrsh7th/cmp-path' }         -- path completions
+  use { 'saadparwaiz1/cmp_luasnip' } -- snippet completions
+  use { 'hrsh7th/cmp-nvim-lsp' }
+
   -- Treesitter
   use { 'nvim-treesitter/nvim-treesitter' } -- detect tokens in file/buffer
   use {
