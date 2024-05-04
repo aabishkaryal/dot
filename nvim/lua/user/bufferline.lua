@@ -1,20 +1,34 @@
 local status_ok, bufferline = pcall(require, 'bufferline')
 if not status_ok then
+  print('bufferline not found')
   return
 end
 
 bufferline.setup {
   options = {
-    close_command = 'bdelete! %d',       -- can be a string | function, see "Mouse actions"
-    right_mouse_command = 'bdelete! %d', -- can be a string | function, see "Mouse actions"
+    mode = "buffers",
+    numbers = "none",
+    close_command = 'bdelete! %d',
+    right_mouse_command = 'bdelete! %d',
+    left_mouse_command = 'buffer %d',
+    middle_mouse_command = nil,
+    separator_style = 'slant',
+    modified_icon = '●',
+    diagnostics = 'nvim_lsp',
     offsets = {
       {
-        filetype = 'NvimTree',
-        text = '',
-        padding = 1
+        filetype = "NvimTree",
+        text = "File Explorer",
+        text_align = "center",
+        separator = true,
       }
     },
-    separator_style = 'thin' -- | "thick" | "thin" | { 'any', 'any' },
+    color_icons = true,
+    enforce_regular_tabs = true,
+    always_show_bufferline = false,
+    auto_toggle_bufferline = true,
+    show_buffer_close_icons = false,
+    show_duplicate_prefix = true,
   },
   highlights = {
     fill = {

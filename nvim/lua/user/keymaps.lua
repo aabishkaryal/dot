@@ -49,8 +49,6 @@ keymap("n", "<S-q>", "<cmd>Bdelete!<CR>", opts)
 keymap("v", "p", "\"_dP", opts)
 
 -- Insert --
--- P}ress jk fast to enter
-keymap("i", "jk", "<ESC>", opts)
 
 -- Visual --
 -- Stay in indent mode
@@ -59,12 +57,26 @@ keymap("v", ">", ">gv", opts)
 
 -- Plugins --
 
+--illuminate
+local status_ok_illuminate, _ = pcall(require, 'illuminate')
+if status_ok_illuminate then
+  vim.api.nvim_set_keymap('n', '<a-n>', '<cmd>lua require"illuminate".next_reference{wrap=true}<cr>', {
+    noremap = true
+  })
+  vim.api.nvim_set_keymap('n', '<a-p>', '<cmd>lua require"illuminate".next_reference{reverse=true,wrap=true}<cr>', {
+    noremap = true
+  })
+end
+
 -- NvimTree
-keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
-keymap("n", "<leader>o", ":NvimTreeFocus<CR>", opts)
+local status_ok_nvim_tree, _ = pcall(require, 'nvim-tree')
+if status_ok_nvim_tree then
+  keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
+  keymap("n", "<leader>o", ":NvimTreeFocus<CR>", opts)
+end
 
 -- Telescope
-local status_ok = pcall(require, "telescope")
+local status_ok, _ = pcall(require, "telescope")
 if status_ok then
   keymap("n", "<leader>fd", ":Telescope diagnostics initial_mode=normal<CR>", opts)
   keymap("n", "<leader>fk", ":Telescope keymaps initial_mode=normal<CR>", opts)
@@ -73,40 +85,46 @@ if status_ok then
   keymap("n", "<leader>ft", ":Telescope live_grep<CR>", opts)
   keymap("n", "<leader>fb", ":Telescope buffers initial_mode=normal<CR>", opts)
 end
--- Git
-keymap("n", "<leader>gg", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", opts)
 
 -- Comment
-keymap("n", "<leader>/",
-  "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>", opts)
-keymap("x", "<leader>/",
-  "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
-  opts)
+local status_ok_comment, _ = pcall(require, 'Comment')
+if status_ok_comment then
+  keymap("n", "<leader>/",
+    "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>", opts)
+  keymap("x", "<leader>/",
+    "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
+    opts)
+end
 
 -- DAP
-keymap("n", "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", opts)
-keymap("n", "<leader>dc", "<cmd>lua require'dap'.continue()<cr>", opts)
-keymap("n", "<leader>di", "<cmd>lua require'dap'.step_into()<cr>", opts)
-keymap("n", "<leader>do", "<cmd>lua require'dap'.step_over()<cr>", opts)
-keymap("n", "<leader>dO", "<cmd>lua require'dap'.step_out()<cr>", opts)
-keymap("n", "<leader>dr", "<cmd>lua require'dap'.repl.toggle()<cr>", opts)
-keymap("n", "<leader>dl", "<cmd>lua require'dap'.run_last()<cr>", opts)
-keymap("n", "<leader>du", "<cmd>lua require'dapui'.toggle()<cr>", opts)
-keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>", opts)
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = { "go" },
-  group = custom_keymaps_grp,
-  callback = function(args)
-    keymap("n", "<leader>dgt",
-      "<cmd>lua require('dap-go').debug_test() <CR>",
-      { buffer = args.buf })
-    keymap("n", "<leader>dgl",
-      "<cmd>lua require('dap-go').debug_last_test()<CR>",
-      { buffer = args.buf })
-  end,
-  desc = "set custom keymaps for go files",
-})
+local status_ok_dap, _ = pcall(require, 'dap')
+if status_ok_dap then
+  keymap("n", "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", opts)
+  keymap("n", "<leader>dc", "<cmd>lua require'dap'.continue()<cr>", opts)
+  keymap("n", "<leader>di", "<cmd>lua require'dap'.step_into()<cr>", opts)
+  keymap("n", "<leader>do", "<cmd>lua require'dap'.step_over()<cr>", opts)
+  keymap("n", "<leader>dO", "<cmd>lua require'dap'.step_out()<cr>", opts)
+  keymap("n", "<leader>dr", "<cmd>lua require'dap'.repl.toggle()<cr>", opts)
+  keymap("n", "<leader>dl", "<cmd>lua require'dap'.run_last()<cr>", opts)
+  keymap("n", "<leader>du", "<cmd>lua require'dapui'.toggle()<cr>", opts)
+  keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>", opts)
+end
+local status_ok_dap_go, _ = pcall(require, 'dap-go')
+if status_ok_dap_go then
+  vim.api.nvim_create_autocmd({ "FileType" }, {
+    pattern = { "go" },
+    group = custom_keymaps_grp,
+    callback = function(args)
+      keymap("n", "<leader>dgt",
+        "<cmd>lua require('dap-go').debug_test() <CR>",
+        { buffer = args.buf })
+      keymap("n", "<leader>dgl",
+        "<cmd>lua require('dap-go').debug_last_test()<CR>",
+        { buffer = args.buf })
+    end,
+    desc = "set custom keymaps for go files",
+  })
+end
 
 -- Lsp
 keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>",

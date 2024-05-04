@@ -1,7 +1,9 @@
 local status_ok, icons = pcall(require, "nvim-web-devicons")
 if not status_ok then
+  print('nvim-web-dev-icons not found')
   return
 end
+
 icons.setup {
   enabled = vim.g.icons_enabled,
   override = {

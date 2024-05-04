@@ -1,22 +1,25 @@
-local status_ok, ibl = pcall(require, 'ibl')
+local status_ok, indent_blankline = pcall(require, 'ibl')
 if not status_ok then
-	return
+  print('indentline not found')
+  return
 end
 
-local highlight = {
-	"RainbowRed",
-	"RainbowYellow",
-	"RainbowBlue",
-	"RainbowOrange",
-	"RainbowGreen",
-	"RainbowViolet",
-	"RainbowCyan",
-}
-ibl.setup {
-	indent = {
-		char = '|'
-	},
-	scope = {
-		highlight = highlight
-	}
+indent_blankline.setup {
+  exclude = {
+    filetypes = {
+      'help',
+      'lspinfo',
+      'packer',
+      'checkhealth',
+      'help',
+      'man',
+      'gitcommit',
+      'TelescopePrompt',
+      'TelescopeResults',
+      ''
+    }
+  },
+  scope = {
+    enabled = true
+  }
 }
