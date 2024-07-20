@@ -1,0 +1,18 @@
+#!/opt/homebrew/Caskroom/miniforge/base/bin/python
+
+from PyPDF2 import PdfFileWriter, PdfFileReader
+import sys
+
+output_pdf = PdfFileWriter()
+input_file = sys.argv[1]
+output_file = sys.argv[2]
+
+with open(input_file, 'rb') as readfile:
+    input_pdf = PdfFileReader(readfile)
+
+    for page in reversed(input_pdf.pages):
+        output_pdf.addPage(page)
+
+    with open(output_file, "wb") as writefile:
+        output_pdf.write(writefile)
+

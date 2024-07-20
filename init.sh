@@ -13,6 +13,8 @@ setopt AUTO_CD
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 nvm install 18
+nvm install 20
+nvm alias default 20
 
 # Install Tmux package manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -33,6 +35,7 @@ ln -s "$(pwd)/.functions" "$HOME/.functions"
 ln -s "$(pwd)/.zshrc" "$HOME/.zshrc"
 ln -s "$(pwd)/.zshenv" "$HOME/.zshenv"
 ln -s "$(pwd)/nvim" "$HOME/.config/nvim"
+ln -s "$(pwd)/kitty" "$HOME/.config/kitty"
 ln -s "$(pwd)/tmux" "$HOME/.config/tmux"
 ln -s "$(pwd)/.ssh/config" "$HOME/.ssh/config"
 ln -s "$(pwd)/.p10k.zsh" "$HOME/.p10k.zsh"

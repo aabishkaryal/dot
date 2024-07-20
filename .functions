@@ -99,7 +99,7 @@ function cd() {
 	elif [ "$CONDA_CONFIG_DIR" ]; then
 		if [[ $PWD != *"$CONDA_CONFIG_DIR"* ]]; then
 			export CONDA_CONFIG_DIR=""
-			conda deactivate
+			conda activate base
 		fi
 	fi 
 
@@ -109,7 +109,7 @@ function cd() {
   elif [ "$NVM_CONFIG_DIR" ]; then
     if [[ $PWD != *"$NVM_CONFIG_DIR"* ]]; then
       export NVM_CONFIG_DIR=""
-      nvm deactivate
+      nvm use default
     fi
   fi
 }
