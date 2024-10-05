@@ -27,7 +27,8 @@ export PATH="$JAVA_HOME/bin:$PATH"
 # Android things
 export ANDROID_HOME="$HOME/Library/Android/sdk"
 export PATH="$PATH:$ANDROID_HOME/tools/:$ANDROID_HOME/platform-tools/:$ANDROID_HOME/tools/bin/"
-export CHROME_EXECUTABLE="/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
+export CHROME_EXECUTABLE="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+export CHROME_BIN="$CHROME_EXECUTABLE"
 
 # Opt-out of dotnet telemetry
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -57,10 +58,10 @@ export ZSH_TMUX_FIXTERM=true
 export ZSH_TMUX_AUTONAME_SESSION=true
 
 # Vulkan
-export VULKAN_ROOT_LOCATON="$HOME/VulkanSDK"
-export VK_LOCAL="$HOME/VulkanSDK"
-export VULKAN_SDK_VERSION="1.3.283.0"
-export VULKAN_SDK="$VULKAN_ROOT_LOCATON/$VULKAN_SDK_VERSION/macOS"
+# export VULKAN_ROOT_LOCATON="$HOME/VulkanSDK"
+# export VK_LOCAL="$HOME/VulkanSDK"
+# export VULKAN_SDK_VERSION="1.3.283.0"
+# export VULKAN_SDK="$VULKAN_ROOT_LOCATON/$VULKAN_SDK_VERSION/macOS"
 # export VK_ICD_FILENAMES="$VULKAN_SDK/etc/vulkan/icd.d/MoltenVK_icd.json"
 # export VK_LAYER_PATH="$VULKAN_SDK/etc/vulkan/explicit_layers.d" 
-export PATH="$VULKAN_SDK/bin:$PATH"
+# export PATH="$VULKAN_SDK/bin:$PATH"

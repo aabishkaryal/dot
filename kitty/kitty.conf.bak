@@ -6,9 +6,3 @@ bold_italic_font auto
 disable_ligatures never
 open_url_with default
 
-
-
-# BEGIN_KITTY_THEME
-# Dracula
-include current-theme.conf
-# END_KITTY_THEME
