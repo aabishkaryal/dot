@@ -1,0 +1,10 @@
+# Format selection
+# Selects the best quality video in MP4 format and best quality audio in M4A format
+# If not available, selects the best quality MP4 file, or as a last resort, the best available format
+-f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"
+
+# Output template
+# Saves the downloaded video in the YouTube folder in the user's home directory
+# The filename will be the video title followed by the file extension
+# Note: Using ~ for home directory might not work on all systems, consider using $HOME instead
+-o "$HOME/YouTube/%(title)s.%(ext)s"
