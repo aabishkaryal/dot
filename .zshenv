@@ -30,6 +30,9 @@ export PATH="$PATH:$ANDROID_HOME/tools/:$ANDROID_HOME/platform-tools/:$ANDROID_H
 export CHROME_EXECUTABLE="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 export CHROME_BIN="$CHROME_EXECUTABLE"
 
+# Flutter things
+export PATH=$HOME/.flutter/bin:$PATH
+
 # Opt-out of dotnet telemetry
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 

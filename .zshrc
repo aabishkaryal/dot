@@ -114,7 +114,6 @@ alias perf="sudo asitop"
 alias sed="gsed"
 alias nq="networkquality"
 alias docker-compose='docker compose'
-alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 
 source $HOME/.functions
 
