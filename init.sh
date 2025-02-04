@@ -31,7 +31,7 @@ mkdir -p "$HOME/.config/yt-dlp"
 git clone https://github.com/aabishkaryal/dot.git
 
 # Link config files
-ln -s "$(pwd)/.functions" "$HOME/.functions"
+ln -s "$(pwd)/functions" "$HOME/.functions"
 ln -s "$(pwd)/.zshrc" "$HOME/.zshrc"
 ln -s "$(pwd)/.zshenv" "$HOME/.zshenv"
 ln -s "$(pwd)/nvim" "$HOME/.config/"
@@ -40,6 +40,5 @@ ln -s "$(pwd)/tmux" "$HOME/.config/"
 ln -s "$(pwd)/.ssh/config" "$HOME/.ssh/config"
 ln -s "$(pwd)/.p10k.zsh" "$HOME/.p10k.zsh"
 ln -s "$(pwd)/scripts" "$HOME/.scripts"
-ln -s "$(pwd)/yt-dlp" "$HOME/.config/"
 
 git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"

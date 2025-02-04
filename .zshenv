@@ -40,13 +40,16 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export CARGO_NET_GIT_FETCH_WITH_CLI=true
 
 # work(sosvertigo)
-export PATH="$PATH:$HOME/telmio"
+# export PATH="$PATH:$HOME/telmio"
 
 # personal scripts
 export PATH="$PATH:$HOME/.scripts"
 
+# localstack
+export PATH="$PATH:$HOME/.local/bin"
+
 # rust things (run the script)
-. "$HOME/.cargo/env"
+# . "$HOME/.cargo/env"
 
 # homebrew things
 # Disable Autoupdate with homebrew

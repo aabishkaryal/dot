@@ -50,33 +50,31 @@ packer.init {
 -- Install your plugins here
 return packer.startup(function(use)
 	-- basic dependencies
-	use { 'wbthomason/packer.nvim' }       -- Have packer manage itself
-	use { 'nvim-lua/plenary.nvim' }        -- Useful lua functions used by lots of plugins
+	use { 'wbthomason/packer.nvim' }      -- Have packer manage itself
+	use { 'nvim-lua/plenary.nvim' }       -- Useful lua functions used by lots of plugins
 	use { 'kyazdani42/nvim-web-devicons' } -- icons used by various plugins
 
 	-- Colorschemes
 	use { 'catppuccin/nvim', as = 'catppuccin' }
-	use { 'Mofiqul/dracula.nvim' }
 	use { 'folke/tokyonight.nvim' }
 	use { "rebelot/kanagawa.nvim" }
-	use { "ellisonleao/gruvbox.nvim" }
 
 	-- cmp plugins
-	use { 'hrsh7th/nvim-cmp' }         -- The completion plugin
-	use { 'hrsh7th/cmp-buffer' }       -- buffer completions
-	use { 'hrsh7th/cmp-path' }         -- path completions
+	use { 'hrsh7th/nvim-cmp' }        -- The completion plugin
+	use { 'hrsh7th/cmp-buffer' }      -- buffer completions
+	use { 'hrsh7th/cmp-path' }        -- path completions
 	use { 'saadparwaiz1/cmp_luasnip' } -- snippet completions
-	use { 'hrsh7th/cmp-nvim-lsp' }     -- lsp completion
-	use { 'hrsh7th/cmp-nvim-lua' }     -- lua completion
+	use { 'hrsh7th/cmp-nvim-lsp' }    -- lsp completion
+	use { 'hrsh7th/cmp-nvim-lua' }    -- lua completion
 
 	-- snippets
 	use { 'L3MON4D3/LuaSnip' }
 
 	-- LSP
-	use { 'neovim/nvim-lspconfig' }             -- enable LSP
-	use { 'williamboman/mason.nvim' }           -- easy install LSP, Formatters and so on
+	use { 'neovim/nvim-lspconfig' }            -- enable LSP
+	use { 'williamboman/mason.nvim' }          -- easy install LSP, Formatters and so on
 	use { 'williamboman/mason-lspconfig.nvim' } -- easy configure mason with lsp
-	use { 'jose-elias-alvarez/null-ls.nvim' }   -- for formatters and linters
+	use { 'jose-elias-alvarez/null-ls.nvim' }  -- for formatters and linters
 	use { "fladson/vim-kitty" }
 	-- Telescope
 	use {
@@ -109,7 +107,7 @@ return packer.startup(function(use)
 
 	-- QOL
 	use { 'lukas-reineke/indent-blankline.nvim' } -- place indent guides on blankline
-	use { 'windwp/nvim-autopairs' }               -- Autopairs, integrates with both cmp and treesitter
+	use { 'windwp/nvim-autopairs' }              -- Autopairs, integrates with both cmp and treesitter
 	use {
 		'numToStr/Comment.nvim',
 		config = function()
@@ -117,12 +115,12 @@ return packer.startup(function(use)
 				pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
 			}
 		end
-	}                                   -- suppport auto comments
-	use { 'kyazdani42/nvim-tree.lua' }  -- alternate file explorer
-	use { 'akinsho/bufferline.nvim' }   -- manage tabs
-	use { 'moll/vim-bbye' }             -- better close buffers
+	}                                  -- suppport auto comments
+	use { 'kyazdani42/nvim-tree.lua' } -- alternate file explorer
+	use { 'akinsho/bufferline.nvim' }  -- manage tabs
+	use { 'moll/vim-bbye' }            -- better close buffers
 	use { 'nvim-lualine/lualine.nvim' } -- statusline at bottom of window
-	use { 'RRethy/vim-illuminate' }     -- illuminate same token on file
+	use { 'RRethy/vim-illuminate' }    -- illuminate same token on file
 
 
 	-- DAP

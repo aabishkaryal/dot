@@ -114,6 +114,7 @@ alias perf="sudo asitop"
 alias sed="gsed"
 alias nq="networkquality"
 alias docker-compose='docker compose'
+alias awslocal="aws --profile=localstack"
 
 source $HOME/.functions
 
@@ -150,8 +151,5 @@ source "$(brew --prefix)/opt/chruby/share/chruby/chruby.sh"
 source "$(brew --prefix)/opt/chruby/share/chruby/auto.sh"
 chruby ruby-3.3.0
 
-# Nix
-if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
-fi
-# End Nix
+# Added by Windsurf
+export PATH="/Users/aabishkararyal/.codeium/windsurf/bin:$PATH"

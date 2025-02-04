@@ -29,7 +29,8 @@ vim.opt.laststatus = 3                          -- only the last window will alw
 vim.opt.showcmd = false                         -- hide (partial) command in the last line of the screen (for performance)
 vim.opt.ruler = false                           -- hide the line and column number of the cursor position
 vim.opt.numberwidth = 4                         -- minimal number of columns to use for the line number {default 4}
-vim.opt.signcolumn = 'yes'                      -- always show the sign column, otherwise it would shift the text each time
+vim.opt.signcolumn =
+'yes'                                           -- always show the sign column, otherwise it would shift the text each time
 vim.opt.wrap = false                            -- display lines as one long line
 vim.opt.scrolloff = 8                           -- minimal number of screen lines to keep above and below the cursor
 vim.opt.sidescrolloff = 8                       -- minimal number of screen columns to keep to the left and right of the cursor if wrap is `false`
@@ -38,4 +39,5 @@ vim.opt.linebreak = true
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.opt.foldenable = false
+vim.opt.clipboard = "unnamedplus"
 vim.g.skip_ts_context_commentstring_module = true

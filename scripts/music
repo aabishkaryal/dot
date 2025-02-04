@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Default output directory
+OUTPUT_DIR="$HOME/Music"
+
+# Help message
+usage() {
+    echo "Usage: $(basename $0) [OPTIONS] URL"
+    echo "Download music from YouTube URLs"
+    echo ""
+    echo "Options:"
+    echo "  -o DIR    Output directory (default: $OUTPUT_DIR)"
+    echo "  -h        Show this help message"
+    exit 1
+}
+
+# Process options
+while getopts "o:h" opt; do
+    case $opt in
+        o) OUTPUT_DIR="$OPTARG" ;;
+        h) usage ;;
+        ?) usage ;;
+    esac
+done
+
+# Shift past the options
+shift $((OPTIND-1))
+
+# Check if URL is provided
+if [ $# -eq 0 ]; then
+    echo "Error: Please provide a YouTube URL"
+    usage
+fi
+
+# Create output directory if it doesn't exist
+mkdir -p "$OUTPUT_DIR"
+
+# Download the audio using yt-dlp
+yt-dlp \
+    --extract-audio \
+    --audio-format mp3 \
+    --audio-quality 0 \
+    --embed-thumbnail \
+    --add-metadata \
+    --metadata-from-title "%(artist)s - %(title)s" \
+    --parse-metadata "title:%(artist)s - %(title)s" \
+    --output "$OUTPUT_DIR/%(title)s.%(ext)s" \
+    --no-playlist-reverse \
+    --ignore-errors \
+    --no-warnings \
+    "$@"
