@@ -89,20 +89,9 @@ function rmds() {
   find "${@:-.}" -type f -name .DS_Store -delete
 }
 
-export CONDA_CONFIG_DIR=""
 export NVM_CONFIG_DIR=""
 function cd() {
 	builtin cd "$@" &&
-	if [ -f $PWD/.conda_config ]; then
-		export CONDA_CONFIG_DIR=$PWD
-		conda activate $(cat .conda_config)
-	elif [ "$CONDA_CONFIG_DIR" ]; then
-		if [[ $PWD != *"$CONDA_CONFIG_DIR"* ]]; then
-			export CONDA_CONFIG_DIR=""
-			conda activate base
-		fi
-	fi 
-
   if [ -f $PWD/.nvmrc ]; then
     export NVM_CONFIG_DIR=$PWD
     nvm use

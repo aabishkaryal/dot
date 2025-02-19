@@ -146,15 +146,11 @@ return packer.startup(function(use)
 		},
 		config = function(_, opts)
 			local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
+			local venv = os.getenv("VIRTUAL_ENV")
+			if venv then
+				path = venv .. "/bin/python"
+			end
 			local dap_python = require('dap-python')
-			local conda_path = os.getenv("CONDA_PREFIX")
-			if conda_path then
-				path = conda_path .. "/bin/python"
-			end
-			local venv_path = os.getenv("VIRTUAL_ENV")
-			if venv_path then
-				path = venv_path .. "/bin/python"
-			end
 			dap_python.setup(path)
 		end,
 	} -- debug support for python
