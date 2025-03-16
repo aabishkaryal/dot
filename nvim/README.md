@@ -136,7 +136,7 @@ local servers = {
 }
 ```
 
-7777777777777777777777777 2. Manually install the binary of the lsp and put it in your path by downloading the binary or through your package manager. For terraform_lsp [example](https://github.com/juliosueiras/terraform-lsp/releases)
+2. Manually install the binary of the lsp and put it in your path by downloading the binary or through your package manager. For terraform_lsp [example](https://github.com/juliosueiras/terraform-lsp/releases)
 
 ### Formatters and linters
 
@@ -154,42 +154,63 @@ You can install new plugins here: [plugins](https://github.com/LunarVim/nvim-bas
 
 - [packer](https://github.com/wbthomason/packer.nvim)
 - [plenary](https://github.com/nvim-lua/plenary.nvim)
-- [nvim-autopairs](https://github.com/windwp/nvim-autopairs)
-- [Comment.nvim](https://github.com/numToStr/Comment.nvim)
-- [nvim-ts-context-commentstring](https://github.com/JoosepAlviste/nvim-ts-context-commentstring)
 - [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons)
-- [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
-- [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
-- [vim-bbye](https://github.com/moll/vim-bbye)
-- [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
-- [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim)
-- [project.nvim](https://github.com/ahmedkhalf/project.nvim)
-- [impatient.nvim](https://github.com/lewis6991/impatient.nvim)
-- [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)
-- [alpha-nvim](https://github.com/goolord/alpha-nvim)
-- [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
-- [darkplus.nvim](https://github.com/LunarVim/darkplus.nvim)
+
+### Colorschemes
+- [catppuccin](https://github.com/catppuccin/nvim)
+- [tokyonight](https://github.com/folke/tokyonight.nvim)
+- [kanagawa](https://github.com/rebelot/kanagawa.nvim)
+
+### Completion (cmp)
 - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
 - [cmp-buffer](https://github.com/hrsh7th/cmp-buffer)
 - [cmp-path](https://github.com/hrsh7th/cmp-path)
 - [cmp_luasnip](https://github.com/saadparwaiz1/cmp_luasnip)
 - [cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp)
 - [cmp-nvim-lua](https://github.com/hrsh7th/cmp-nvim-lua)
+
+### Snippets
 - [LuaSnip](https://github.com/L3MON4D3/LuaSnip)
-- [friendly-snippets](https://github.com/rafamadriz/friendly-snippets)
-- [mason.nvim](https://github.com/williamboman/mason.nvim)
+
+### LSP
 - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
+- [mason.nvim](https://github.com/williamboman/mason.nvim)
 - [mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
-- [null-ls.nvim](https://github.com/jose-elias-alvarez/null-ls.nvim)
-- [vim-illuminate](https://github.com/RRethy/vim-illuminate)
+- [nvim-lint](https://github.com/mfussenegger/nvim-lint)
+
+### Telescope
 - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
+- [telescope-fzf-native](https://github.com/nvim-telescope/telescope-fzf-native.nvim)
+- [telescope-file-browser](https://github.com/nvim-telescope/telescope-file-browser.nvim)
+
+### Treesitter
 - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
-- [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
+- [nvim-treesitter-textobjects](https://github.com/nvim-treesitter/nvim-treesitter-textobjects)
+- [nvim-ts-context-commentstring](https://github.com/JoosepAlviste/nvim-ts-context-commentstring)
+
+### Quality of Life (QOL)
+- [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)
+- [nvim-autopairs](https://github.com/windwp/nvim-autopairs)
+- [Comment.nvim](https://github.com/numToStr/Comment.nvim)
+- [nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
+- [bufferline.nvim](https://github.com/akinsho/bufferline.nvim)
+- [vim-bbye](https://github.com/moll/vim-bbye)
+- [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
+- [vim-illuminate](https://github.com/RRethy/vim-illuminate)
+
+### Debug Adapter Protocol (DAP)
 - [nvim-dap](https://github.com/mfussenegger/nvim-dap)
 - [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui)
-- [DAPInstall.nvim](https://github.com/ravenxrz/DAPInstall.nvim)
+- [nvim-dap-go](https://github.com/dreamsofcode-io/nvim-dap-go)
+- [nvim-dap-python](https://github.com/mfussenegger/nvim-dap-python)
 
----
+### Go Utilities
+- [gopher.nvim](https://github.com/olexsmir/gopher.nvim)
+
+### Context Navigation
+- [nvim-navic](https://github.com/SmiteshP/nvim-navic)
+- [barbecue.nvim](https://github.com/utilyre/barbecue.nvim)
+
 
 ## Keymaps:
 
