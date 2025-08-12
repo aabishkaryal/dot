@@ -84,25 +84,26 @@ local function lsp_keymaps(bufnr)
 		"<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 end
 
-local formatting_augroup = vim.api.nvim_create_augroup("LSPFormatting", {})
+-- local formatting_augroup = vim.api.nvim_create_augroup("LSPFormatting", {})
 
 M.on_attach = function(client, bufnr)
-	if client.name == "tsserver" then
-		client.server_capabilities.documentFormattingProvider = false
-		client.server_capabilities.documentRangeFormattingProvider = false
-	elseif client.supports_method("textDocument/formatting") then
-		vim.api.nvim_clear_autocmds({
-			group = formatting_augroup,
-			buffer = bufnr,
-		})
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			group = formatting_augroup,
-			buffer = bufnr,
-			callback = function()
-				vim.lsp.buf.format({ bufnr = bufnr })
-			end,
-		})
-	end
+	-- if client.name == "tsserver" then
+	-- 	client.server_capabilities.documentFormattingProvider = false
+	-- 	client.server_capabilities.documentRangeFormattingProvider = false
+	-- elseif client.supports_method("textDocument/formatting") then
+	-- 	print("formatting supported by ", client.name)
+	-- 	vim.api.nvim_clear_autocmds({
+	-- 		group = formatting_augroup,
+	-- 		buffer = bufnr,
+	-- 	})
+	-- 	vim.api.nvim_create_autocmd("BufWritePre", {
+	-- 		group = formatting_augroup,
+	-- 		buffer = bufnr,
+	-- 		callback = function()
+	-- 			vim.lsp.buf.format({ bufnr = bufnr })
+	-- 		end,
+	-- 	})
+	-- end
 	if client.server_capabilities["documentSymbolProvider"] then
 		navic.attach(client, bufnr)
 	end

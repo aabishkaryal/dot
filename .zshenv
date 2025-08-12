@@ -63,6 +63,9 @@ export ZSH_TMUX_ITERM2=true
 export ZSH_TMUX_FIXTERM=true
 export ZSH_TMUX_AUTONAME_SESSION=true
 
+# flutter pub binaries
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+
 # Vulkan
 # export VULKAN_ROOT_LOCATON="$HOME/VulkanSDK"
 # export VK_LOCAL="$HOME/VulkanSDK"

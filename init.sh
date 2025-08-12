@@ -40,5 +40,6 @@ ln -s "$(pwd)/tmux" "$HOME/.config/"
 ln -s "$(pwd)/.ssh/config" "$HOME/.ssh/config"
 ln -s "$(pwd)/.p10k.zsh" "$HOME/.p10k.zsh"
 ln -s "$(pwd)/scripts" "$HOME/.scripts"
+ln -s "$(pwd)/.claude" "$HOME/.claude"
 
 git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"

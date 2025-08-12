@@ -1,3 +1,7 @@
 return {
-	settings = {}
+	init_options = {
+		settings = {
+			configurationPreference = "filesystemFirst"
+		}
+	}
 }

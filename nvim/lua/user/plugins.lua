@@ -145,7 +145,7 @@ return packer.startup(function(use)
 		requires = {
 			{ 'mfussenegger/nvim-dap' }
 		},
-		config = function(_, opts)
+		config = function(_, _)
 			local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
 			local venv = os.getenv("VIRTUAL_ENV")
 			if venv then
