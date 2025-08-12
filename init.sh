@@ -42,4 +42,10 @@ ln -s "$(pwd)/.p10k.zsh" "$HOME/.p10k.zsh"
 ln -s "$(pwd)/scripts" "$HOME/.scripts"
 ln -s "$(pwd)/.claude" "$HOME/.claude"
 
+# Setup local environment file
+if [ ! -f ~/.zshenv.local ]; then
+    cp ~/.zshenv.local.template ~/.zshenv.local
+    echo "⚠️  Update local env variables in ~/.zshenv.local"
+fi
+
 git config --global url."ssh://git@github.com/".insteadOf "https://github.com/"

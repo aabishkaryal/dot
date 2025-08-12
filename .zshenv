@@ -74,3 +74,6 @@ export PATH="$PATH":"$HOME/.pub-cache/bin"
 # export VK_ICD_FILENAMES="$VULKAN_SDK/etc/vulkan/icd.d/MoltenVK_icd.json"
 # export VK_LAYER_PATH="$VULKAN_SDK/etc/vulkan/explicit_layers.d" 
 # export PATH="$VULKAN_SDK/bin:$PATH"
+
+# Load local environment variables (not tracked in git)
+[ -f ~/.zshenv.local ] && source ~/.zshenv.local

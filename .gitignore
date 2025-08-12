@@ -5,3 +5,8 @@
 nvim.*
 
 **/packer_compiled.lua
+
+# Local environment files (not tracked to keep secrets secure)
+.zshenv.local
+.env
+.env.*

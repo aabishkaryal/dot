@@ -1,0 +1,2 @@
+# GitHub Personal Access Token for MCP 
+export GITHUB_PERSONAL_ACCESS_TOKEN="token_here"
