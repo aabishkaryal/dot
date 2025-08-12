@@ -5,6 +5,8 @@ git config --global push.autoSetupRemote true
 git config --global user.email "45176384+aabishkaryal@users.noreply.github.com"
 git config --global user.name "Aabishkar Aryal"
 
+git clone https://github.com/aabishkaryal/dot.git
+
 setopt AUTO_CD
 
 # Install Homebrew
@@ -12,9 +14,9 @@ setopt AUTO_CD
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-nvm install 18
 nvm install 20
-nvm alias default 20
+nvm install 22
+nvm alias default 22
 
 # Install Tmux package manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -27,8 +29,6 @@ mkdir "$HOME/.go/"
 mkdir -p "$HOME/.config/nvim"
 mkdir -p "$HOME/.config/tmux"
 mkdir -p "$HOME/repos/aabishkaryal"
-mkdir -p "$HOME/.config/yt-dlp"
-git clone https://github.com/aabishkaryal/dot.git
 
 # Link config files
 ln -s "$(pwd)/functions" "$HOME/.functions"
