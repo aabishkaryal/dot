@@ -49,6 +49,32 @@ After running the setup script, configure your local environment variables:
 
 **Note**: The `.zshenv.local` file is not tracked in git, so your secrets remain secure.
 
+## Development Tools Installation (Optional)
+
+The setup script will automatically prompt you to install development tools if a `Brewfile` is present:
+
+```bash
+# During setup, you'll see:
+📦 Install development tools and applications?
+This will install packages from Brewfile (brew, casks, mas, vscode extensions)
+Install now? (y/N):
+```
+
+### Manual Installation
+
+You can also install later manually:
+
+```bash
+cd ~/repos/dot
+brew bundle install
+```
+
+**Features:**
+- ✅ Uses standard Homebrew Brewfile format
+- ✅ Installs formulas, casks, mas apps, and VSCode extensions
+- ✅ Error handling and skips existing packages
+- ✅ Safe to re-run anytime
+
 ## Security
 
 This dotfiles repository uses a secure token management system:

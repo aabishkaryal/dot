@@ -39,17 +39,11 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 # Use git cli for cargo
 export CARGO_NET_GIT_FETCH_WITH_CLI=true
 
-# work(sosvertigo)
-# export PATH="$PATH:$HOME/telmio"
-
 # personal scripts
 export PATH="$PATH:$HOME/.scripts"
 
 # localstack
 export PATH="$PATH:$HOME/.local/bin"
-
-# rust things (run the script)
-# . "$HOME/.cargo/env"
 
 # homebrew things
 # Disable Autoupdate with homebrew
@@ -66,14 +60,7 @@ export ZSH_TMUX_AUTONAME_SESSION=true
 # flutter pub binaries
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
-# Vulkan
-# export VULKAN_ROOT_LOCATON="$HOME/VulkanSDK"
-# export VK_LOCAL="$HOME/VulkanSDK"
-# export VULKAN_SDK_VERSION="1.3.283.0"
-# export VULKAN_SDK="$VULKAN_ROOT_LOCATON/$VULKAN_SDK_VERSION/macOS"
-# export VK_ICD_FILENAMES="$VULKAN_SDK/etc/vulkan/icd.d/MoltenVK_icd.json"
-# export VK_LAYER_PATH="$VULKAN_SDK/etc/vulkan/explicit_layers.d" 
-# export PATH="$VULKAN_SDK/bin:$PATH"
+
 
 # Load local environment variables (not tracked in git)
 [ -f ~/.zshenv.local ] && source ~/.zshenv.local
