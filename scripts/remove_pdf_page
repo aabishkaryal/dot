@@ -1,0 +1,310 @@
+#!/bin/sh
+
+# POSIX-compliant script to remove specific pages from a PDF file
+# Usage: ./remove_pdf_page.sh [options] <input_file> <page_numbers...>
+
+# Function to display usage
+show_usage() {
+    echo "Usage: $0 [options] <input_file> <page_numbers...>"
+    echo "Options:"
+    echo "  -o <output_file>    Specify output filename"
+    echo ""
+    echo "Examples:"
+    echo "  $0 document.pdf 3              # Remove page 3, output: document-removed.pdf"
+    echo "  $0 document.pdf 3 5 7          # Remove pages 3, 5, and 7"
+    echo "  $0 -o clean.pdf document.pdf 3 # Remove page 3, output: clean.pdf"
+    echo ""
+    echo "This script removes the specified page numbers from the PDF file"
+    echo "Page numbers can be individual pages (3 5 7) or ranges (3-7) or mixed (3 5-8 10)"
+}
+
+# Function to check if command exists
+command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+# Function to get total page count (optional, for validation)
+get_page_count() {
+    input_file="$1"
+    # Try different methods to get page count
+    if command_exists pdfinfo; then
+        pdfinfo "$input_file" 2>/dev/null | grep "Pages:" | awk '{print $2}'
+    else
+        # Fallback: assume file is valid, let gs handle errors
+        echo "unknown"
+    fi
+}
+
+# Function to expand page ranges (e.g., "3-7" becomes "3 4 5 6 7")
+expand_ranges() {
+    input="$1"
+    result=""
+    
+    for item in $input; do
+        if echo "$item" | grep -q '-'; then
+            # It's a range
+            start=$(echo "$item" | cut -d'-' -f1)
+            end=$(echo "$item" | cut -d'-' -f2)
+            
+            # Validate range
+            case "$start" in ''|*[!0-9]*) echo "Error: Invalid range start '$start'"; return 1;; esac
+            case "$end" in ''|*[!0-9]*) echo "Error: Invalid range end '$end'"; return 1;; esac
+            
+            if [ "$start" -gt "$end" ]; then
+                echo "Error: Invalid range $start-$end (start > end)"
+                return 1
+            fi
+            
+            # Expand range
+            i=$start
+            while [ $i -le $end ]; do
+                result="$result $i"
+                i=$((i + 1))
+            done
+        else
+            # It's a single page
+            case "$item" in ''|*[!0-9]*) echo "Error: Invalid page number '$item'"; return 1;; esac
+            if [ "$item" -lt 1 ]; then
+                echo "Error: Page number must be greater than 0"
+                return 1
+            fi
+            result="$result $item"
+        fi
+    done
+    
+    echo "$result"
+}
+
+# Function to remove duplicates and sort page numbers
+sort_unique_pages() {
+    echo "$1" | tr ' ' '\n' | sort -n | uniq | tr '\n' ' '
+}
+
+# Function to create page ranges for gs command
+create_page_ranges() {
+    pages_to_skip="$1"
+    total_pages="$2"
+    
+    # Convert space-separated list to sorted unique list
+    sorted_pages=$(echo "$pages_to_skip" | tr ' ' '\n' | sort -n | uniq)
+    
+    ranges=""
+    current_start=1
+    
+    for page in $sorted_pages; do
+        if [ $page -gt $current_start ]; then
+            # Add range before this page
+            if [ $current_start -eq $((page - 1)) ]; then
+                ranges="$ranges$current_start "
+            else
+                ranges="$ranges$current_start-$((page - 1)) "
+            fi
+        fi
+        current_start=$((page + 1))
+    done
+    
+    # Add final range if needed
+    if [ "$total_pages" != "unknown" ] && [ $current_start -le $total_pages ]; then
+        if [ $current_start -eq $total_pages ]; then
+            ranges="$ranges$current_start"
+        else
+            ranges="$ranges$current_start-$total_pages"
+        fi
+    elif [ "$total_pages" = "unknown" ]; then
+        ranges="$ranges$current_start-"
+    fi
+    
+    echo "$ranges" | sed 's/ $//'
+}
+
+# Parse command line arguments
+output_file=""
+input_file=""
+pages_to_remove=""
+
+# Parse options
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -o)
+            if [ -n "$2" ] && [ "${2#-}" = "$2" ]; then
+                output_file="$2"
+                shift 2
+            else
+                echo "Error: -o requires a filename argument"
+                show_usage
+                exit 1
+            fi
+            ;;
+        -h|--help)
+            show_usage
+            exit 0
+            ;;
+        -*)
+            echo "Error: Unknown option $1"
+            show_usage
+            exit 1
+            ;;
+        *)
+            if [ -z "$input_file" ]; then
+                input_file="$1"
+            else
+                # Remaining arguments are page numbers
+                pages_to_remove="$pages_to_remove $1"
+            fi
+            shift
+            ;;
+    esac
+done
+
+# Check if we have minimum required arguments
+if [ -z "$input_file" ] || [ -z "$pages_to_remove" ]; then
+    echo "Error: Missing required arguments"
+    show_usage
+    exit 1
+fi
+
+# Validate input file
+if [ ! -f "$input_file" ]; then
+    echo "Error: Input file '$input_file' does not exist"
+    exit 1
+fi
+
+# Expand and validate page numbers
+expanded_pages=$(expand_ranges "$pages_to_remove") || exit 1
+final_pages=$(sort_unique_pages "$expanded_pages")
+
+echo "Pages to remove: $final_pages"
+
+# Check if Ghostscript is available
+if ! command_exists gs; then
+    echo "Error: Ghostscript (gs) is required but not installed"
+    echo "Please install Ghostscript to use this script"
+    exit 1
+fi
+
+# Generate output filename if not specified
+if [ -z "$output_file" ]; then
+    base_name=$(basename "$input_file" .pdf)
+    dir_name=$(dirname "$input_file")
+    output_file="${dir_name}/${base_name}-removed.pdf"
+fi
+
+# Create temporary directory
+temp_dir=$(mktemp -d) || {
+    echo "Error: Failed to create temporary directory"
+    exit 1
+}
+
+# Cleanup function
+cleanup() {
+    rm -rf "$temp_dir"
+}
+
+# Set trap to cleanup on exit
+trap cleanup EXIT INT TERM
+
+echo "Removing pages ($final_pages) from '$input_file'..."
+
+# Get total page count for better range generation
+total_pages=$(get_page_count "$input_file")
+echo "Total pages in document: $total_pages"
+
+# Create page ranges to keep (inverse of pages to remove)
+ranges_to_keep=$(create_page_ranges "$final_pages" "$total_pages")
+
+if [ -z "$ranges_to_keep" ]; then
+    echo "Error: No pages would remain after removing specified pages"
+    exit 1
+fi
+
+echo "Keeping page ranges: $ranges_to_keep"
+
+# Use a more efficient approach: extract all pages we want to keep in one operation
+echo "Extracting pages to keep..."
+
+# Build gs command with page ranges
+gs_pages=""
+for range in $ranges_to_keep; do
+    if echo "$range" | grep -q '-'; then
+        # It's a range like "1-5" or "10-"
+        start=$(echo "$range" | cut -d'-' -f1)
+        end=$(echo "$range" | cut -d'-' -f2)
+        if [ -z "$end" ]; then
+            # Range like "10-" (from page 10 to end)
+            gs_pages="$gs_pages -dFirstPage=$start"
+        else
+            # Range like "1-5"
+            gs_pages="$gs_pages -dFirstPage=$start -dLastPage=$end"
+        fi
+    else
+        # Single page
+        gs_pages="$gs_pages -dFirstPage=$range -dLastPage=$range"
+    fi
+    break  # For now, handle the first range; we'll need multiple operations for complex ranges
+done
+
+# For simplicity, let's use a different approach: create one temp file per range, then combine
+temp_files=""
+range_num=0
+
+for range in $ranges_to_keep; do
+    range_num=$((range_num + 1))
+    temp_file="${temp_dir}/range_${range_num}.pdf"
+    
+    if echo "$range" | grep -q '-'; then
+        start=$(echo "$range" | cut -d'-' -f1)
+        end=$(echo "$range" | cut -d'-' -f2)
+        if [ -z "$end" ]; then
+            # Range like "10-" (from page 10 to end)
+            echo "Extracting pages ${start} to end..."
+            gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
+               -dFirstPage=$start \
+               -sOutputFile="$temp_file" \
+               "$input_file" >/dev/null 2>&1
+        else
+            # Range like "1-5"
+            echo "Extracting pages ${start}-${end}..."
+            gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
+               -dFirstPage=$start -dLastPage=$end \
+               -sOutputFile="$temp_file" \
+               "$input_file" >/dev/null 2>&1
+        fi
+    else
+        # Single page
+        echo "Extracting page ${range}..."
+        gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
+           -dFirstPage=$range -dLastPage=$range \
+           -sOutputFile="$temp_file" \
+           "$input_file" >/dev/null 2>&1
+    fi
+    
+    # Add to list if extraction was successful
+    if [ -f "$temp_file" ] && [ -s "$temp_file" ]; then
+        temp_files="$temp_files $temp_file"
+    fi
+done
+
+# Check if we have any pages to combine
+if [ -z "$temp_files" ]; then
+    echo "Error: No pages could be extracted"
+    exit 1
+fi
+
+# Combine all temporary files
+echo "Combining extracted pages..."
+if gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
+     -sOutputFile="$output_file" \
+     $temp_files >/dev/null 2>&1; then
+    
+    if [ -f "$output_file" ] && [ -s "$output_file" ]; then
+        echo "Success: Created '$output_file'"
+        echo "Original file: $input_file (unchanged)"
+        echo "Pages removed: $final_pages"
+    else
+        echo "Error: Output file was not created properly"
+        exit 1
+    fi
+else
+    echo "Error: Failed to combine PDF pages"
+    exit 1
+fi

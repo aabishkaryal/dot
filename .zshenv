@@ -60,6 +60,7 @@ export ZSH_TMUX_AUTONAME_SESSION=true
 # flutter pub binaries
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
+export COLORTERM=truecolor
 
 
 # Load local environment variables (not tracked in git)

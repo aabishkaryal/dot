@@ -102,3 +102,13 @@ function cd() {
     fi
   fi
 }
+
+# Create and cd into directory
+function mkcd() {
+  mkdir -p "$1" && cd "$1"
+}
+
+# Quick server for current directory
+function serve() {
+  python3 -m http.server ${1:-8000}
+}
