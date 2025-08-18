@@ -37,7 +37,6 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 
 -- configure vim-illuminate highlight group
 vim.api.nvim_create_autocmd({ "VimEnter" }, {
-  -- TODO: check LspReferenceText after lsp configurations
   command = "hi link illuminatedWord LspReferenceText",
   group = custom_autocmd_grp,
 })

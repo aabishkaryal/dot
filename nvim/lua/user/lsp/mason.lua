@@ -50,6 +50,17 @@ if not status_ok_mason_lspconfig then
   return
 end
 
+mason_lspconfig.setup({
+  ensure_installed = {
+    "bashls",
+    "dockerls", 
+    "docker_compose_language_service",
+    "gopls",
+    "lua_ls",
+  },
+  automatic_installation = true,
+})
+
 local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
 if not lspconfig_status_ok then
   print "lspconfig not found"
@@ -57,16 +68,25 @@ if not lspconfig_status_ok then
 end
 
 local lsp_handlers = require "user.lsp.handlers"
-mason_lspconfig.setup_handlers {
-  function(server)
-    local opts = {
-      on_attach = lsp_handlers.on_attach,
-      capabilities = lsp_handlers.capabilities,
-    }
-    local require_ok, conf_opts = pcall(require, "user.lsp.settings." .. server)
-    if require_ok then
-      opts = vim.tbl_deep_extend("force", conf_opts, opts)
-    end
-    lspconfig[server].setup(opts)
-  end,
+
+local servers = {
+  "bashls",
+  "dockerls",
+  "docker_compose_language_service", 
+  "gopls",
+  "lua_ls",
 }
+
+for _, server_name in pairs(servers) do
+  local opts = {
+    on_attach = lsp_handlers.on_attach,
+    capabilities = lsp_handlers.capabilities,
+  }
+  
+  local require_ok, server_opts = pcall(require, "user.lsp.settings." .. server_name)
+  if require_ok then
+    opts = vim.tbl_deep_extend("force", server_opts, opts)
+  end
+  
+  lspconfig[server_name].setup(opts)
+end

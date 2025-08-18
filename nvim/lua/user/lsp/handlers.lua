@@ -2,15 +2,9 @@ local M = {}
 
 local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if not status_cmp_ok then
-	print('cmp_nvim_lsp not found')
 	return
 end
 
-local status_navic_ok, navic = pcall(require, "nvim-navic")
-if not status_navic_ok then
-	print('nvim-navic not found')
-	return
-end
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -84,30 +78,9 @@ local function lsp_keymaps(bufnr)
 		"<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 end
 
--- local formatting_augroup = vim.api.nvim_create_augroup("LSPFormatting", {})
 
 M.on_attach = function(client, bufnr)
-	-- if client.name == "tsserver" then
-	-- 	client.server_capabilities.documentFormattingProvider = false
-	-- 	client.server_capabilities.documentRangeFormattingProvider = false
-	-- elseif client.supports_method("textDocument/formatting") then
-	-- 	print("formatting supported by ", client.name)
-	-- 	vim.api.nvim_clear_autocmds({
-	-- 		group = formatting_augroup,
-	-- 		buffer = bufnr,
-	-- 	})
-	-- 	vim.api.nvim_create_autocmd("BufWritePre", {
-	-- 		group = formatting_augroup,
-	-- 		buffer = bufnr,
-	-- 		callback = function()
-	-- 			vim.lsp.buf.format({ bufnr = bufnr })
-	-- 		end,
-	-- 	})
-	-- end
-	if client.server_capabilities["documentSymbolProvider"] then
-		navic.attach(client, bufnr)
-	end
-	lsp_keymaps(bufnr)
+		lsp_keymaps(bufnr)
 	local status_ok, illuminate = pcall(require, "illuminate")
 	if not status_ok then
 		return

@@ -10,3 +10,5 @@ nvim.*
 .zshenv.local
 .env
 .env.*
+
+nvim.backup/

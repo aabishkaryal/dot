@@ -5,9 +5,8 @@ local opts = { silent = true }
 
 local custom_keymaps_grp = vim.api.nvim_create_augroup("custom_keymaps", { clear = true })
 
--- Remap space as leader key
+-- Remap space as leader key (leader is set in init.lua)
 keymap("", "<Space>", "<Nop>", opts)
-vim.g.mapleader = " "
 
 -- Modes
 --   normal_mode = "n",
@@ -18,9 +17,9 @@ vim.g.mapleader = " "
 --   command_mode = "c",
 
 -- Normal --
--- Better screen navigatio
-keymap("n", "<leader>md", "<C-d>zz", opts)
-keymap("n", "<leader>mu", "<C-u>zz", opts)
+-- Better screen navigation
+keymap("n", "<C-d>", "<C-d>zz", opts)
+keymap("n", "<C-u>", "<C-u>zz", opts)
 
 -- Better window navigation
 keymap("n", "<C-h>", "<C-w>h", opts)
@@ -39,7 +38,7 @@ keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
 
 -- Clear highlights
-keymap("n", "<leader>h", "<cmd>nohlsearch<CR>", opts)
+keymap("n", "<leader>ch", "<cmd>nohlsearch<CR>", opts)
 
 -- Close buffers
 keymap("n", "<S-q>", "<cmd>Bdelete!<CR>", opts)
@@ -67,30 +66,18 @@ if status_ok_illuminate then
   })
 end
 
--- NvimTree
-local status_ok_nvim_tree, _ = pcall(require, "nvim-tree")
-if status_ok_nvim_tree then
-  keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
-  keymap("n", "<leader>o", ":NvimTreeFocus<CR>", opts)
-end
 
 -- Telescope
 local status_ok, _ = pcall(require, "telescope")
 if status_ok then
-  keymap("n", "<leader>fd", ":Telescope diagnostics initial_mode=normal<CR>", opts)
-  keymap("n", "<leader>fk", ":Telescope keymaps initial_mode=normal<CR>", opts)
+  keymap("n", "<leader>sd", ":Telescope diagnostics initial_mode=normal<CR>", opts)
+  keymap("n", "<leader>sk", ":Telescope keymaps initial_mode=normal<CR>", opts)
 
   keymap("n", "<leader>ff", ":Telescope find_files hidden=true<CR>", opts)
-  keymap("n", "<leader>ft", ":Telescope live_grep<CR>", opts)
+  keymap("n", "<leader>fg", ":Telescope live_grep<CR>", opts)
   keymap("n", "<leader>fb", ":Telescope buffers initial_mode=normal<CR>", opts)
 end
 
--- Comment
-local status_ok_comment, _ = pcall(require, "Comment")
-if status_ok_comment then
-  keymap("n", "<leader>/", "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>", opts)
-  keymap("x", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", opts)
-end
 
 -- DAP
 local status_ok_dap, _ = pcall(require, "dap")
@@ -121,14 +108,17 @@ end
 -- Lsp
 -- keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>",
 -- opts)
+-- LSP Formatting
 local status_ok_conform, conform = pcall(require, "conform")
 if status_ok_conform then
   keymap({ "n", "v" }, "<leader>lf", function()
-    print "formatting"
     conform.format {
       lsp_fallback = true,
       async = false,
       timeout_ms = 500,
     }
-  end)
+  end, { desc = "Format code" })
 end
+
+-- Quick access to keybindings reference  
+keymap("n", "<leader>k", ":e ~/repos/dot/nvim/KEYBINDINGS.md<CR>", { desc = "Open keybindings reference" })
