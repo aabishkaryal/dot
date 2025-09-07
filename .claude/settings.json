@@ -11,6 +11,6 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "input=$(cat); printf \"\\033[2m%s@%s:\\033[22m%s \\033[2m[%s]\\033[22m\" \"$(whoami)\" \"$(hostname -s)\" \"$(echo \"$input\" | jq -r '.workspace.current_dir' | sed \"s|$HOME|~|\")\", \"$(echo \"$input\" | jq -r '.model.display_name')\""
+    "command": "input=$(cat); session_start=$(stat -f %B ~/.claude 2>/dev/null || date +%s); current_time=$(date +%s); duration=$((current_time - session_start)); hours=$((duration / 3600)); minutes=$(((duration % 3600) / 60)); if [ $hours -gt 0 ]; then time_str=\"${hours}h ${minutes}m\"; else time_str=\"${minutes}m\"; fi; printf \"\\033[2m[%s]\\033[22m %s \\033[2m[%s]\\033[22m\" \"$time_str\" \"$(echo \"$input\" | jq -r '.workspace.current_dir' | sed \"s|$HOME|~|\")\" \"$(echo \"$input\" | jq -r '.model.display_name')\""
   }
 }
