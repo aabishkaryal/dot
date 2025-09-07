@@ -10,6 +10,7 @@ brew "gnu-tar"                                   # GNU version of tar
 brew "go"                                        # Go programming language
 brew "kubernetes-cli"                            # Kubernetes CLI (kubectl)
 brew "lazygit"                                   # Git UI for terminal
+brew "lazydocker"                                # Docker UI for terminal
 brew "make"                                      # Build automation tool
 brew "mas"                                       # Mac App Store CLI
 brew "minikube"                                  # Local Kubernetes cluster
