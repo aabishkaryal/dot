@@ -62,7 +62,6 @@ export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 export COLORTERM=truecolor
 
-
 # Load local environment variables (not tracked in git)
 [ -f ~/.zshenv.local ] && source ~/.zshenv.local
 . "$HOME/.cargo/env"

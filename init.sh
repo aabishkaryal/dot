@@ -99,9 +99,11 @@ create_symlink() {
 }
 
 # Create symlinks for config files
+create_symlink "$DOTFILES_DIR/.zprofile" "$HOME/.zprofile"
 create_symlink "$DOTFILES_DIR/functions" "$HOME/.functions"
 create_symlink "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 create_symlink "$DOTFILES_DIR/.zshenv" "$HOME/.zshenv"
+create_symlink "$DOTFILES_DIR/.zshenv.local" "$HOME/.zshenv.local"
 create_symlink "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
 create_symlink "$DOTFILES_DIR/kitty" "$HOME/.config/kitty"
 create_symlink "$DOTFILES_DIR/tmux" "$HOME/.config/tmux"

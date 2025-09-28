@@ -120,7 +120,6 @@ alias sed="gsed"
 alias nq="networkquality"
 alias docker-compose='docker compose'
 alias awslocal="aws --profile=localstack"
-alias ws="windsurf"
 
 source $HOME/.functions
 
@@ -145,6 +144,3 @@ source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
 source "$(brew --prefix)/opt/chruby/share/chruby/chruby.sh"
 source "$(brew --prefix)/opt/chruby/share/chruby/auto.sh"
 chruby ruby-3.3.0
-
-# Added by Windsurf
-export PATH="/Users/aabishkararyal/.codeium/windsurf/bin:$PATH"
