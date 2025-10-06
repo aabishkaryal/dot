@@ -144,3 +144,7 @@ source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
 source "$(brew --prefix)/opt/chruby/share/chruby/chruby.sh"
 source "$(brew --prefix)/opt/chruby/share/chruby/auto.sh"
 chruby ruby-3.3.0
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

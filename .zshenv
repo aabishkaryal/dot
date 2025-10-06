@@ -20,10 +20,6 @@ export PATH="$GEM_HOME/bin:$PATH"
 export GOPATH="$HOME/.go"
 export PATH="$PATH:$GOPATH/bin"
 
-# java things
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/openjdk-17.jdk/Contents/Home"
-export PATH="$JAVA_HOME/bin:$PATH"
-
 # Android things
 export ANDROID_HOME="$HOME/Library/Android/sdk"
 export PATH="$PATH:$ANDROID_HOME/tools/:$ANDROID_HOME/platform-tools/:$ANDROID_HOME/tools/bin/"

@@ -15,9 +15,6 @@ brew "make"                                      # Build automation tool
 brew "mas"                                       # Mac App Store CLI
 brew "minikube"                                  # Local Kubernetes cluster
 brew "neovim"                                    # Text editor
-brew "openjdk@11"                                # Java 11
-brew "openjdk@17"                                # Java 17
-brew "openjdk@21"                                # Java 21
 brew "pipx"                                      # Python app installer
 brew "ripgrep"                                   # Fast grep replacement
 brew "ruby-install"                              # Ruby version installer
@@ -50,7 +47,6 @@ cask "tg-pro"                                    # Temperature/fan monitor
 cask "tor-browser"                               # Privacy browser
 cask "whatsapp"                                  # Messaging app
 cask "wireshark-app"                             # Network analyzer
-cask "zulu@8"                                    # Java 8 JDK
 mas "Telegram Lite", id: 946399090             # Messaging app
 mas "Xcode", id: 497799835                      # iOS/macOS development
 vscode "anthropic.claude-code"                  # Claude AI assistant

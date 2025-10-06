@@ -56,6 +56,29 @@ else
     echo "❌ NVM installation failed"; exit 1
 fi
 
+# Install SDKMAN and Java
+echo "☕ Installing SDKMAN and Java..."
+export SDKMAN_DIR="$HOME/.sdkman"
+if [ ! -d "$SDKMAN_DIR" ]; then
+    curl -s "https://get.sdkman.io" | bash || { echo "❌ Failed to install SDKMAN"; exit 1; }
+    echo "✅ SDKMAN installed successfully"
+else
+    echo "✅ SDKMAN already installed"
+fi
+
+# Source SDKMAN
+[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ] && \. "$SDKMAN_DIR/bin/sdkman-init.sh"
+
+# Install Zulu 25 Java if SDKMAN is available
+if command -v sdk >/dev/null 2>&1; then
+    echo "📦 Installing Zulu 25 Java..."
+    sdk install java 25-zulu || { echo "❌ Failed to install Zulu 25 Java"; exit 1; }
+    sdk default java 25-zulu || { echo "❌ Failed to set Zulu 25 as default"; exit 1; }
+    echo "✅ Zulu 25 Java installed and set as default"
+else
+    echo "❌ SDKMAN installation failed, skipping Java installation"
+fi
+
 # Install Tmux package manager
 echo "🖥️  Installing Tmux Plugin Manager..."
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then

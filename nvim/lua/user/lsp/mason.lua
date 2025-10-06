@@ -34,7 +34,7 @@ mason_lspconfig.setup({
 		"gopls",
 		"lua_ls",
 	},
-	automatic_installation = true,
+	automatic_installation = false,  -- Disable automatic setup
 })
 
 local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
@@ -57,7 +57,7 @@ for _, server_name in pairs(servers) do
 	local opts = {
 		on_attach = lsp_handlers.on_attach,
 		capabilities = lsp_handlers.capabilities,
-		single_file_support = true,  -- Enable single file support
+		single_file_support = true,
 	}
 
 	local require_ok, server_opts = pcall(require, "user.lsp.settings." .. server_name)
@@ -65,8 +65,5 @@ for _, server_name in pairs(servers) do
 		opts = vim.tbl_deep_extend("force", server_opts, opts)
 	end
 
-	-- Prevent duplicate servers by checking if already configured
-	if not lspconfig[server_name].manager then
-		lspconfig[server_name].setup(opts)
-	end
+	lspconfig[server_name].setup(opts)
 end
