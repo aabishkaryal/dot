@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+  echo "Usage: audio <video-file>"
+  exit 1
+fi
+
+input="$1"
+output="${input%.*}.mp3"
+
+ffmpeg -i "$input" -vn -acodec libmp3lame -q:a 2 "$output" -y
