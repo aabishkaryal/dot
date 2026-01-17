@@ -26,9 +26,6 @@ export PATH="$PATH:$ANDROID_HOME/tools/:$ANDROID_HOME/platform-tools/:$ANDROID_H
 export CHROME_EXECUTABLE="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 export CHROME_BIN="$CHROME_EXECUTABLE"
 
-# Flutter things
-export PATH=$HOME/.flutter/bin:$PATH
-
 # Opt-out of dotnet telemetry
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
@@ -52,9 +49,6 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig"
 export ZSH_TMUX_ITERM2=true
 export ZSH_TMUX_FIXTERM=true
 export ZSH_TMUX_AUTONAME_SESSION=true
-
-# flutter pub binaries
-export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 export COLORTERM=truecolor
 

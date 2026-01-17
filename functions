@@ -108,7 +108,21 @@ function mkcd() {
   mkdir -p "$1" && cd "$1"
 }
 
-# Quick server for current directory
-function serve() {
-  python3 -m http.server ${1:-8000}
+# Function to create symlink with error handling
+create_symlink() {
+    local source="$1"
+    local target="$2"
+    
+    if [ -e "$target" ] || [ -L "$target" ]; then
+        echo "⚠️  $target already exists, skipping..."
+        return 0
+    fi
+    
+    if [ ! -e "$source" ]; then
+        echo "⚠️  Source $source doesn't exist, skipping..."
+        return 0
+    fi
+    
+    ln -s "$source" "$target" || { echo "❌ Failed to link $source to $target"; return 1; }
+    echo "✅ Linked $target"
 }

@@ -16,3 +16,4 @@
 
 ## **Constraints**
  - Never mention Claude Code on any documentation or git commit messages or any comments unless explicitly asked
+- You shouldn't modify package.json dependencies and dev dependencies directly. Always use npm as package manager to work with any form of dependencies.
