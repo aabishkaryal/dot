@@ -119,7 +119,8 @@ alias perf="sudo asitop"
 alias sed="gsed"
 alias nq="networkquality"
 alias docker-compose='docker compose'
-alias awslocal="aws --profile=localstack"
+# alias awslocal="aws --profile=localstack"
+
 
 source $HOME/.functions
 

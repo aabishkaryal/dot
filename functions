@@ -18,6 +18,16 @@ function hide() {
     mv $1 "$HOME/Library/Mobile Documents/com~apple~CloudDocs/Photos/.secret/"
 }
 
+function idea() {
+    if [[ "$PLATFORM" == "mac" ]]; then
+        open -na "IntelliJ IDEA.app" --args "$@"
+    else
+        echo "IntelliJ IDEA launcher not configured for platform: ${PLATFORM:-unknown}"
+        echo "Please check IntelliJ IDEA documentation for command-line launcher setup on your OS:"
+        echo "https://www.jetbrains.com/help/idea/working-with-the-ide-features-from-command-line.html"
+    fi
+}
+
 function configure-git() {
   if [[ $1 == "work" ]]; then
     git config user.email "aabishkar.aryal@purplease.com"

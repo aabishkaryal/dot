@@ -14,3 +14,4 @@ nvim.*
 nvim.backup/
 .claude/*
 !.claude/agents/
+!.claude/CLAUDE.md
