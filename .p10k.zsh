@@ -1719,7 +1719,8 @@ function prompt_python_version() {
     p10k segment -f 2 -i '' -t "$python_version(v)"
   else
     # Get system Python version
-    local python_version="$(/opt/homebrew/bin/python3 --version 2>&1)"
+    local python_bin; python_bin="$(command -v python3 2>/dev/null)" || return
+    local python_version="$($python_bin --version 2>&1)"
     python_version="${python_version#Python }"
     p10k segment -f 2 -i '' -t "$python_version(s)"
   fi

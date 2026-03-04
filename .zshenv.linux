@@ -2,10 +2,8 @@
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-# Go (Linux: binary in /usr/local/go, workspace in ~/go)
-export GOPATH="$HOME/go"
+# Go (Linux: binary in /usr/local/go)
 export PATH="$PATH:/usr/local/go/bin"
-export PATH="$PATH:$GOPATH/bin"
 
 # Goland IDE
 export PATH="$PATH:/opt/goland/bin"
