@@ -1,0 +1,15 @@
+# Android SDK
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$PATH:$ANDROID_HOME/tools/:$ANDROID_HOME/platform-tools/:$ANDROID_HOME/tools/bin/"
+export CHROME_EXECUTABLE="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+export CHROME_BIN="$CHROME_EXECUTABLE"
+
+# Homebrew
+export HOMEBREW_NO_AUTO_UPDATE=1
+export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/libffi/include -I/opt/homebrew/opt/openjdk/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig"
+
+# iTerm2 + tmux integration
+export ZSH_TMUX_ITERM2=true
+export ZSH_TMUX_FIXTERM=true
