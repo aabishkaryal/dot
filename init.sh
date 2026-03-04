@@ -128,26 +128,32 @@ fi
 # Setup basic home folders
 echo "📁 Creating directory structure..."
 mkdir -p "$HOME/.go/" || { echo "❌ Failed to create Go directory"; exit 1; }
-mkdir -p "$HOME/.config/nvim" || { echo "❌ Failed to create nvim config directory"; exit 1; }
 mkdir -p "$HOME/repos/aabishkaryal" || { echo "❌ Failed to create repos directory"; exit 1; }
 
 # Get the absolute path to the dotfiles directory
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
 echo "🔗 Linking config files from $DOTFILES_DIR..."
 
-# Function to create symlink with error handling
+# Function to create symlink with backup of existing files
 create_symlink() {
     local source="$1"
     local target="$2"
 
-    if [ -e "$target" ] || [ -L "$target" ]; then
-        echo "⚠️  $target already exists, skipping..."
-        return 0
-    fi
-
     if [ ! -e "$source" ]; then
         echo "⚠️  Source $source doesn't exist, skipping..."
         return 0
+    fi
+
+    # If target is already a symlink pointing to the right place, nothing to do
+    if [ -L "$target" ] && [ "$(readlink "$target")" = "$source" ]; then
+        echo "✅ $target already linked"
+        return 0
+    fi
+
+    # Backup existing file/dir (not a symlink to our source)
+    if [ -e "$target" ] || [ -L "$target" ]; then
+        mv "$target" "${target}.backup" || { echo "❌ Failed to backup $target"; return 1; }
+        echo "📦 Backed up $target → ${target}.backup"
     fi
 
     ln -s "$source" "$target" || { echo "❌ Failed to link $source to $target"; return 1; }
