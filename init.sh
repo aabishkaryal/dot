@@ -4,12 +4,20 @@
 
 set -e  # Exit immediately if any command exits with a non-zero status
 
+# Platform detection
+case "$(uname -s)" in
+  Darwin) PLATFORM="mac" ;;
+  Linux)  PLATFORM="linux" ;;
+  *)      PLATFORM="unknown" ;;
+esac
+echo "🖥️  Detected platform: $PLATFORM"
+
 # Detect shell for compatibility
 if [ -n "${ZSH_VERSION:-}" ]; then
     SHELL_TYPE="zsh"
     set -o pipefail 2>/dev/null || true  # zsh supports pipefail
 elif [ -n "${BASH_VERSION:-}" ]; then
-    SHELL_TYPE="bash"  
+    SHELL_TYPE="bash"
     set -u          # bash supports -u
     set -o pipefail # bash supports pipefail
 else
@@ -26,17 +34,50 @@ git config --global push.autoSetupRemote true || { echo "❌ Failed to set auto 
 git config --global user.email "45176384+aabishkaryal@users.noreply.github.com" || { echo "❌ Failed to set email"; exit 1; }
 git config --global user.name "Aabishkar Aryal" || { echo "❌ Failed to set name"; exit 1; }
 
-# Install Homebrew
-echo "🍺 Installing Homebrew..."
-if ! command -v brew >/dev/null 2>&1; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || { echo "❌ Failed to install Homebrew"; exit 1; }
-    # Add Homebrew to PATH for Apple Silicon Macs
-    if [ "$(uname -m)" = "arm64" ]; then
-        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-        eval "$(/opt/homebrew/bin/brew shellenv)"
+if [ "$PLATFORM" = "mac" ]; then
+    # Install Homebrew
+    echo "🍺 Installing Homebrew..."
+    if ! command -v brew >/dev/null 2>&1; then
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || { echo "❌ Failed to install Homebrew"; exit 1; }
+        if [ "$(uname -m)" = "arm64" ]; then
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+        fi
+    else
+        echo "✅ Homebrew already installed"
     fi
-else
-    echo "✅ Homebrew already installed"
+fi
+
+if [ "$PLATFORM" = "linux" ]; then
+    echo ""
+    echo "📦 Install Linux development tools? (zsh, tmux, fzf, ripgrep, fd, curl, build-essential)"
+    printf "Install now? (y/N): "
+    read -r install_pkgs
+    if [ "$install_pkgs" = "y" ] || [ "$install_pkgs" = "Y" ]; then
+        sudo apt-get update
+        sudo apt-get install -y \
+            zsh curl git tmux fzf ripgrep fd-find \
+            build-essential wget unzip
+        echo "✅ Linux packages installed"
+    else
+        echo "⏭️  Skipped Linux package installation"
+    fi
+
+    # Install oh-my-zsh if not present
+    if [ ! -d "$HOME/.oh-my-zsh" ]; then
+        echo "🐚 Installing oh-my-zsh..."
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended || { echo "❌ Failed to install oh-my-zsh"; exit 1; }
+    else
+        echo "✅ oh-my-zsh already installed"
+    fi
+
+    # Install Powerlevel10k theme
+    P10K_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+    if [ ! -d "$P10K_DIR" ]; then
+        echo "⚡ Installing Powerlevel10k..."
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k "$P10K_DIR" || { echo "❌ Failed to install Powerlevel10k"; exit 1; }
+    else
+        echo "✅ Powerlevel10k already installed"
+    fi
 fi
 
 # Install NVM and Node.js
@@ -79,44 +120,36 @@ else
     echo "❌ SDKMAN installation failed, skipping Java installation"
 fi
 
-# Install Tmux package manager
-echo "🖥️  Installing Tmux Plugin Manager..."
-if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm || { echo "❌ Failed to install Tmux Plugin Manager"; exit 1; }
-else
-    echo "✅ Tmux Plugin Manager already installed"
+if [ "$PLATFORM" = "mac" ]; then
+    echo "⚙️  Configuring macOS settings..."
+    defaults write -g ApplePressAndHoldEnabled -bool false || { echo "❌ Failed to disable press and hold"; exit 1; }
 fi
-
-# macOS settings
-echo "⚙️  Configuring macOS settings..."
-defaults write -g ApplePressAndHoldEnabled -bool false || { echo "❌ Failed to disable press and hold"; exit 1; }
 
 # Setup basic home folders
 echo "📁 Creating directory structure..."
 mkdir -p "$HOME/.go/" || { echo "❌ Failed to create Go directory"; exit 1; }
 mkdir -p "$HOME/.config/nvim" || { echo "❌ Failed to create nvim config directory"; exit 1; }
-mkdir -p "$HOME/.config/tmux" || { echo "❌ Failed to create tmux config directory"; exit 1; }
 mkdir -p "$HOME/repos/aabishkaryal" || { echo "❌ Failed to create repos directory"; exit 1; }
 
 # Get the absolute path to the dotfiles directory
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
 echo "🔗 Linking config files from $DOTFILES_DIR..."
 
 # Function to create symlink with error handling
 create_symlink() {
     local source="$1"
     local target="$2"
-    
+
     if [ -e "$target" ] || [ -L "$target" ]; then
         echo "⚠️  $target already exists, skipping..."
         return 0
     fi
-    
+
     if [ ! -e "$source" ]; then
         echo "⚠️  Source $source doesn't exist, skipping..."
         return 0
     fi
-    
+
     ln -s "$source" "$target" || { echo "❌ Failed to link $source to $target"; return 1; }
     echo "✅ Linked $target"
 }
@@ -126,15 +159,28 @@ create_symlink "$DOTFILES_DIR/.zprofile" "$HOME/.zprofile"
 create_symlink "$DOTFILES_DIR/functions" "$HOME/.functions"
 create_symlink "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 create_symlink "$DOTFILES_DIR/.zshenv" "$HOME/.zshenv"
-create_symlink "$DOTFILES_DIR/.zshenv.local" "$HOME/.zshenv.local"
-create_symlink "$DOTFILES_DIR/.zshrc.local" "$HOME/.zshrc.local"
+create_symlink "$DOTFILES_DIR/.zshrc.$PLATFORM" "$HOME/.zshrc.$PLATFORM"
+create_symlink "$DOTFILES_DIR/.zshenv.$PLATFORM" "$HOME/.zshenv.$PLATFORM"
 create_symlink "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
-create_symlink "$DOTFILES_DIR/kitty" "$HOME/.config/kitty"
 create_symlink "$DOTFILES_DIR/tmux" "$HOME/.config/tmux"
 create_symlink "$DOTFILES_DIR/.ssh/config" "$HOME/.ssh/config"
 create_symlink "$DOTFILES_DIR/.p10k.zsh" "$HOME/.p10k.zsh"
 create_symlink "$DOTFILES_DIR/scripts" "$HOME/.scripts"
 create_symlink "$DOTFILES_DIR/.claude" "$HOME/.claude"
+
+# macOS-only symlinks
+if [ "$PLATFORM" = "mac" ]; then
+    create_symlink "$DOTFILES_DIR/kitty" "$HOME/.config/kitty"
+fi
+
+# Install Tmux Plugin Manager
+echo "🖥️  Installing Tmux Plugin Manager..."
+TPM_DIR="$HOME/.config/tmux/plugins/tpm"
+if [ ! -d "$TPM_DIR" ]; then
+    git clone https://github.com/tmux-plugins/tpm "$TPM_DIR" || { echo "❌ Failed to install Tmux Plugin Manager"; exit 1; }
+else
+    echo "✅ Tmux Plugin Manager already installed"
+fi
 
 # Setup local environment file
 echo "🔧 Setting up local environment file..."
@@ -154,7 +200,7 @@ echo "🔑 Configuring Git SSH..."
 git config --global url."ssh://git@github.com/".insteadOf "https://github.com/" || { echo "❌ Failed to set Git SSH URL"; exit 1; }
 
 # Check if Brewfile exists and ask user about installation
-if [ -f "$DOTFILES_DIR/Brewfile" ]; then
+if [ "$PLATFORM" = "mac" ] && [ -f "$DOTFILES_DIR/Brewfile" ]; then
     echo ""
     echo "📦 Install development tools and applications?"
     echo "This will install packages from Brewfile (brew, casks, mas, vscode extensions)"
@@ -178,7 +224,7 @@ echo ""
 echo "📝 Next steps:"
 echo "1. Edit ~/.zshenv.local to add your API keys and tokens"
 echo "2. Restart your terminal or run 'source ~/.zshenv'"
-if [ -f "$DOTFILES_DIR/Brewfile" ] && [ "$install_brew" != "y" ] && [ "$install_brew" != "Y" ]; then
+if [ "$PLATFORM" = "mac" ] && [ -f "$DOTFILES_DIR/Brewfile" ] && [ "$install_brew" != "y" ] && [ "$install_brew" != "Y" ]; then
     echo "3. Optionally install tools: cd ~/repos/dot && brew bundle install"
 fi
 echo ""
