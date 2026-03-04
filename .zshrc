@@ -29,6 +29,9 @@ setopt HIST_NO_STORE
 setopt SHARE_HISTORY
 setopt INC_APPEND_HISTORY
 
+# Source platform-specific config early (before oh-my-zsh) to ensure tools like tmux are in PATH
+[[ -f "$HOME/.zshrc.$PLATFORM" ]] && source "$HOME/.zshrc.$PLATFORM"
+
 # Common plugins (platform files add more)
 plugins=(safe-paste z tmux)
 
@@ -46,11 +49,6 @@ alias docker-compose='docker compose'
 
 source $HOME/.functions
 
-# NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
 # FZF
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -62,8 +60,10 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-# Source platform-specific config
-[[ -f "$HOME/.zshrc.$PLATFORM" ]] && source "$HOME/.zshrc.$PLATFORM"
+# NVM (loaded last to take PATH priority over Homebrew's node)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 # Local overrides (not tracked in git)
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
