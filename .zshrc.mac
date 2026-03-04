@@ -1,0 +1,25 @@
+# Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh/site-function:$FPATH
+  autoload -Uz compinit
+  compinit
+fi
+
+# macOS-only aliases
+export ARCHFLAGS="-arch x86_64"
+alias x86="arch -x86_64"
+alias disablesleep="sudo pmset -a disablesleep"
+alias rm="trash"
+alias perf="sudo asitop"
+alias sed="gsed"
+alias nq="networkquality"
+
+# gcloud (via Homebrew)
+source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc" 2>/dev/null
+source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc" 2>/dev/null
+
+# Ruby (chruby via Homebrew)
+source "$(brew --prefix)/opt/chruby/share/chruby/chruby.sh" 2>/dev/null
+source "$(brew --prefix)/opt/chruby/share/chruby/auto.sh" 2>/dev/null
+chruby ruby-3.3.0

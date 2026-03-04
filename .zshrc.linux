@@ -1,0 +1,5 @@
+# Ruby (rbenv)
+eval "$(~/.rbenv/bin/rbenv init - --no-rehash zsh)" 2>/dev/null
+
+# System upgrade alias
+alias sys-upgrade="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y"
