@@ -18,7 +18,6 @@ if [ -n "${ZSH_VERSION:-}" ]; then
     set -o pipefail 2>/dev/null || true  # zsh supports pipefail
 elif [ -n "${BASH_VERSION:-}" ]; then
     SHELL_TYPE="bash"
-    set -u          # bash supports -u
     set -o pipefail # bash supports pipefail
 else
     SHELL_TYPE="sh"
@@ -26,6 +25,18 @@ else
 fi
 
 echo "🚀 Starting dotfiles setup..."
+
+# Utility function to prompt for installation
+prompt_install() {
+    local prompt_message="$1"
+    printf "%s (y/N): " "$prompt_message"
+    read -r response
+    if [ "$response" = "y" ] || [ "$response" = "Y" ]; then
+        return 0  # Yes, proceed with installation
+    else
+        return 1  # No, skip installation
+    fi
+}
 
 # Initial Git Config
 echo "📝 Configuring Git..."
@@ -37,7 +48,8 @@ git config --global user.name "Aabishkar Aryal" || { echo "❌ Failed to set nam
 if [ "$PLATFORM" = "mac" ]; then
     # Install Homebrew
     echo "🍺 Installing Homebrew..."
-    if ! command -v brew >/dev/null 2>&1; then
+    # Check if Homebrew is installed by looking for brew executable
+    if [ ! -f "/opt/homebrew/bin/brew" ]; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || { echo "❌ Failed to install Homebrew"; exit 1; }
         if [ "$(uname -m)" = "arm64" ]; then
             eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -59,9 +71,7 @@ if [ "$PLATFORM" = "linux" ]; then
     if [ -n "$missing_pkgs" ]; then
         echo ""
         echo "📦 Missing packages:$missing_pkgs"
-        printf "Install them? (y/N): "
-        read -r install_pkgs
-        if [ "$install_pkgs" = "y" ] || [ "$install_pkgs" = "Y" ]; then
+        if prompt_install "Install them?"; then
             sudo apt-get update
             sudo apt-get install -y $missing_pkgs
             echo "✅ Linux packages installed"
@@ -72,10 +82,17 @@ if [ "$PLATFORM" = "linux" ]; then
         echo "✅ All Linux packages already installed"
     fi
 
+fi
+
     # Install oh-my-zsh if not present
     if [ ! -d "$HOME/.oh-my-zsh" ]; then
-        echo "🐚 Installing oh-my-zsh..."
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended || { echo "❌ Failed to install oh-my-zsh"; exit 1; }
+        if prompt_install "🐚 Install oh-my-zsh?"; then
+            echo "Installing oh-my-zsh..."
+            sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended || { echo "❌ Failed to install oh-my-zsh"; exit 1; }
+            echo "✅ oh-my-zsh installed"
+        else
+            echo "⏭️  Skipped oh-my-zsh installation"
+        fi
     else
         echo "✅ oh-my-zsh already installed"
     fi
@@ -83,19 +100,21 @@ if [ "$PLATFORM" = "linux" ]; then
     # Install Powerlevel10k theme
     P10K_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
     if [ ! -d "$P10K_DIR" ]; then
-        echo "⚡ Installing Powerlevel10k..."
-        git clone --depth=1 https://github.com/romkatv/powerlevel10k "$P10K_DIR" || { echo "❌ Failed to install Powerlevel10k"; exit 1; }
+        if prompt_install "⚡ Install Powerlevel10k theme?"; then
+            echo "Installing Powerlevel10k..."
+            git clone --depth=1 https://github.com/romkatv/powerlevel10k "$P10K_DIR" || { echo "❌ Failed to install Powerlevel10k"; exit 1; }
+            echo "✅ Powerlevel10k installed"
+        else
+            echo "⏭️  Skipped Powerlevel10k installation"
+        fi
     else
         echo "✅ Powerlevel10k already installed"
     fi
-fi
 
 # Install NVM and Node.js
 export NVM_DIR="$HOME/.nvm"
 if [ ! -d "$NVM_DIR" ]; then
-    printf "📦 Install NVM + Node.js 20 & 22? (y/N): "
-    read -r install_nvm
-    if [ "$install_nvm" = "y" ] || [ "$install_nvm" = "Y" ]; then
+    if prompt_install "📦 Install NVM + Node.js 20 & 22?"; then
         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash || { echo "❌ Failed to install NVM"; exit 1; }
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
         if command -v nvm >/dev/null 2>&1; then
@@ -117,9 +136,7 @@ fi
 # Install SDKMAN and Java
 export SDKMAN_DIR="$HOME/.sdkman"
 if [ ! -d "$SDKMAN_DIR" ]; then
-    printf "☕ Install SDKMAN + Zulu 25 Java? (y/N): "
-    read -r install_sdkman
-    if [ "$install_sdkman" = "y" ] || [ "$install_sdkman" = "Y" ]; then
+    if prompt_install "☕ Install SDKMAN + Zulu 25 Java?"; then
         curl -s "https://get.sdkman.io" | bash || { echo "❌ Failed to install SDKMAN"; exit 1; }
         [ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ] && \. "$SDKMAN_DIR/bin/sdkman-init.sh"
         if command -v sdk >/dev/null 2>&1; then
@@ -225,10 +242,7 @@ if [ "$PLATFORM" = "mac" ] && [ -f "$DOTFILES_DIR/Brewfile" ]; then
     echo ""
     echo "📦 Install development tools and applications?"
     echo "This will install packages from Brewfile (brew, casks, mas, vscode extensions)"
-    printf "Install now? (y/N): "
-    read -r install_brew
-
-    if [ "$install_brew" = "y" ] || [ "$install_brew" = "Y" ]; then
+    if prompt_install "Install now?"; then
         echo "📥 Installing packages from Brewfile..."
         cd "$DOTFILES_DIR" || { echo "❌ Failed to change to dotfiles directory"; exit 1; }
         brew bundle install || { echo "❌ Failed to install from Brewfile"; exit 1; }
@@ -245,7 +259,4 @@ echo ""
 echo "📝 Next steps:"
 echo "1. Edit ~/.zshenv.local to add your API keys and tokens"
 echo "2. Restart your terminal or run 'source ~/.zshenv'"
-if [ "$PLATFORM" = "mac" ] && [ -f "$DOTFILES_DIR/Brewfile" ] && [ "$install_brew" != "y" ] && [ "$install_brew" != "Y" ]; then
-    echo "3. Optionally install tools: cd ~/repos/dot && brew bundle install"
-fi
 echo ""
