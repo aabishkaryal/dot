@@ -48,18 +48,28 @@ if [ "$PLATFORM" = "mac" ]; then
 fi
 
 if [ "$PLATFORM" = "linux" ]; then
-    echo ""
-    echo "📦 Install Linux development tools? (zsh, tmux, fzf, ripgrep, fd, curl, build-essential)"
-    printf "Install now? (y/N): "
-    read -r install_pkgs
-    if [ "$install_pkgs" = "y" ] || [ "$install_pkgs" = "Y" ]; then
-        sudo apt-get update
-        sudo apt-get install -y \
-            zsh curl git tmux fzf ripgrep fd-find \
-            build-essential wget unzip
-        echo "✅ Linux packages installed"
+    # Check which packages are missing
+    missing_pkgs=""
+    for pkg in zsh curl git tmux fzf ripgrep fd-find build-essential wget unzip; do
+        if ! dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null | grep -q "install ok installed"; then
+            missing_pkgs="$missing_pkgs $pkg"
+        fi
+    done
+
+    if [ -n "$missing_pkgs" ]; then
+        echo ""
+        echo "📦 Missing packages:$missing_pkgs"
+        printf "Install them? (y/N): "
+        read -r install_pkgs
+        if [ "$install_pkgs" = "y" ] || [ "$install_pkgs" = "Y" ]; then
+            sudo apt-get update
+            sudo apt-get install -y $missing_pkgs
+            echo "✅ Linux packages installed"
+        else
+            echo "⏭️  Skipped package installation"
+        fi
     else
-        echo "⏭️  Skipped Linux package installation"
+        echo "✅ All Linux packages already installed"
     fi
 
     # Install oh-my-zsh if not present
