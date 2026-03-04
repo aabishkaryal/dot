@@ -91,43 +91,50 @@ if [ "$PLATFORM" = "linux" ]; then
 fi
 
 # Install NVM and Node.js
-echo "📦 Installing Node.js via NVM..."
 export NVM_DIR="$HOME/.nvm"
 if [ ! -d "$NVM_DIR" ]; then
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash || { echo "❌ Failed to install NVM"; exit 1; }
-fi
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-if command -v nvm >/dev/null 2>&1; then
-    nvm install 20 || { echo "❌ Failed to install Node.js 20"; exit 1; }
-    nvm install 22 || { echo "❌ Failed to install Node.js 22"; exit 1; }
-    nvm alias default 22 || { echo "❌ Failed to set default Node.js version"; exit 1; }
+    printf "📦 Install NVM + Node.js 20 & 22? (y/N): "
+    read -r install_nvm
+    if [ "$install_nvm" = "y" ] || [ "$install_nvm" = "Y" ]; then
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash || { echo "❌ Failed to install NVM"; exit 1; }
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        if command -v nvm >/dev/null 2>&1; then
+            nvm install 20 || { echo "❌ Failed to install Node.js 20"; exit 1; }
+            nvm install 22 || { echo "❌ Failed to install Node.js 22"; exit 1; }
+            echo "✅ NVM and Node.js installed"
+        else
+            echo "❌ NVM installation failed"; exit 1
+        fi
+    else
+        echo "⏭️  Skipped NVM installation"
+    fi
 else
-    echo "❌ NVM installation failed"; exit 1
+    echo "✅ NVM already installed"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 fi
 
 # Install SDKMAN and Java
-echo "☕ Installing SDKMAN and Java..."
 export SDKMAN_DIR="$HOME/.sdkman"
 if [ ! -d "$SDKMAN_DIR" ]; then
-    curl -s "https://get.sdkman.io" | bash || { echo "❌ Failed to install SDKMAN"; exit 1; }
-    echo "✅ SDKMAN installed successfully"
+    printf "☕ Install SDKMAN + Zulu 25 Java? (y/N): "
+    read -r install_sdkman
+    if [ "$install_sdkman" = "y" ] || [ "$install_sdkman" = "Y" ]; then
+        curl -s "https://get.sdkman.io" | bash || { echo "❌ Failed to install SDKMAN"; exit 1; }
+        [ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ] && \. "$SDKMAN_DIR/bin/sdkman-init.sh"
+        if command -v sdk >/dev/null 2>&1; then
+            sdk install java 25-zulu || { echo "❌ Failed to install Zulu 25 Java"; exit 1; }
+            sdk default java 25-zulu || { echo "❌ Failed to set Zulu 25 as default"; exit 1; }
+            echo "✅ SDKMAN and Zulu 25 Java installed"
+        else
+            echo "❌ SDKMAN installation failed, skipping Java"
+        fi
+    else
+        echo "⏭️  Skipped SDKMAN installation"
+    fi
 else
     echo "✅ SDKMAN already installed"
-fi
-
-# Source SDKMAN
-[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ] && \. "$SDKMAN_DIR/bin/sdkman-init.sh"
-
-# Install Zulu 25 Java if SDKMAN is available
-if command -v sdk >/dev/null 2>&1; then
-    echo "📦 Installing Zulu 25 Java..."
-    sdk install java 25-zulu || { echo "❌ Failed to install Zulu 25 Java"; exit 1; }
-    sdk default java 25-zulu || { echo "❌ Failed to set Zulu 25 as default"; exit 1; }
-    echo "✅ Zulu 25 Java installed and set as default"
-else
-    echo "❌ SDKMAN installation failed, skipping Java installation"
+    [ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ] && \. "$SDKMAN_DIR/bin/sdkman-init.sh"
 fi
 
 if [ "$PLATFORM" = "mac" ]; then
@@ -185,9 +192,7 @@ create_symlink "$DOTFILES_DIR/scripts" "$HOME/.scripts"
 create_symlink "$DOTFILES_DIR/.claude" "$HOME/.claude"
 
 # macOS-only symlinks
-if [ "$PLATFORM" = "mac" ]; then
-    create_symlink "$DOTFILES_DIR/kitty" "$HOME/.config/kitty"
-fi
+create_symlink "$DOTFILES_DIR/kitty" "$HOME/.config/kitty"
 
 # Install Tmux Plugin Manager
 echo "🖥️  Installing Tmux Plugin Manager..."
