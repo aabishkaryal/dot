@@ -118,21 +118,28 @@ function mkcd() {
   mkdir -p "$1" && cd "$1"
 }
 
-# Function to create symlink with error handling
+# Function to create symlink with backup of existing files
 create_symlink() {
     local source="$1"
     local target="$2"
-    
-    if [ -e "$target" ] || [ -L "$target" ]; then
-        echo "⚠️  $target already exists, skipping..."
-        return 0
-    fi
-    
+
     if [ ! -e "$source" ]; then
         echo "⚠️  Source $source doesn't exist, skipping..."
         return 0
     fi
-    
+
+    # If target is already a symlink pointing to the right place, nothing to do
+    if [ -L "$target" ] && [ "$(readlink "$target")" = "$source" ]; then
+        echo "✅ $target already linked"
+        return 0
+    fi
+
+    # Backup existing file/dir (not a symlink to our source)
+    if [ -e "$target" ] || [ -L "$target" ]; then
+        mv "$target" "${target}.backup" || { echo "❌ Failed to backup $target"; return 1; }
+        echo "📦 Backed up $target → ${target}.backup"
+    fi
+
     ln -s "$source" "$target" || { echo "❌ Failed to link $source to $target"; return 1; }
     echo "✅ Linked $target"
 }

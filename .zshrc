@@ -47,7 +47,8 @@ alias lg="lazygit"
 alias ldo="lazydocker"
 alias docker-compose='docker compose'
 
-source $HOME/.functions
+[[ -f "$HOME/.functions" ]] && source "$HOME/.functions"
+[[ -f "$HOME/.phil-services" ]] && source "$HOME/.phil-services"
 
 # FZF
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'

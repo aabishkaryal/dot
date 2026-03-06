@@ -1,0 +1,133 @@
+#! /bin/zsh
+phil-services() {
+  local session_name="phil-services"
+
+  # Check if fzf is available
+  if ! command -v fzf &> /dev/null; then
+    echo "Error: fzf is required for interactive selection. Please install it first."
+    return 1
+  fi
+
+
+  local PROJECT_ROOT=~/repos/Phil
+  # Define available services
+  local -A services
+  services=(
+    ["sso"]="cd $PROJECT_ROOT/sso && go run main.go -profile=local -path=configs"
+    ["capi"]="cd $PROJECT_ROOT/capi && go run main.go -profile=local -path=config"
+    ["aapi"]="cd $PROJECT_ROOT/aapi && bundle exec rackup"
+    ["thanos"]="cd $PROJECT_ROOT/thanos && activate && ./app"
+    ["data-stream"]="cd $PROJECT_ROOT/phil-data-stream && activate && make run"
+    ["data-svc"]="cd $PROJECT_ROOT/data-svc && go run main.go -profile=local -path=config"
+    ["data-dashboard"]="cd $PROJECT_ROOT/phil-data-dashboard && activate && npm run-script start"
+  )
+
+  # Display names for better UX
+  local -A display_names
+  display_names=(
+    ["sso"]="SSO"
+    ["capi"]="CAPI"
+    ["aapi"]="AAPI"
+    ["thanos"]="THANOS"
+    ["data-stream"]="DATA-STREAM"
+    ["data-svc"]="DATA-SVC"
+    ["data-dashboard"]="DATA-DASHBOARD"
+  )
+
+  # Let user select services using fzf
+  echo "Select services to run (use Tab to select multiple, Enter to confirm):"
+  local selected_services=$(printf "%s\n" "${(@k)services}" | sort | fzf --multi --height=50% --border --prompt="Services > " --header="Tab: select/deselect | Enter: confirm")
+
+  if [[ -z "$selected_services" ]]; then
+    echo "No services selected. Exiting."
+    return 0
+  fi
+
+  # Kill existing session if it exists
+  tmux kill-session -t "$session_name" 2>/dev/null
+
+  # Create new session with pane titles enabled
+  tmux new-session -d -s "$session_name"
+  tmux set-option -t "$session_name" pane-border-status top
+  tmux set-option -t "$session_name" pane-border-format "#{pane_title}"
+
+  local pane_count=0
+
+  # Start selected services in separate panes
+  for service in ${(f)selected_services}; do
+    if [[ $pane_count -gt 0 ]]; then
+      tmux split-window -t "$session_name"
+      tmux select-layout -t "$session_name" tiled
+    fi
+
+    local display_name="${display_names[$service]}"
+    local command="${services[$service]}"
+
+    tmux select-pane -t "$session_name:0.$pane_count" -T "$display_name"
+    tmux send-keys -t "$session_name:0.$pane_count" "$command" C-m
+    ((pane_count++))
+  done
+
+  # Display helpful tips
+  echo ""
+  echo "Starting services in tmux session: $session_name"
+  echo "---------------------------------------------------"
+  echo "To exit and kill all services:"
+  echo "  - Press Ctrl+b, then type :kill-session and Enter"
+  echo "  - Or press Ctrl+b, then & and confirm with y"
+  echo "To detach (keep services running): Ctrl+b, then d"
+  echo "To reattach later: tmux attach -t $session_name"
+  echo "---------------------------------------------------"
+  echo "Press Enter to continue..."
+  read
+
+  # Attach to the session
+  tmux attach-session -t "$session_name"
+}
+
+# Activate project environments (node version + python venv)
+activate() {
+  # Check for Node version and activate with nvm
+  local node_version=""
+
+  # Check .nvmrc file
+  if [[ -f .nvmrc ]]; then
+    node_version=$(cat .nvmrc | tr -d '\n\r')
+    echo "Found .nvmrc: $node_version"
+    nvm use "$node_version"
+  # Check .node_version file
+  elif [[ -f .node_version ]]; then
+    node_version=$(cat .node_version | tr -d '\n\r')
+    echo "Found .node_version: $node_version"
+    nvm use "$node_version"
+  # Check package.json for engines.node
+  elif [[ -f package.json ]] && command -v jq &> /dev/null; then
+    node_version=$(jq -r '.engines.node // empty' package.json 2>/dev/null)
+    if [[ -n "$node_version" ]]; then
+      echo "Found node version in package.json: $node_version"
+      nvm use "$node_version"
+    fi
+  fi
+
+  # Check for Python virtual environment
+  if [[ -d .venv ]]; then
+    echo "Activating Python virtual environment (.venv)"
+    source .venv/bin/activate
+  fi
+}
+
+# Deactivate project environments
+deactivate() {
+  # Deactivate Python virtual environment if active
+  if [[ -n "$VIRTUAL_ENV" ]]; then
+    echo "Deactivating Python virtual environment"
+    command deactivate 2>/dev/null
+  fi
+
+  # Switch to default nvm node version
+  if command -v nvm &> /dev/null; then
+    echo "Switching to default Node version"
+    nvm use default
+  fi
+}
+

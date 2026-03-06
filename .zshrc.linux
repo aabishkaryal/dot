@@ -3,3 +3,5 @@ eval "$(~/.rbenv/bin/rbenv init - --no-rehash zsh)" 2>/dev/null
 
 # System upgrade alias
 alias sys-upgrade="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y"
+alias vpn-up="sudo wg-quick up phil"
+alias vpn-down="sudo wg-quick down phil"
