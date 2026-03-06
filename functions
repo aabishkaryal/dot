@@ -143,3 +143,15 @@ create_symlink() {
     ln -s "$source" "$target" || { echo "❌ Failed to link $source to $target"; return 1; }
     echo "✅ Linked $target"
 }
+
+git-rebase() {
+  # Define the target branch (defaults to master if $1 is empty)
+  local target="${1:-master}"
+
+  git stash && \
+  git checkout "$target" && \
+  git pull origin "$target" && \
+  git checkout - && \
+  git rebase "$target" && \
+  git stash apply
+}

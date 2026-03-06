@@ -46,7 +46,6 @@ alias oldvi="\vi"
 alias lg="lazygit"
 alias ldo="lazydocker"
 alias docker-compose='docker compose'
-alias git-rebase="git stash && git checkout master && git pull origin master && git checkout - && git stash apply"
 
 [[ -f "$HOME/.functions" ]] && source "$HOME/.functions"
 [[ -f "$HOME/.phil-services" ]] && source "$HOME/.phil-services"
