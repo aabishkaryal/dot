@@ -1,7 +1,3 @@
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
 # Go (Linux: binary in /usr/local/go)
 export PATH="$PATH:/usr/local/go/bin"
 

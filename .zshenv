@@ -24,6 +24,11 @@ export PATH="$GEM_HOME/bin:$PATH"
 export GOPATH="$HOME/.go"
 export PATH="$PATH:$GOPATH/bin"
 
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+
 # Cargo
 export CARGO_NET_GIT_FETCH_WITH_CLI=true
 
@@ -48,3 +53,6 @@ export ZSH_TMUX_AUTONAME_SESSION=true
 
 # Cargo
 [[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
+
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "/Users/aabishkararyal/.bun/_bun"
