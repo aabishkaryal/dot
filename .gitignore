@@ -4,6 +4,7 @@
 __pycache__/
 beets/library.db
 beets/state.pickle
+beets/spotify_token.json
 
 nvim.*
 
