@@ -1,18 +1,20 @@
 #!/bin/bash
 
 # Import music into Beets as singleton tracks using acoustic fingerprinting.
-# Runs are interactive by default so weak matches can be reviewed instead of
-# silently skipped; pass --quiet only when unattended skipping is acceptable.
+# With no paths, only retry flat files in the default music folder so already
+# organized Beets library files are not revisited; pass --all for full repair.
 
 DEFAULT_MUSIC_DIR="$HOME/Library/Mobile Documents/com~apple~CloudDocs/music/"
 QUIET=0
+ALL=0
 
 usage() {
 	exit_code="${1:-1}"
-	echo "Usage: $(basename "$0") [--quiet] [FILE_OR_FOLDER ...]"
-	echo "Import the default music folder, or specific files/folders, into Beets."
+	echo "Usage: $(basename "$0") [--all] [--quiet] [FILE_OR_FOLDER ...]"
+	echo "Import flat default-folder files, or specific files/folders, into Beets."
 	echo ""
 	echo "Options:"
+	echo "  -a, --all      Import the full default music folder recursively"
 	echo "  -q, --quiet    Auto-import strong matches and skip weak/no matches"
 	echo "  -h, --help     Show this help message"
 	exit "$exit_code"
@@ -20,6 +22,10 @@ usage() {
 
 while [ "$#" -gt 0 ]; do
 	case "$1" in
+	-a | --all)
+		ALL=1
+		shift
+		;;
 	-q | --quiet)
 		QUIET=1
 		shift
@@ -46,8 +52,38 @@ if ! command -v beet >/dev/null 2>&1; then
 	exit 1
 fi
 
+run_import() {
+	target="$1"
+
+	if [ "$QUIET" -eq 1 ]; then
+		beet import -q -s "$target"
+	else
+		beet import -s "$target"
+	fi
+}
+
 if [ "$#" -eq 0 ]; then
-	set -- "$DEFAULT_MUSIC_DIR"
+	if [ "$ALL" -eq 1 ]; then
+		set -- "$DEFAULT_MUSIC_DIR"
+	else
+		status=0
+		found=0
+		while IFS= read -r target; do
+			found=1
+			run_import "$target" || status=$?
+		done < <(
+			find "$DEFAULT_MUSIC_DIR" -maxdepth 1 -type f \( \
+				-iname '*.mp3' -o -iname '*.m4a' -o -iname '*.flac' -o \
+				-iname '*.wav' -o -iname '*.aac' -o -iname '*.ogg' \
+			\) | sort
+		)
+
+		if [ "$found" -eq 0 ]; then
+			echo "No flat audio files found in $DEFAULT_MUSIC_DIR"
+		fi
+
+		exit "$status"
+	fi
 fi
 
 status=0
@@ -58,11 +94,7 @@ for target in "$@"; do
 		continue
 	fi
 
-	if [ "$QUIET" -eq 1 ]; then
-		beet import -q -s "$target" || status=$?
-	else
-		beet import -s "$target" || status=$?
-	fi
+	run_import "$target" || status=$?
 done
 
 exit "$status"
