@@ -58,7 +58,7 @@ run_import() {
 	if [ "$QUIET" -eq 1 ]; then
 		beet import -q -s "$target"
 	else
-		beet import -s "$target"
+		beet import -s "$target" </dev/tty
 	fi
 }
 
