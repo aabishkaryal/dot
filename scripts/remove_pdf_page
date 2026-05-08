@@ -1,6 +1,8 @@
 #!/bin/sh
 
-# POSIX-compliant script to remove specific pages from a PDF file
+# Remove specific pages from a PDF using Ghostscript-compatible tooling.
+# Use this for one-off PDF cleanup where pages can be listed individually or
+# as ranges, while preserving the original file and writing a new output file.
 # Usage: ./remove_pdf_page.sh [options] <input_file> <page_numbers...>
 
 # Function to display usage

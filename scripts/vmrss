@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Print the resident memory usage for a process ID.
+# Use this as a small wrapper around ps when you only need VmRSS-style memory
+# in kilobytes for a running process.
+
 # Check if a process ID was provided
 if [ -z "$1" ]; then
   echo "Please provide a process ID."
@@ -19,4 +23,3 @@ if [ $? -eq 0 ]; then
 else
   echo "Process with ID $process_id not found."
 fi
-

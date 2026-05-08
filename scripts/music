@@ -1,24 +1,29 @@
 #!/bin/bash
 
+# Download YouTube audio into the configured music folder, then import only the
+# files created by this run into Beets. Import stays interactive so weak matches
+# can be reviewed; full-library repair/backfill is handled by reindex-music.
+
 # Default output directory
-OUTPUT_DIR="$HOME/Sync/music"
+OUTPUT_DIR="$HOME/Library/Mobile Documents/com~apple~CloudDocs/music/"
 
 # Help message
 usage() {
+	exit_code="${1:-1}"
 	echo "Usage: $(basename $0) [OPTIONS] URL"
 	echo "Download music from YouTube URLs"
 	echo ""
 	echo "Options:"
 	echo "  -o DIR    Output directory (default: $OUTPUT_DIR)"
 	echo "  -h        Show this help message"
-	exit 1
+	exit "$exit_code"
 }
 
 # Process options
 while getopts "o:h" opt; do
 	case $opt in
 	o) OUTPUT_DIR="$OPTARG" ;;
-	h) usage ;;
+	h) usage 0 ;;
 	?) usage ;;
 	esac
 done
@@ -35,8 +40,13 @@ fi
 # Create output directory if it doesn't exist
 mkdir -p "$OUTPUT_DIR"
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+DOWNLOADED_PATHS_FILE="$(mktemp)"
+trap 'rm -f "$DOWNLOADED_PATHS_FILE"' EXIT
+
 # Download the audio using yt-dlp
 yt-dlp \
+	--no-simulate \
 	--extract-audio \
 	--audio-format mp3 \
 	--audio-quality 0 \
@@ -45,8 +55,34 @@ yt-dlp \
 	--metadata-from-title "%(artist)s - %(title)s" \
 	--parse-metadata "title:%(artist)s - %(title)s" \
 	--output "$OUTPUT_DIR/%(title)s.%(ext)s" \
+	--print-to-file after_move:filepath "$DOWNLOADED_PATHS_FILE" \
 	--no-playlist-reverse \
 	--ignore-errors \
 	--no-warnings \
 	--no-playlist \
 	"$@"
+
+download_status=$?
+if [ "$download_status" -ne 0 ]; then
+	exit "$download_status"
+fi
+
+if [ ! -s "$DOWNLOADED_PATHS_FILE" ]; then
+	echo "Warning: download completed but no downloaded file paths were reported"
+	exit 0
+fi
+
+index_status=0
+while IFS= read -r downloaded_path; do
+	if [ -z "$downloaded_path" ]; then
+		continue
+	fi
+
+	"$SCRIPT_DIR/reindex-music" "$downloaded_path" || index_status=$?
+done <"$DOWNLOADED_PATHS_FILE"
+
+if [ "$index_status" -ne 0 ]; then
+	echo "Warning: Beets indexing failed for one or more downloaded files"
+fi
+
+exit 0

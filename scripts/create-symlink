@@ -1,0 +1,41 @@
+#!/bin/zsh
+
+# Link one dotfile-managed source into place without rerunning init.sh.
+# This is useful for applying a single config on an existing machine while
+# preserving the same backup behavior used by the clean-machine bootstrap.
+
+COMMAND_NAME="${0:t}"
+
+usage() {
+	exit_code="${1:-1}"
+	echo "Usage: $COMMAND_NAME SOURCE TARGET"
+	echo "Create a managed symlink, backing up an existing target if needed."
+	exit "$exit_code"
+}
+
+if [ "${1:-}" = "-h" ] || [ "${1:-}" = "--help" ]; then
+	usage 0
+fi
+
+if [ "$#" -ne 2 ]; then
+	usage
+fi
+
+SOURCE="$1"
+TARGET="$2"
+FUNCTIONS_FILE="${HOME}/.functions"
+
+if [ ! -f "$FUNCTIONS_FILE" ]; then
+	SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+	FUNCTIONS_FILE="${SCRIPT_DIR}/../functions"
+fi
+
+if [ ! -f "$FUNCTIONS_FILE" ]; then
+	echo "Error: could not find functions file with create_symlink"
+	exit 1
+fi
+
+. "$FUNCTIONS_FILE"
+
+mkdir -p "$(dirname "$TARGET")" || exit 1
+create_symlink "$SOURCE" "$TARGET"

@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+"""Resize image files in place by a scale factor.
+
+Use this for quick local image downsizing when overwriting the original files is
+acceptable. Pass --scale=<factor>; values below 1.0 reduce image dimensions.
+"""
+
 import sys
 from PIL import Image
 

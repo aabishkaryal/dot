@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "terminal-notifier -title 'Claude' -message 'Done' & afplay /System/Library/Sounds/Ping.aiff &"
+          }
+        ]
+      }
+    ]
+  }
+}

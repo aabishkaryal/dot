@@ -161,6 +161,7 @@ fi
 
 # Setup basic home folders
 echo "📁 Creating directory structure..."
+mkdir -p "$HOME/.config" || { echo "❌ Failed to create config directory"; exit 1; }
 mkdir -p "$HOME/.go/" || { echo "❌ Failed to create Go directory"; exit 1; }
 mkdir -p "$HOME/repos/aabishkaryal" || { echo "❌ Failed to create repos directory"; exit 1; }
 
@@ -184,6 +185,7 @@ create_symlink "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 create_symlink "$DOTFILES_DIR/.zshenv" "$HOME/.zshenv"
 create_symlink "$DOTFILES_DIR/.zshrc.$PLATFORM" "$HOME/.zshrc.$PLATFORM"
 create_symlink "$DOTFILES_DIR/.zshenv.$PLATFORM" "$HOME/.zshenv.$PLATFORM"
+create_symlink "$DOTFILES_DIR/beets" "$HOME/.config/beets"
 create_symlink "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
 create_symlink "$DOTFILES_DIR/tmux" "$HOME/.config/tmux"
 create_symlink "$DOTFILES_DIR/.ssh/config" "$HOME/.ssh/config"

@@ -1,6 +1,7 @@
 tap "homebrew/bundle"                           # Homebrew bundle plugin
 brew "cmake"                                     # Build system generator
 brew "coreutils"                                 # GNU core utilities (ls, cat, etc.)
+brew "chromaprint"                               # Audio fingerprinting tool used by Beets chroma
 brew "fd"                                        # Fast alternative to find
 brew "ffmpeg"                                    # Video/audio processing toolkit
 brew "fzf"                                       # Fuzzy finder for terminal

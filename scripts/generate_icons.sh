@@ -1,5 +1,9 @@
 #!/bin/zsh
 
+# Generate macOS .icns files from one or more SVG sources.
+# Each SVG is rendered into the standard iconset sizes under ./icons before
+# iconutil packages the iconset.
+
 function svg_to_icns(){
     local RESOLUTIONS=(
         16,16x16

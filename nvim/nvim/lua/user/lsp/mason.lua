@@ -9,7 +9,13 @@ local settings = {
 	},
 	log_level = vim.log.levels.INFO,
 	max_concurrent_installers = 4,
-	automatic_installation = true,
+	ensure_installed = {
+		"bash-language-server",
+		"dockerfile-language-server",
+		"docker-compose-language-service",
+		"gopls",
+		"lua-language-server",
+	},
 }
 
 local status_ok_mason, mason = pcall(require, "mason")
@@ -19,23 +25,6 @@ if not status_ok_mason then
 end
 
 mason.setup(settings)
-
-local status_ok_mason_lspconfig, mason_lspconfig = pcall(require, "mason-lspconfig")
-if not status_ok_mason_lspconfig then
-	print "mason-lspconfig not found"
-	return
-end
-
-mason_lspconfig.setup({
-	ensure_installed = {
-		"bashls",
-		"dockerls",
-		"docker_compose_language_service",
-		"gopls",
-		"lua_ls",
-	},
-	automatic_installation = false,
-})
 
 local servers = {
 	"bashls",

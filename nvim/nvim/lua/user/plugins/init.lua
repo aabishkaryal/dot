@@ -36,7 +36,6 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
       "mfussenegger/nvim-lint",
       "stevearc/conform.nvim",
     },

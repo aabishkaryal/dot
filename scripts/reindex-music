@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# Import music into Beets as singleton tracks using acoustic fingerprinting.
+# Runs are interactive by default so weak matches can be reviewed instead of
+# silently skipped; pass --quiet only when unattended skipping is acceptable.
+
+DEFAULT_MUSIC_DIR="$HOME/Library/Mobile Documents/com~apple~CloudDocs/music/"
+QUIET=0
+
+usage() {
+	exit_code="${1:-1}"
+	echo "Usage: $(basename "$0") [--quiet] [FILE_OR_FOLDER ...]"
+	echo "Import the default music folder, or specific files/folders, into Beets."
+	echo ""
+	echo "Options:"
+	echo "  -q, --quiet    Auto-import strong matches and skip weak/no matches"
+	echo "  -h, --help     Show this help message"
+	exit "$exit_code"
+}
+
+while [ "$#" -gt 0 ]; do
+	case "$1" in
+	-q | --quiet)
+		QUIET=1
+		shift
+		;;
+	-h | --help)
+		usage 0
+		;;
+	--)
+		shift
+		break
+		;;
+	-*)
+		echo "Error: unknown option: $1"
+		usage
+		;;
+	*)
+		break
+		;;
+	esac
+done
+
+if ! command -v beet >/dev/null 2>&1; then
+	echo "Error: beet command not found"
+	exit 1
+fi
+
+if [ "$#" -eq 0 ]; then
+	set -- "$DEFAULT_MUSIC_DIR"
+fi
+
+status=0
+for target in "$@"; do
+	if [ ! -e "$target" ]; then
+		echo "Error: music path does not exist: $target"
+		status=1
+		continue
+	fi
+
+	if [ "$QUIET" -eq 1 ]; then
+		beet import -q -s "$target" || status=$?
+	else
+		beet import -s "$target" || status=$?
+	fi
+done
+
+exit "$status"

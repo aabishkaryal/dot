@@ -1,6 +1,9 @@
 .devcontainer
 .vscode
 .DS_Store
+__pycache__/
+beets/library.db
+beets/state.pickle
 
 nvim.*
 

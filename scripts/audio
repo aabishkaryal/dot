@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Extract MP3 audio from a video file in place.
+# Use this for quick local conversions when the original video should remain
+# and a same-name .mp3 output next to it is enough.
+
 if [ -z "$1" ]; then
   echo "Usage: audio <video-file>"
   exit 1
