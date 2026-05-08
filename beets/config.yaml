@@ -1,7 +1,7 @@
 library: ~/.local/share/beets/library.db
 statefile: ~/.local/share/beets/state.pickle
 directory: ~/Library/Mobile Documents/com~apple~CloudDocs/music
-plugins: [musicbrainz, chroma, lyrics, fetchart, edit]
+plugins: [musicbrainz, chroma, deezer, spotify, lyrics, fetchart, edit]
 import:
     write: yes
     move: yes
