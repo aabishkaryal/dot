@@ -7,3 +7,9 @@ import:
     move: yes
     copy: no
     quiet_fallback: skip
+paths:
+    # YouTube downloads are imported as singleton tracks; keep them at Artist/Song.
+    singleton: $artist/$title
+lyrics:
+    # Avoid Google lyrics warnings unless API keys are configured.
+    sources: [lrclib, genius]
