@@ -1,5 +1,6 @@
 .devcontainer
 .vscode
+.idea/
 .DS_Store
 __pycache__/
 beets/library.db
