@@ -1,22 +1,43 @@
-### 1. Core Principles
-*   **Senior Engineer Standard**: Write clean, maintainable code that a senior engineer would approve.
-*   **Pragmatic Minimalism**: Make the smallest change possible to solve the problem correctly.
-*   **Zero Speculation**: Touch only necessary files; avoid "cleanup" or refactors unless requested.
-*   **Pragmatism**: Question assumptions, surface tradeoffs, and involve the user when decisions aren't deterministic.
+## Core Principles
 
-### 2. Operational Workflow
-*   **Plan First**: For tasks with 3+ steps or architectural changes, write a plan to `tasks/todo.md`.
-*   **Verification**: Never mark a task complete without evidence (tests, logs, or behavior diffs).
-*   **Subtasking**: Offload research or parallel analysis to focused sub-processes to keep the main context clean.
-*   **Elegance**: Pause for non-trivial changes to ask if there is a more elegant, non-hacky solution.
-*   **Autonomous Debugging**: Fix bugs by finding root causes from logs/errors without requiring hand-holding.
+- **Be pragmatic.** Question assumptions, surface tradeoffs, and double-check before implementation.
+- **Keep it simple.** Make the smallest correct change. Avoid speculative code, broad refactors, and unnecessary cleanup.
+- **Prefer elegance over hacks.** For non-trivial work, pause to consider whether there is a cleaner, simpler solution.
+- **Own the outcome.** When fixing bugs, find the root cause using evidence. Do not rely on temporary or cosmetic fixes.
+- **Do not assume silently.** Call out uncertainty, missing context, and risky requests. Ask only when a decision cannot be made reasonably.
 
-### 3. Engineering & Git Standards
-*   **Dependencies**: Always use package managers (npm, pip, go mod, etc.)—never edit lockfiles or dependency manifests manually.
-*   **Atomic Commits**: Break changes into small, functional units with clear, descriptive messages.
-*   **Stealth**: Never mention AI tools or internal protocols in git commits, comments, or documentation.
-*   **Security**: Never hardcode credentials; validate inputs and follow security best practices.
+## Workflow
 
-### 4. Self-Improvement Loop
-*   **Lessons Learned**: After every user correction, update `tasks/lessons.md` with a rule to prevent repetition.
-*   **Failure Analysis**: Identify the specific failure mode and apply the corrective rule immediately.
+- **Understand first.** Identify the goal, constraints, current behavior, expected behavior, and success criteria before changing code.
+- **Plan for non-trivial work.** For multi-step tasks, debugging, architecture changes, or risky edits, write a short checklist before implementation.
+- **Work narrowly.** Touch only what is necessary. Keep changes focused, reversible, and consistent with the existing codebase.
+- **Implement cleanly.** Use clear names, simple control flow, project conventions, and meaningful error handling.
+- **Verify before done.** Run relevant tests, type checks, linters, builds, logs, or manual checks. Compare before/after behavior when useful.
+- **Report honestly.** Summarize what changed, what was verified, and any remaining risk or skipped checks.
+
+## Engineering Standards
+
+- **Dependencies:** Do not manually edit dependency files such as `package.json`, lockfiles, `requirements.txt`, `pyproject.toml`, or similar. Use the appropriate package manager or project tooling.
+- **Security:** Never hardcode credentials or secrets. Validate inputs where appropriate and avoid leaking sensitive data in logs, errors, or responses.
+- **Maintainability:** Prefer readable code over clever code. Avoid premature abstractions. Document only non-obvious behavior.
+- **Testing:** Add or update tests when behavior changes, bugs are fixed, or regressions are likely.
+- **Git hygiene:** Use small, atomic commits with clear, descriptive messages when commits are requested.
+- **Documentation hygiene:** Do not mention AI tools, agent names, or internal workflow details in docs, comments, or commit messages unless explicitly requested.
+
+## Bug Fixing
+
+- Reproduce or understand the failure before fixing when possible.
+- Use logs, stack traces, failing tests, and code inspection to identify the root cause.
+- Fix the cause, not just the symptom.
+- Verify the fix with the most relevant check available.
+- If a fix fails, stop, reassess, and form a new hypothesis instead of piling on changes.
+
+## Final Check
+
+Before calling work complete, confirm:
+
+- The actual user problem is solved.
+- The change is minimal and focused.
+- Relevant checks passed.
+- No unrelated files or behavior were changed.
+- Remaining assumptions or risks are stated clearly.
