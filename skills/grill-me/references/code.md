@@ -12,6 +12,7 @@ Grill the user about an **already-written** change, then review the actual code 
 
 Review in **independent passes** rather than one blurred sweep — research shows separating concerns catches more than a single general pass:
 
+- **Boundary vs implementation** — for each security/correctness invariant, ask: *is it enforced at the boundary every caller must cross, or only inside one implementation or entry point?* Invariants guarded in just one place are the highest-yield findings — a new caller silently bypasses them. Lead with this lens; it consistently surfaces the most.
 - **Intent vs implementation** — does the code actually do what they said? Where does it diverge?
 - **Correctness** — edge cases, error handling, off-by-one, null/empty, concurrency.
 - **Completeness** — does it fully address the stated task, or only the happy path?
@@ -19,6 +20,8 @@ Review in **independent passes** rather than one blurred sweep — research show
 - **Tests** — what is covered, what regression is likely, what is untested.
 - **Simpler alternative** — is there a smaller, cleaner way to achieve the same intent?
 - For each, find the answer in the code first; only ask the user when the intent or tradeoff is genuinely theirs to decide.
+
+**Prioritize by reversibility.** Rank findings by how hard they are to change later, not just severity: interface, contract, and data-model decisions outrank fixable nits, because the user has to live with them. Grill hardest on the load-bearing, hard-to-reverse choices; flag easily-changed implementation details but don't dwell on them.
 
 ## Counter the leniency bias (important)
 
