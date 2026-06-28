@@ -58,6 +58,23 @@ vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
   group = custom_autocmd_grp,
 })
 
+-- enable treesitter highlighting and indentation
+local ts_languages = {
+  'lua', 'markdown', 'markdown_inline', 'bash', 'python',
+  'dockerfile', 'gitignore', 'go', 'gomod', 'make',
+  'sql', 'yaml', 'comment', 'diff', 'html', 'javascript', 'json', 'regex',
+}
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = ts_languages,
+  callback = function(ev)
+    vim.treesitter.start()
+    if ev.match ~= 'python' then
+      vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end
+  end,
+  group = custom_autocmd_grp,
+})
+
 -- register custom filetypes
 local filetypes = {
   gitignore = { "*.dockerignore" },

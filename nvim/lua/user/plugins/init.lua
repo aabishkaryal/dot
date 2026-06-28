@@ -69,17 +69,9 @@ return {
   -- Treesitter
   {
     "nvim-treesitter/nvim-treesitter",
-    event = { "BufReadPost", "BufNewFile" },
+    branch = "main",
+    lazy = false,
     build = ":TSUpdate",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      {
-        "JoosepAlviste/nvim-ts-context-commentstring",
-        config = function()
-          require("ts_context_commentstring").setup({ enable = true })
-        end,
-      },
-    },
     config = function()
       require("user.treesitter")
     end,
