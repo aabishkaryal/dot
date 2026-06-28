@@ -1,11 +1,10 @@
 #!/bin/bash
 
-# Download YouTube audio into the configured music folder, then import only the
-# files created by this run into Beets. Import stays interactive so weak matches
-# can be reviewed; full-library repair/backfill is handled by reindex-music.
+# Download YouTube audio into the configured music folder.
+# Automatic Beets indexing is currently disabled below.
 
 # Default output directory
-OUTPUT_DIR="$HOME/Library/Mobile Documents/com~apple~CloudDocs/music/"
+OUTPUT_DIR="$HOME/Music/"
 
 # Help message
 usage() {
@@ -67,22 +66,23 @@ if [ "$download_status" -ne 0 ]; then
 	exit "$download_status"
 fi
 
-if [ ! -s "$DOWNLOADED_PATHS_FILE" ]; then
-	echo "Warning: download completed but no downloaded file paths were reported"
-	exit 0
-fi
-
-index_status=0
-while IFS= read -r downloaded_path; do
-	if [ -z "$downloaded_path" ]; then
-		continue
-	fi
-
-	"$SCRIPT_DIR/reindex-music" "$downloaded_path" || index_status=$?
-done <"$DOWNLOADED_PATHS_FILE"
-
-if [ "$index_status" -ne 0 ]; then
-	echo "Warning: Beets indexing failed for one or more downloaded files"
-fi
+# Automatic Beets indexing is disabled.
+# if [ ! -s "$DOWNLOADED_PATHS_FILE" ]; then
+# 	echo "Warning: download completed but no downloaded file paths were reported"
+# 	exit 0
+# fi
+#
+# index_status=0
+# while IFS= read -r downloaded_path; do
+# 	if [ -z "$downloaded_path" ]; then
+# 		continue
+# 	fi
+#
+# 	"$SCRIPT_DIR/reindex-music" "$downloaded_path" || index_status=$?
+# done <"$DOWNLOADED_PATHS_FILE"
+#
+# if [ "$index_status" -ne 0 ]; then
+# 	echo "Warning: Beets indexing failed for one or more downloaded files"
+# fi
 
 exit 0
