@@ -15,6 +15,8 @@ local settings = {
 		"docker-compose-language-service",
 		"gopls",
 		"lua-language-server",
+		"zls",
+		"ols",
 	},
 }
 
@@ -32,6 +34,8 @@ local servers = {
 	"docker_compose_language_service",
 	"gopls",
 	"lua_ls",
+	"zls",
+	"ols",
 }
 
 for _, server_name in pairs(servers) do

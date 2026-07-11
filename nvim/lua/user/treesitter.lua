@@ -19,4 +19,6 @@ require('nvim-treesitter').install {
   'javascript',
   'json',
   'regex',
+  'zig',
+  'odin',
 }
