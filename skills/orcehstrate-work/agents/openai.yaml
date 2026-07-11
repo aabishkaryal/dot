@@ -1,0 +1,4 @@
+interface:
+  display_name: "Orchestrate Work"
+  short_description: "Run reliable multi-agent project campaigns"
+  default_prompt: "Use $orchestrate-work to set up or run this project campaign with scoped implementers, risk-based reviews, and compact task state."
