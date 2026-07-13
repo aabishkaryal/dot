@@ -28,6 +28,10 @@ export PATH="$PATH:$GOPATH/bin"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
+# zig
+export ZVM_INSTALL="$HOME/.zvm/self"
+export PATH="$HOME/.zvm/bin:$ZVM_INSTALL:$PATH"
+
 
 # Cargo
 export CARGO_NET_GIT_FETCH_WITH_CLI=true
