@@ -19,8 +19,6 @@
         "/Users/aabi/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim/lua",
         "/Users/aabi/.local/share/nvim/site/pack/packer/start/lualine.nvim/lua",
         "/Users/aabi/.local/share/nvim/site/pack/packer/start/LuaSnip/lua",
-        "/Users/aabi/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim/lua",
-        "/Users/aabi/.local/share/nvim/site/pack/packer/start/mason.nvim/lua",
         "/Users/aabi/.local/share/nvim/site/pack/packer/start/neodev.nvim/lua",
         "/Users/aabi/.local/share/nvim/site/pack/packer/start/null-ls.nvim/lua",
         "/Users/aabi/.local/share/nvim/site/pack/packer/start/nvim-autopairs/lua",

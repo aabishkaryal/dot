@@ -72,7 +72,7 @@ This file provides a comprehensive overview of all keybindings organized by func
 |-----|--------|-------------|
 | `<leader>lf` | Format | Format code with conform |
 | `<leader>li` | LSP Info | Show LSP information |
-| `<leader>lm` | Mason | Open Mason installer |
+| `<leader>lm` | LSP Servers | Check for missing LSP server binaries |
 | `<leader>la` | Code Action | Show code actions |
 | `<leader>lr` | Rename | Rename symbol |
 | `<leader>ls` | Signature Help | Show signature help |

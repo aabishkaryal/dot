@@ -35,7 +35,6 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      "williamboman/mason.nvim",
       "mfussenegger/nvim-lint",
       "stevearc/conform.nvim",
     },
@@ -154,19 +153,31 @@ return {
         "dreamsofcode-io/nvim-dap-go",
         ft = "go",
         config = function()
-          require("dap-go").setup()
+          if vim.fn.executable("dlv") == 1 then
+            require("dap-go").setup()
+          else
+            vim.notify("dlv not found on PATH, skipping Go DAP setup", vim.log.levels.WARN)
+          end
         end,
       },
       {
         "mfussenegger/nvim-dap-python",
         ft = "python",
         config = function()
-          local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
           local venv = os.getenv("VIRTUAL_ENV")
-          if venv then
-            path = venv .. "/bin/python"
+          local path = venv and (venv .. "/bin/python") or "python3"
+
+          local has_debugpy = vim.fn.executable(path) == 1
+          if has_debugpy then
+            vim.fn.system({ path, "-c", "import debugpy" })
+            has_debugpy = vim.v.shell_error == 0
           end
-          require("dap-python").setup(path)
+
+          if has_debugpy then
+            require("dap-python").setup(path)
+          else
+            vim.notify("debugpy not found for " .. path .. ", skipping Python DAP setup", vim.log.levels.WARN)
+          end
         end,
       },
     },
