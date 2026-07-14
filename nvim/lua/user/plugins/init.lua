@@ -5,13 +5,10 @@ return {
 
   -- Colorschemes
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
   },
-  { "folke/tokyonight.nvim", lazy = true },
-  { "rebelot/kanagawa.nvim", lazy = true },
 
   -- Completion
   {

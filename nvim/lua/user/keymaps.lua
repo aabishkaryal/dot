@@ -120,5 +120,8 @@ if status_ok_conform then
   end, { desc = "Format code" })
 end
 
--- Quick access to keybindings reference  
+-- Quick access to keybindings reference
 keymap("n", "<leader>k", ":e ~/repos/dot/nvim/KEYBINDINGS.md<CR>", { desc = "Open keybindings reference" })
+
+-- Theme picker: live-preview colorschemes while scrolling the list
+keymap("n", "<leader>ut", ":Telescope colorscheme enable_preview=true<CR>", { desc = "Preview/pick colorscheme" })
