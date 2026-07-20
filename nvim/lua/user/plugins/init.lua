@@ -175,31 +175,21 @@ return {
         "dreamsofcode-io/nvim-dap-go",
         ft = "go",
         config = function()
-          if vim.fn.executable("dlv") == 1 then
-            require("dap-go").setup()
-          else
-            vim.notify("dlv not found on PATH, skipping Go DAP setup", vim.log.levels.WARN)
-          end
+          -- dlv is only invoked when a debug session actually starts;
+          -- nvim-dap reports a spawn failure then if it's missing.
+          require("dap-go").setup()
         end,
       },
       {
         "mfussenegger/nvim-dap-python",
         ft = "python",
         config = function()
-          local venv = os.getenv("VIRTUAL_ENV")
-          local path = venv and (venv .. "/bin/python") or "python3"
-
-          local has_debugpy = vim.fn.executable(path) == 1
-          if has_debugpy then
-            vim.fn.system({ path, "-c", "import debugpy" })
-            has_debugpy = vim.v.shell_error == 0
-          end
-
-          if has_debugpy then
-            require("dap-python").setup(path)
-          else
-            vim.notify("debugpy not found for " .. path .. ", skipping Python DAP setup", vim.log.levels.WARN)
-          end
+          -- Adapter runs via `uv run --with debugpy`, so debugpy never
+          -- needs installing in any project venv. The debuggee still runs
+          -- under the project's own interpreter (auto-detected from
+          -- VIRTUAL_ENV/.venv/etc. by dap-python).
+          local path = vim.fn.executable("uv") == 1 and "uv" or "python3"
+          require("dap-python").setup(path)
         end,
       },
     },
