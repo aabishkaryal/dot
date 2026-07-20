@@ -68,6 +68,3 @@ export NVM_DIR="$HOME/.nvm"
 
 # Local overrides (not tracked in git)
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
-
-# kimi-code
-export PATH="/Users/aabishkararyal/.kimi-code/bin:$PATH"
