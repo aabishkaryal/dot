@@ -8,6 +8,8 @@ local servers = {
 	"lua_ls",
 	"zls",
 	"ols",
+	"pylsp",
+	"ruff",
 }
 
 for _, server_name in ipairs(servers) do
