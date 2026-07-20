@@ -87,7 +87,7 @@ This dotfiles repository uses a secure token management system:
 
 - **Shell configuration**: zsh with Oh My Zsh and plugins
 - **Editor**: Neovim with LSP, plugins, and custom configuration  
-- **Terminal**: Kitty terminal with custom themes
+- **Terminal**: Kitty and cmux (Ghostty-based), both on the same custom theme
 - **Multiplexer**: Tmux with plugin manager and custom configuration
 - **Development tools**: Node.js, Go, Java, Android SDK paths
 - **Claude Code**: MCP servers and AI development tools

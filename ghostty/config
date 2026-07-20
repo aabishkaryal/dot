@@ -1,0 +1,4 @@
+font-family = FiraCode Nerd Font
+
+# Tokyo Night theme (matches kitty + tmux + nvim)
+theme = TokyoNight Night

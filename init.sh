@@ -195,6 +195,8 @@ create_symlink "$DOTFILES_DIR/.claude" "$HOME/.claude"
 
 # macOS-only symlinks
 create_symlink "$DOTFILES_DIR/kitty" "$HOME/.config/kitty"
+create_symlink "$DOTFILES_DIR/cmux" "$HOME/.config/cmux"
+create_symlink "$DOTFILES_DIR/ghostty" "$HOME/.config/ghostty"
 
 # Install Tmux Plugin Manager
 echo "🖥️  Installing Tmux Plugin Manager..."
