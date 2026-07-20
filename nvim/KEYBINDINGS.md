@@ -115,6 +115,7 @@ This file provides a comprehensive overview of all keybindings organized by func
 |-----|--------|-------------|
 | `<leader>tb` | Toggle Blame | Toggle git line blame |
 | `<leader>td` | Toggle Deleted | Toggle git deleted lines |
+| `<leader>tm` | Toggle Markdown Preview | Toggle in-buffer markdown rendering (markdown files only) |
 | `]t` | Next TODO | Jump to next TODO comment |
 | `[t` | Prev TODO | Jump to prev TODO comment |
 
@@ -173,6 +174,20 @@ This file provides a comprehensive overview of all keybindings organized by func
 | `<S-Down>` | Resize Down | Increase height |
 | `<S-Left>` | Resize Left | Decrease width |
 | `<S-Right>` | Resize Right | Increase width |
+
+---
+
+## 📚 Folding
+Folds are computed asynchronously by [nvim-ufo](https://github.com/kevinhwang91/nvim-ufo) (treesitter-based, indent as fallback) to avoid editor stutter on languages with dense fold queries (e.g. Zig).
+
+| Key | Action | Description |
+|-----|--------|-------------|
+| `za` | Toggle Fold | Toggle fold under cursor |
+| `zc` | Close Fold | Close fold under cursor (current bracket/block level) |
+| `zo` | Open Fold | Open fold under cursor |
+| `zM` | Close All Folds | Close all folds in buffer (nvim-ufo) |
+| `zR` | Open All Folds | Open all folds in buffer (nvim-ufo) |
+| `zK` | Peek Fold | Preview contents of the fold under cursor without opening it |
 
 ---
 

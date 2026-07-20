@@ -73,6 +73,31 @@ return {
     end,
   },
 
+  -- Markdown preview (in-buffer rendering, toggled with <leader>tm)
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    cmd = "RenderMarkdown",
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("user.render-markdown")
+    end,
+  },
+
+  -- Async folding (fixes scroll stutter from synchronous treesitter foldexpr)
+  {
+    "kevinhwang91/nvim-ufo",
+    dependencies = { "kevinhwang91/promise-async" },
+    event = { "BufReadPost", "BufNewFile" },
+    keys = {
+      { "zR", function() require("ufo").openAllFolds() end, desc = "Open all folds" },
+      { "zM", function() require("ufo").closeAllFolds() end, desc = "Close all folds" },
+      { "zK", function() require("ufo").peekFoldedLinesUnderCursor() end, desc = "Peek fold" },
+    },
+    config = function()
+      require("user.ufo")
+    end,
+  },
+
   -- Quality of Life
   {
     "lukas-reineke/indent-blankline.nvim",

@@ -125,3 +125,13 @@ keymap("n", "<leader>k", ":e ~/repos/dot/nvim/KEYBINDINGS.md<CR>", { desc = "Ope
 
 -- Theme picker: live-preview colorschemes while scrolling the list
 keymap("n", "<leader>ut", ":Telescope colorscheme enable_preview=true<CR>", { desc = "Preview/pick colorscheme" })
+
+-- Markdown preview
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "markdown" },
+  group = custom_keymaps_grp,
+  callback = function(args)
+    keymap("n", "<leader>tm", "<cmd>RenderMarkdown toggle<CR>", { buffer = args.buf, desc = "Toggle markdown preview" })
+  end,
+  desc = "set custom keymaps for markdown files",
+})
