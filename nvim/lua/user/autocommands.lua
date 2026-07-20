@@ -76,6 +76,17 @@ vim.api.nvim_create_autocmd('FileType', {
   group = custom_autocmd_grp,
 })
 
+-- check for files changed on disk (e.g. by an agent) and reload the buffer
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI", "TermClose", "TermLeave" }, {
+  pattern = "*",
+  callback = function()
+    if vim.fn.mode() ~= "c" and vim.fn.getcmdwintype() == "" then
+      vim.cmd("checktime")
+    end
+  end,
+  group = custom_autocmd_grp,
+})
+
 -- register custom filetypes
 local filetypes = {
   gitignore = { "*.dockerignore" },

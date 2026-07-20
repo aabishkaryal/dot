@@ -78,6 +78,9 @@ if status_ok then
   keymap("n", "<leader>fb", ":Telescope buffers initial_mode=normal<CR>", opts)
 end
 
+-- New untitled file (VSCode-style: unattached buffer, prompts for a path on save)
+keymap("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New (untitled) file" })
+
 
 -- DAP
 local status_ok_dap, _ = pcall(require, "dap")
@@ -126,12 +129,12 @@ keymap("n", "<leader>k", ":e ~/repos/dot/nvim/KEYBINDINGS.md<CR>", { desc = "Ope
 -- Theme picker: live-preview colorschemes while scrolling the list
 keymap("n", "<leader>ut", ":Telescope colorscheme enable_preview=true<CR>", { desc = "Preview/pick colorscheme" })
 
--- Markdown preview
+-- Markdown preview (live browser preview, opened in cmux)
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "markdown" },
   group = custom_keymaps_grp,
   callback = function(args)
-    keymap("n", "<leader>tm", "<cmd>RenderMarkdown toggle<CR>", { buffer = args.buf, desc = "Toggle markdown preview" })
+    keymap("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<CR>", { buffer = args.buf, desc = "Markdown preview toggle" })
   end,
   desc = "set custom keymaps for markdown files",
 })

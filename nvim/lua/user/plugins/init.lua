@@ -73,13 +73,13 @@ return {
     end,
   },
 
-  -- Markdown preview (in-buffer rendering, toggled with <leader>tm)
+  -- Markdown preview (live browser preview, opened in cmux, toggled with <leader>mp)
   {
-    "MeanderingProgrammer/render-markdown.nvim",
-    cmd = "RenderMarkdown",
-    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+    "iamcco/markdown-preview.nvim",
+    ft = "markdown",
+    build = function() vim.fn["mkdp#util#install"]() end,
     config = function()
-      require("user.render-markdown")
+      require("user.markdown-preview")
     end,
   },
 
@@ -97,6 +97,61 @@ return {
       require("user.ufo")
     end,
   },
+
+  -- Navigation / editing
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+    },
+    opts = {},
+  },
+  {
+    "MagicDuck/grug-far.nvim",
+    cmd = "GrugFar",
+    keys = {
+      { "<leader>sr", function() require("grug-far").open() end, desc = "Search & Replace (project)" },
+      { "<leader>sr", mode = "x", function() require("grug-far").with_visual_selection() end, desc = "Search & Replace (selection)" },
+    },
+    opts = {},
+  },
+  {
+    "mbbill/undotree",
+    cmd = "UndotreeToggle",
+    keys = {
+      { "<leader>U", "<cmd>UndotreeToggle<cr>", desc = "Undo tree" },
+    },
+  },
+  {
+    "echasnovski/mini.ai",
+    event = "VeryLazy",
+    opts = function()
+      local ai = require("mini.ai")
+      return {
+        n_lines = 500,
+        custom_textobjects = {
+          f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
+          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
+          a = ai.gen_spec.treesitter({ a = "@parameter.outer", i = "@parameter.inner" }),
+        },
+      }
+    end,
+    config = function(_, opts)
+      require("mini.ai").setup(opts)
+    end,
+  },
+  {
+    "sindrets/diffview.nvim",
+    cmd = { "DiffviewOpen", "DiffviewFileHistory" },
+    keys = {
+      { "<leader>gv", "<cmd>DiffviewOpen<cr>", desc = "Diffview (all changes)" },
+      { "<leader>gV", "<cmd>DiffviewFileHistory %<cr>", desc = "File history (Diffview)" },
+    },
+    opts = {},
+  },
+  { "direnv/direnv.vim", event = "VeryLazy" },
 
   -- Quality of Life
   {
@@ -126,18 +181,17 @@ return {
     end,
   },
   {
-    "nvim-tree/nvim-tree.lua",
-    version = "*",
+    "folke/snacks.nvim",
+    priority = 1000,
     lazy = false,
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
     keys = {
-      { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Toggle NvimTree" },
-      { "<leader>o", "<cmd>NvimTreeFocus<cr>", desc = "Focus NvimTree" },
+      { "<leader>e", function() Snacks.explorer() end, desc = "Explorer (snacks)" },
+      { "<leader>o", function() Snacks.explorer.reveal() end, desc = "Explorer reveal current file" },
+      { "<leader>.", function() Snacks.scratch() end, desc = "Toggle scratch buffer" },
+      { "<leader>S", function() Snacks.scratch.select() end, desc = "Select scratch buffer" },
     },
     config = function()
-      require("user.nvim-tree")
+      require("user.snacks")
     end,
   },
   {
@@ -275,6 +329,7 @@ return {
         { "<leader>x", group = "Trouble/Diagnostics" },
         { "<leader>t", group = "Toggle" },
         { "<leader>c", group = "Clear/Close" },
+        { "<leader>m", group = "Markdown" },
       })
     end,
   },
@@ -343,18 +398,18 @@ return {
           end, { expr = true, desc = "Previous git hunk" })
 
           -- Actions
-          map("n", "<leader>hs", gs.stage_hunk, { desc = "Stage hunk" })
-          map("n", "<leader>hr", gs.reset_hunk, { desc = "Reset hunk" })
-          map("v", "<leader>hs", function() gs.stage_hunk { vim.fn.line("."), vim.fn.line("v") } end, { desc = "Stage hunk" })
-          map("v", "<leader>hr", function() gs.reset_hunk { vim.fn.line("."), vim.fn.line("v") } end, { desc = "Reset hunk" })
-          map("n", "<leader>hS", gs.stage_buffer, { desc = "Stage buffer" })
-          map("n", "<leader>hu", gs.undo_stage_hunk, { desc = "Undo stage hunk" })
-          map("n", "<leader>hR", gs.reset_buffer, { desc = "Reset buffer" })
-          map("n", "<leader>hp", gs.preview_hunk, { desc = "Preview hunk" })
-          map("n", "<leader>hb", function() gs.blame_line { full = true } end, { desc = "Blame line" })
+          map("n", "<leader>gs", gs.stage_hunk, { desc = "Stage hunk" })
+          map("n", "<leader>gr", gs.reset_hunk, { desc = "Reset hunk" })
+          map("v", "<leader>gs", function() gs.stage_hunk { vim.fn.line("."), vim.fn.line("v") } end, { desc = "Stage hunk" })
+          map("v", "<leader>gr", function() gs.reset_hunk { vim.fn.line("."), vim.fn.line("v") } end, { desc = "Reset hunk" })
+          map("n", "<leader>gS", gs.stage_buffer, { desc = "Stage buffer" })
+          map("n", "<leader>gu", gs.undo_stage_hunk, { desc = "Undo stage hunk" })
+          map("n", "<leader>gR", gs.reset_buffer, { desc = "Reset buffer" })
+          map("n", "<leader>gp", gs.preview_hunk, { desc = "Preview hunk" })
+          map("n", "<leader>gb", function() gs.blame_line { full = true } end, { desc = "Blame line" })
           map("n", "<leader>tb", gs.toggle_current_line_blame, { desc = "Toggle line blame" })
-          map("n", "<leader>hd", gs.diffthis, { desc = "Diff this" })
-          map("n", "<leader>hD", function() gs.diffthis("~") end, { desc = "Diff this ~" })
+          map("n", "<leader>gd", gs.diffthis, { desc = "Diff this" })
+          map("n", "<leader>gD", function() gs.diffthis("~") end, { desc = "Diff this ~" })
           map("n", "<leader>td", gs.toggle_deleted, { desc = "Toggle deleted" })
 
           -- Text object

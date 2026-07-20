@@ -13,6 +13,7 @@ This file provides a comprehensive overview of all keybindings organized by func
 | `<leader>ff` | Find Files | Search files with Telescope |
 | `<leader>fg` | Find Grep | Live grep search in project |
 | `<leader>fb` | Find Buffers | Search open buffers |
+| `<leader>fn` | New File | Open an untitled buffer (prompts for a path on `:w`) |
 
 ---
 
@@ -23,14 +24,37 @@ This file provides a comprehensive overview of all keybindings organized by func
 | `<leader>sk` | Search Keymaps | Browse keymaps with Telescope |
 | `<leader>st` | Search TODO | Find TODO comments with Telescope |
 | `<leader>sT` | Search TODO/FIX | Find TODO/FIX/FIXME comments |
+| `<leader>sr` | Search & Replace | Open grug-far (project-wide find & replace) |
+
+`<leader>sr` in visual mode seeds the search from the current selection.
 
 ---
 
-## 🌳 File Explorer
+## ⚡ Flash (jump anywhere)
 | Key | Action | Description |
 |-----|--------|-------------|
-| `<leader>e` | Toggle Explorer | Toggle NvimTree |
-| `<leader>o` | Focus Explorer | Focus NvimTree |
+| `s` | Flash Jump | Jump to any visible location by label (normal/visual/operator-pending) |
+| `S` | Flash Treesitter | Jump/select by treesitter node |
+
+Overrides native `s` (substitute char) — use `cl` instead.
+
+---
+
+## 🌳 File Explorer (snacks)
+| Key | Action | Description |
+|-----|--------|-------------|
+| `<leader>e` | Toggle Explorer | Toggle the snacks explorer |
+| `<leader>o` | Reveal in Explorer | Reveal & focus the current file in the explorer |
+| `y` | Yank Path | (in explorer) yank the selected file's path to the register |
+
+---
+
+## 📝 Scratch Buffers & Undo
+| Key | Action | Description |
+|-----|--------|-------------|
+| `<leader>.` | Toggle Scratch | Toggle a project-scoped scratch buffer |
+| `<leader>S` | Select Scratch | Pick from past scratch buffers |
+| `<leader>U` | Undo Tree | Toggle the visual undo history tree |
 
 ---
 
@@ -115,9 +139,15 @@ This file provides a comprehensive overview of all keybindings organized by func
 |-----|--------|-------------|
 | `<leader>tb` | Toggle Blame | Toggle git line blame |
 | `<leader>td` | Toggle Deleted | Toggle git deleted lines |
-| `<leader>tm` | Toggle Markdown Preview | Toggle in-buffer markdown rendering (markdown files only) |
 | `]t` | Next TODO | Jump to next TODO comment |
 | `[t` | Prev TODO | Jump to prev TODO comment |
+
+---
+
+## 📄 Markdown (`<leader>m`, markdown files only)
+| Key | Action | Description |
+|-----|--------|-------------|
+| `<leader>mp` | Toggle Preview | Toggle the live markdown preview (opens in cmux) |
 
 ---
 
@@ -128,20 +158,24 @@ This file provides a comprehensive overview of all keybindings organized by func
 
 ---
 
-## 🎨 Git (`<leader>g` / `<leader>h`)
+## 🎨 Git (`<leader>g`)
 | Key | Action | Description |
 |-----|--------|-------------|
-| `<leader>hs` | Stage Hunk | Stage git hunk |
-| `<leader>hr` | Reset Hunk | Reset git hunk |
-| `<leader>hS` | Stage Buffer | Stage entire buffer |
-| `<leader>hu` | Undo Stage | Undo stage hunk |
-| `<leader>hR` | Reset Buffer | Reset entire buffer |
-| `<leader>hp` | Preview Hunk | Preview git hunk |
-| `<leader>hb` | Blame Line | Show git blame for line |
-| `<leader>hd` | Diff This | Diff current file |
-| `<leader>hD` | Diff This ~ | Diff against HEAD~ |
+| `<leader>gs` | Stage Hunk | Stage git hunk |
+| `<leader>gr` | Reset Hunk | Reset git hunk |
+| `<leader>gS` | Stage Buffer | Stage entire buffer |
+| `<leader>gu` | Undo Stage | Undo stage hunk |
+| `<leader>gR` | Reset Buffer | Reset entire buffer |
+| `<leader>gp` | Preview Hunk | Preview git hunk |
+| `<leader>gb` | Blame Line | Show git blame for line |
+| `<leader>gd` | Diff This | Diff current file |
+| `<leader>gD` | Diff This ~ | Diff against HEAD~ |
+| `<leader>gv` | Diffview | Open side-by-side view of all changes (great for reviewing agent edits) |
+| `<leader>gV` | File History | Diffview file history for the current file |
 | `]c` | Next Hunk | Go to next git hunk |
 | `[c` | Prev Hunk | Go to prev git hunk |
+
+Note: `<leader>h*` is reserved for Harpoon (see below) — gitsigns actions moved to `<leader>g*` to avoid the collision.
 
 ### Git Text Objects
 | Key | Action | Description |
@@ -223,12 +257,31 @@ Folds are computed asynchronously by [nvim-ufo](https://github.com/kevinhwang91/
 | `<A-n>` | Next Reference | Next illuminated reference |
 | `<A-p>` | Prev Reference | Prev illuminated reference |
 
+### Smart Text Objects (mini.ai)
+Works with any operator (`d`, `c`, `y`, `v`, ...). `a` = around, `i` = inside.
+
+| Key | Action | Description |
+|-----|--------|-------------|
+| `af` / `if` | Function | Around/inside function (treesitter) |
+| `ac` / `ic` | Class | Around/inside class (treesitter) |
+| `aa` / `ia` | Argument | Around/inside function argument (treesitter) |
+
+Also supports next/last variants, e.g. `cin(` changes inside the *next* parens.
+
 ---
 
 ## ❓ Help & Reference
 | Key | Action | Description |
 |-----|--------|-------------|
 | `<leader>k` | Keybindings | Open this keybindings file |
+
+---
+
+## 🤖 Agentic / Environment DX
+These aren't keybindings, but are worth knowing about:
+
+- **Auto-reload**: buffers automatically pick up changes made on disk by an external agent (e.g. Claude Code, cmux) — no stale-buffer clobbering on save.
+- **direnv**: per-project `.envrc` files (via [direnv](https://direnv.net/), requires `brew install direnv`) are auto-loaded, so the right node/python/go toolchain resolves inside Neovim, matching your shell.
 
 ---
 

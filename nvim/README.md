@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-
 # A Basic Stable IDE config for Neovim
 
 > Why does this repo exist?
@@ -255,4 +253,14 @@ You can install new plugins here: [plugins](https://github.com/LunarVim/nvim-bas
 
 # \- Edsger W. Dijkstra
 
-> > > > > > > Stashed changes
+## Customizations
+
+On top of the base config, this setup adds:
+
+- **Navigation/editing**: [flash.nvim](https://github.com/folke/flash.nvim) (`s`/`S` jump), [grug-far.nvim](https://github.com/MagicDuck/grug-far.nvim) (`<leader>sr` project find & replace), [undotree](https://github.com/mbbill/undotree) (`<leader>U`), [mini.ai](https://github.com/echasnovski/mini.ai) (smart function/class/argument text objects), [diffview.nvim](https://github.com/sindrets/diffview.nvim) (`<leader>gv`/`<leader>gV`, reviewing changes — including agent-made changes — before committing).
+- **File explorer**: [snacks.nvim](https://github.com/folke/snacks.nvim) explorer + bigfile + scratch buffers, replacing nvim-tree (`<leader>e`/`<leader>o`, `y` to yank a path, `<leader>.`/`<leader>S` for scratch buffers).
+- **Markdown**: [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim) (`<leader>mp`), opening a live-reloading preview inside [cmux](https://github.com/manaflow-ai/cmux) instead of the system browser.
+- **Environment**: [direnv.vim](https://github.com/direnv/direnv.vim) loads per-project `.envrc` files (requires `direnv` installed) so the right toolchain/env resolves inside Neovim.
+- **Agentic DX**: buffers auto-reload when a file is changed on disk by an external process (e.g. an AI agent), and `<leader>fn` opens an untitled scratch file that only gets a path on save.
+
+See [KEYBINDINGS.md](KEYBINDINGS.md) for the full, current keybinding reference.
