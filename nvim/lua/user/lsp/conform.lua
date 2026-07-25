@@ -11,16 +11,12 @@ conform.setup {
     zig = { "zigfmt" },
     odin = { "odinfmt" },
   },
+  -- Single format-on-save path (conform installs its own BufWritePre).
+  -- Do not also create a BufWritePre that calls conform.format — that runs twice.
   format_on_save = {
-    lsp_fallback = true,
-    async = false,
+    lsp_format = "fallback",
     timeout_ms = 500,
+    -- Suppress UI notifications on failure; still writes to conform.log
+    quiet = true,
   },
 }
-
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  callback = function(args)
-    conform.format { bufnr = args.buf }
-  end,
-})
