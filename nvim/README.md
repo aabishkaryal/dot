@@ -228,13 +228,7 @@ You can install new plugins here: [plugins](https://github.com/LunarVim/nvim-bas
 - `<leader>du` : Toggle UI
 - `<leader>dt` : Terminate
 
-- `<leader>lf`: Format current buffer
-
-- `gD` : Go to declaration
-- `gd` : Go to definition
-- `K` : Show hover
-- `gI` : Go to implementation
-- `gr` : Go to references
+- `<leader>l…` : Full LSP group (definition, usages, rename, actions, diagnostics, Trouble panels, format). See [KEYBINDINGS.md](KEYBINDINGS.md).
 
 ### Visual mode:
 

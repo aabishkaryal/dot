@@ -163,6 +163,14 @@ return {
     end,
   },
   {
+    -- Dual colorcolumns with independent highlights (built-in ColorColumn is one color only).
+    "lukas-reineke/virt-column.nvim",
+    event = { "BufReadPost", "BufNewFile" },
+    config = function()
+      require("user.colorcolumn")
+    end,
+  },
+  {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
     config = function()
@@ -171,10 +179,16 @@ return {
   },
   {
     "numToStr/Comment.nvim",
+    -- Lazy-load triggers with desc so which-key can list them before the plugin
+    -- is loaded. Actual maps (with their own desc) come from Comment.setup.
     keys = {
-      { "<leader>/", mode = { "n", "v" } },
-      { "gc", mode = { "n", "v" } },
-      { "gb", mode = { "n", "v" } },
+      { "gcc", mode = "n", desc = "Toggle line comment" },
+      { "gbc", mode = "n", desc = "Toggle block comment" },
+      { "gc", mode = { "n", "x" }, desc = "Comment linewise" },
+      { "gb", mode = { "n", "x" }, desc = "Comment blockwise" },
+      { "gco", mode = "n", desc = "Comment insert below" },
+      { "gcO", mode = "n", desc = "Comment insert above" },
+      { "gcA", mode = "n", desc = "Comment insert end of line" },
     },
     config = function()
       require("user.comment")
@@ -318,7 +332,8 @@ return {
     config = function()
       require("which-key").setup()
       
-      -- Register key groups using new spec format
+      -- Groups only. Individual maps come from each keymap's `desc`
+      -- (lazy keys + plugin setup). which-key auto-discovers those.
       require("which-key").add({
         { "<leader>f", group = "Find/Files" },
         { "<leader>s", group = "Search" },
@@ -330,6 +345,9 @@ return {
         { "<leader>t", group = "Toggle" },
         { "<leader>c", group = "Clear/Close" },
         { "<leader>m", group = "Markdown" },
+        -- Comment.nvim (bare `g`, not <leader>g which is Git)
+        { "gc", group = "Comment linewise", mode = { "n", "x" } },
+        { "gb", group = "Comment blockwise", mode = { "n", "x" } },
       })
     end,
   },
@@ -339,8 +357,8 @@ return {
     keys = {
       { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
       { "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics (Trouble)" },
-      { "<leader>cs", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "Symbols (Trouble)" },
-      { "<leader>cl", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", desc = "LSP Definitions / references / ... (Trouble)" },
+      { "<leader>lo", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "Symbols outline (Trouble)" },
+      { "<leader>lt", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", desc = "LSP defs/refs (Trouble)" },
       { "<leader>xL", "<cmd>Trouble loclist toggle<cr>", desc = "Location List (Trouble)" },
       { "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List (Trouble)" },
     },

@@ -46,28 +46,45 @@ M.setup = function()
 		},
 	})
 
-	-- Replace on_attach with LspAttach autocmd
+	-- Buffer-local LSP maps (attached clients only). Primary home is <leader>l.
 	vim.api.nvim_create_autocmd("LspAttach", {
 		callback = function(args)
 			local bufnr = args.buf
+			local function map(mode, lhs, rhs, desc)
+				vim.keymap.set(mode, lhs, rhs, {
+					buffer = bufnr,
+					noremap = true,
+					silent = true,
+					desc = desc,
+				})
+			end
 
-			local opts = { noremap = true, silent = true }
-			local keymap = vim.api.nvim_buf_set_keymap
-			keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-			keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-			keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-			keymap(bufnr, "n", "gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-			keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-			keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-			keymap(bufnr, "n", "<leader>li", "<cmd>LspInfo<cr>", opts)
-			keymap(bufnr, "n", "<leader>lm", "<cmd>LspServers<cr>", opts)
-			keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
-			keymap(bufnr, "n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", opts)
-			keymap(bufnr, "n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", opts)
-			keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-			keymap(bufnr, "n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-			keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+			-- Navigation (all lowercase under <leader>l)
+			map("n", "<leader>ld", vim.lsp.buf.definition, "Definition")
+			map("n", "<leader>lc", vim.lsp.buf.declaration, "Declaration")
+			map("n", "<leader>lp", vim.lsp.buf.implementation, "Implementation")
+			map("n", "<leader>lu", vim.lsp.buf.references, "Usages / references")
+			map("n", "<leader>ly", vim.lsp.buf.type_definition, "Type definition")
+			map("n", "<leader>lh", vim.lsp.buf.hover, "Hover")
 
+			-- Actions
+			map("n", "<leader>la", vim.lsp.buf.code_action, "Code action")
+			map("n", "<leader>lr", vim.lsp.buf.rename, "Rename")
+			map("n", "<leader>ls", vim.lsp.buf.signature_help, "Signature help")
+
+			-- Diagnostics
+			map("n", "<leader>ll", vim.diagnostic.open_float, "Line diagnostics")
+			map("n", "<leader>lj", function()
+				vim.diagnostic.goto_next({ buffer = 0 })
+			end, "Next diagnostic")
+			map("n", "<leader>lk", function()
+				vim.diagnostic.goto_prev({ buffer = 0 })
+			end, "Prev diagnostic")
+			map("n", "<leader>lq", vim.diagnostic.setloclist, "Diagnostics → loclist")
+
+			-- Meta
+			map("n", "<leader>li", "<cmd>LspInfo<cr>", "LSP info")
+			map("n", "<leader>lm", "<cmd>LspServers<cr>", "Missing LSP servers")
 		end,
 	})
 end

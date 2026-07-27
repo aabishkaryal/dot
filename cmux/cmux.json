@@ -8,31 +8,20 @@
   // cmux creates this template on launch when ~/.config/cmux/cmux.json is missing.
   // Legacy settings.json files are read only as fallback for keys not present here.
 
-  //   "app" : {
-  //     "openMarkdownInCmuxViewer" : true,
-  //     "appearance" : "system",
-  //     "minimalMode" : false,
-  //     "iMessageMode" : false,
-  //     "sendAnonymousTelemetry" : true,
-  //     "warnBeforeClosingTabXButton" : false,
-  //     "language" : "system",
-  //     "renameSelectsExistingName" : true,
-  //     "appIcon" : "automatic",
-  //     "confirmQuit" : "always",
-  //     "newWorkspacePlacement" : "afterCurrent",
-  //     "menuBarOnly" : false,
-  //     "workspaceInheritWorkingDirectory" : true,
-  //     "preferredEditor" : "",
-  //     "warnBeforeClosingTab" : true,
-  //     "windowTitleTemplate" : "",
-  //     "reorderOnNotification" : true,
-  //     "commandPaletteSearchesAllSurfaces" : false,
-  //     "hideTabCloseButton" : false,
-  //     "keepWorkspaceOpenWhenClosingLastSurface" : false,
-  //     "focusPaneOnFirstClick" : false,
-  //     "forkConversationDefaultDestination" : "right",
-  //     "openSupportedFilesInCmux" : true
-  //   },
+  "app": {
+    "sendAnonymousTelemetry": false
+  },
+
+  // Pane focus: Ctrl+Cmd + H/J/K/L
+  // Avoids: vim (plain Ctrl+HJKL / Ctrl+W), macOS Hide (Cmd+H), awkward Opt+Cmd.
+  "shortcuts": {
+    "bindings": {
+      "focusLeft": "ctrl+cmd+h",
+      "focusDown": "ctrl+cmd+j",
+      "focusUp": "ctrl+cmd+k",
+      "focusRight": "ctrl+cmd+l"
+    }
+  },
 
   //   "workspaceGroups" : {
   //     "newWorkspacePlacement" : "afterCurrent"

@@ -92,27 +92,41 @@ Overrides native `s` (substitute char) — use `cl` instead.
 ---
 
 ## 🔧 LSP (`<leader>l`)
+Primary home for all language-server actions. Press `<leader>l` to open the which-key group (requires an attached LSP for buffer-local maps).
+
+### Navigation
 | Key | Action | Description |
 |-----|--------|-------------|
-| `<leader>lf` | Format | Format code with conform |
-| `<leader>li` | LSP Info | Show LSP information |
-| `<leader>lm` | LSP Servers | Check for missing LSP server binaries |
+| `<leader>ld` | Definition | Go to definition |
+| `<leader>lc` | Declaration | Go to declaration |
+| `<leader>lp` | Implementation | Go to implementation |
+| `<leader>lu` | Usages | Show references / usages |
+| `<leader>ly` | Type definition | Go to type definition |
+| `<leader>lh` | Hover | Show hover documentation |
+
+### Actions
+| Key | Action | Description |
+|-----|--------|-------------|
 | `<leader>la` | Code Action | Show code actions |
 | `<leader>lr` | Rename | Rename symbol |
 | `<leader>ls` | Signature Help | Show signature help |
-| `<leader>lq` | Quickfix | Set diagnostics to quickfix |
-| `<leader>lj` | Next Diagnostic | Go to next diagnostic |
-| `<leader>lk` | Prev Diagnostic | Go to prev diagnostic |
+| `<leader>lf` | Format | Format code with conform (always available) |
 
-### LSP Navigation (Global)
+### Diagnostics
 | Key | Action | Description |
 |-----|--------|-------------|
-| `gD` | Declaration | Go to declaration |
-| `gd` | Definition | Go to definition |
-| `K` | Hover | Show hover information |
-| `gI` | Implementation | Go to implementation |
-| `gr` | References | Show references |
-| `gl` | Line Diagnostics | Show line diagnostics |
+| `<leader>ll` | Line Diagnostics | Show diagnostics float for current line |
+| `<leader>lj` | Next Diagnostic | Go to next diagnostic |
+| `<leader>lk` | Prev Diagnostic | Go to prev diagnostic |
+| `<leader>lq` | Loclist | Set diagnostics to location list |
+
+### Panels / meta
+| Key | Action | Description |
+|-----|--------|-------------|
+| `<leader>lo` | Symbols | Toggle symbols outline (Trouble) |
+| `<leader>lt` | LSP Trouble | Toggle LSP defs/refs panel (Trouble) |
+| `<leader>li` | LSP Info | Show LSP information |
+| `<leader>lm` | LSP Servers | Check for missing LSP server binaries |
 
 ---
 
@@ -126,11 +140,7 @@ Overrides native `s` (substitute char) — use `cl` instead.
 | `<leader>xt` | TODO Trouble | Show TODOs in Trouble |
 | `<leader>xT` | TODO/FIX Trouble | Show TODO/FIX/FIXME in Trouble |
 
-### Trouble Symbols/LSP
-| Key | Action | Description |
-|-----|--------|-------------|
-| `<leader>cs` | Symbols | Toggle symbols (Trouble) |
-| `<leader>cl` | LSP References | LSP definitions/references |
+LSP-related Trouble panels live under `<leader>l` (`lo`, `lt`).
 
 ---
 
@@ -184,12 +194,21 @@ Note: `<leader>h*` is reserved for Harpoon (see below) — gitsigns actions move
 
 ---
 
-## ✏️ Comments
-| Key | Action | Description |
-|-----|--------|-------------|
-| `<leader>/` | Toggle Comment | Toggle line comment |
-| `gc` | Comment Motion | Comment with motion |
-| `gb` | Block Comment | Block comment with motion |
+## ✏️ Comments ([Comment.nvim](https://github.com/numToStr/Comment.nvim))
+
+Uses bare `g` prefixes (not `<leader>g`, which is Git). Works in normal and visual mode.
+
+| Key | Mode | Description |
+|-----|------|-------------|
+| `gcc` | normal | Toggle line comment on current line |
+| `gc` + motion | normal | Line-comment a range (e.g. `gcip`, `gc3j`) |
+| `gc` | visual | Line-comment the selection |
+| `gbc` | normal | Toggle block comment on current line |
+| `gb` + motion | normal | Block-comment a range |
+| `gb` | visual | Block-comment the selection |
+| `gco` | normal | Open line comment below |
+| `gcO` | normal | Open line comment above |
+| `gcA` | normal | Append line comment at end of line |
 
 ---
 
