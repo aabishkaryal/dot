@@ -66,5 +66,10 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
+# nvm's PATH handling preserves existing ordering when a stale nvm entry is
+# already present (e.g. inherited via `exec zsh` or a new tmux session), so
+# it can end up behind Homebrew's prepended bin dir. Force it back to front.
+[[ -n "$NVM_BIN" ]] && path=("$NVM_BIN" ${path:#$NVM_BIN})
+
 # Local overrides (not tracked in git)
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"

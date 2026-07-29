@@ -1,3 +1,11 @@
+# Homebrew (Linuxbrew)
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+  autoload -Uz compinit
+  compinit
+fi
+
 # Ruby (rbenv)
 eval "$(~/.rbenv/bin/rbenv init - --no-rehash zsh)" 2>/dev/null
 
@@ -5,3 +13,6 @@ eval "$(~/.rbenv/bin/rbenv init - --no-rehash zsh)" 2>/dev/null
 alias sys-upgrade="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y"
 alias vpn-up="sudo wg-quick up phil"
 alias vpn-down="sudo wg-quick down phil"
+
+# nvm is the default node/npm (loaded last in .zshrc); use bnpm for Homebrew's npm explicitly
+alias bnpm="/home/linuxbrew/.linuxbrew/bin/npm"
