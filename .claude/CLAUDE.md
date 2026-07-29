@@ -21,8 +21,9 @@
 - **Security:** Never hardcode credentials or secrets. Validate inputs where appropriate and avoid leaking sensitive data in logs, errors, or responses.
 - **Maintainability:** Prefer readable code over clever code. Avoid premature abstractions. Document only non-obvious behavior.
 - **Testing:** Add or update tests when behavior changes, bugs are fixed, or regressions are likely.
-- **Git hygiene:** Use small, atomic commits with clear, descriptive messages when commits are requested.
+- **Git hygiene:** Use small, atomic commits with clear, descriptive messages when commits are requested. Do not add `Co-Authored-By` or any AI attribution to commit messages unless the user explicitly asks.
 - **Documentation hygiene:** Do not mention AI tools, agent names, or internal workflow details in docs, comments, or commit messages unless explicitly requested.
+- **External writes:** Never push to GitHub, post or update Jira issues, send messages, or write to any external service without explicit user instruction. Reading from external sources is fine; writing is not.
 
 ## Bug Fixing
 
@@ -41,3 +42,6 @@ Before calling work complete, confirm:
 - Relevant checks passed.
 - No unrelated files or behavior were changed.
 - Remaining assumptions or risks are stated clearly.
+
+## Review
+Codex will review the changes and code once completed
