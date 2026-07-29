@@ -20,6 +20,7 @@ phil-services() {
     ["data-stream"]="cd $PROJECT_ROOT/phil-data-stream && activate && make run"
     ["data-svc"]="cd $PROJECT_ROOT/data-svc && go run main.go -profile=local -path=config"
     ["data-dashboard"]="cd $PROJECT_ROOT/phil-data-dashboard && activate && npm run-script start"
+    ["data-stream-snowflake"]="cd $PROJECT_ROOT/phil-data-stream-snowflake && activate && make run-snowflake-dev"
   )
 
   # Display names for better UX
@@ -32,6 +33,7 @@ phil-services() {
     ["data-stream"]="DATA-STREAM"
     ["data-svc"]="DATA-SVC"
     ["data-dashboard"]="DATA-DASHBOARD"
+    ["data-stream-snowflake"]="DATA-STREAM-SNOWFLAKE"
   )
 
   # Let user select services using fzf
@@ -46,25 +48,33 @@ phil-services() {
   # Kill existing session if it exists
   tmux kill-session -t "$session_name" 2>/dev/null
 
-  # Create new session with pane titles enabled
-  tmux new-session -d -s "$session_name"
+  # Create new session and capture stable IDs for robust pane targeting
+  local session_info window_id current_pane_id
+  session_info=$(tmux new-session -d -s "$session_name" -P -F "#{window_id}:#{pane_id}")
+  window_id="${session_info%%:*}"
+  current_pane_id="${session_info##*:}"
+
   tmux set-option -t "$session_name" pane-border-status top
   tmux set-option -t "$session_name" pane-border-format "#{pane_title}"
+  tmux set-option -t "$session_name" allow-rename off
+  tmux set-option -wt "$window_id" automatic-rename off
 
   local pane_count=0
 
   # Start selected services in separate panes
   for service in ${(f)selected_services}; do
-    if [[ $pane_count -gt 0 ]]; then
-      tmux split-window -t "$session_name"
-      tmux select-layout -t "$session_name" tiled
-    fi
-
     local display_name="${display_names[$service]}"
     local command="${services[$service]}"
 
-    tmux select-pane -t "$session_name:0.$pane_count" -T "$display_name"
-    tmux send-keys -t "$session_name:0.$pane_count" "$command" C-m
+    if [[ $pane_count -gt 0 ]]; then
+      # Create a new pane without changing active focus; capture the new pane id.
+      current_pane_id=$(tmux split-window -d -t "$window_id" -P -F "#{pane_id}")
+      tmux select-layout -t "$window_id" tiled
+    fi
+
+    # Send command first, then set title last so the process cannot override it
+    tmux send-keys -t "$current_pane_id" "$command" C-m
+    tmux select-pane -t "$current_pane_id" -T "$display_name"
     ((pane_count++))
   done
 
@@ -81,8 +91,13 @@ phil-services() {
   echo "Press Enter to continue..."
   read
 
-  # Attach to the session
-  tmux attach-session -t "$session_name"
+  # Attach/switch to the dedicated session. If already in tmux, switch client
+  # so this remains a separate session rather than nesting tmux.
+  if [[ -n "$TMUX" ]]; then
+    tmux switch-client -t "$session_name"
+  else
+    tmux attach-session -t "$session_name"
+  fi
 }
 
 # Activate project environments (node version + python venv)
