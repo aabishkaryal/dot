@@ -15,6 +15,8 @@ This file provides a comprehensive overview of all keybindings organized by func
 | `<leader>fb` | Find Buffers | Search open buffers |
 | `<leader>fn` | New File | Open an untitled buffer (prompts for a path on `:w`) |
 
+In `<leader>ff`/`<leader>fg`, press `<C-h>` to toggle hidden files and `<C-i>` to toggle gitignored files; the prompt title shows which are on.
+
 ---
 
 ## 🔎 Search (`<leader>s`)

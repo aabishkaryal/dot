@@ -73,8 +73,69 @@ if status_ok then
   keymap("n", "<leader>sd", ":Telescope diagnostics initial_mode=normal<CR>", opts)
   keymap("n", "<leader>sk", ":Telescope keymaps initial_mode=normal<CR>", opts)
 
-  keymap("n", "<leader>ff", ":Telescope find_files hidden=true<CR>", opts)
-  keymap("n", "<leader>fg", ":Telescope live_grep<CR>", opts)
+  -- Picker with in-picker toggles: <C-h> hidden files, <C-i> gitignored files.
+  -- build_opts(state) maps {hidden, ignored} to the builtin's own options; the
+  -- current state is shown in the prompt title so it's clear what's active.
+  local function toggleable_picker(builtin_name, title, build_opts, defaults)
+    return function()
+      local telescope_builtin = require("telescope.builtin")
+      local action_state = require("telescope.actions.state")
+      local actions = require("telescope.actions")
+
+      local state = { hidden = defaults.hidden, ignored = defaults.ignored }
+
+      local function launch(prompt)
+        local picker_opts = build_opts(state)
+        picker_opts.default_text = prompt
+        picker_opts.prompt_title = string.format(
+          "%s [hidden:%s ignored:%s]",
+          title,
+          state.hidden and "on" or "off",
+          state.ignored and "on" or "off"
+        )
+        picker_opts.attach_mappings = function(prompt_bufnr, map)
+          local function toggle(key)
+            return function()
+              local current_prompt = action_state.get_current_line()
+              state[key] = not state[key]
+              actions.close(prompt_bufnr)
+              launch(current_prompt)
+            end
+          end
+          map("i", "<C-h>", toggle("hidden"))
+          map("n", "<C-h>", toggle("hidden"))
+          map("i", "<C-i>", toggle("ignored"))
+          map("n", "<C-i>", toggle("ignored"))
+          return true
+        end
+        telescope_builtin[builtin_name](picker_opts)
+      end
+
+      launch()
+    end
+  end
+
+  local find_files_toggleable = toggleable_picker("find_files", "Find Files", function(state)
+    return { hidden = state.hidden, no_ignore = state.ignored }
+  end, { hidden = true, ignored = false })
+
+  local live_grep_toggleable = toggleable_picker("live_grep", "Live Grep", function(state)
+    -- live_grep has a native `hidden` opt; `no_ignore` doesn't exist for it,
+    -- so gitignored files need the raw ripgrep flag via additional_args.
+    local extra_args = {}
+    if state.ignored then
+      table.insert(extra_args, "--no-ignore")
+    end
+    return {
+      hidden = state.hidden,
+      additional_args = function()
+        return extra_args
+      end,
+    }
+  end, { hidden = false, ignored = false })
+
+  keymap("n", "<leader>ff", find_files_toggleable, { silent = true, desc = "Find files (C-h hidden, C-i ignored)" })
+  keymap("n", "<leader>fg", live_grep_toggleable, { silent = true, desc = "Live grep (C-h hidden, C-i ignored)" })
   keymap("n", "<leader>fb", ":Telescope buffers initial_mode=normal<CR>", opts)
 end
 
